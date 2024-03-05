@@ -6,12 +6,12 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TripComponent } from './components/trip/trip/trip.component';
+import { TripDisplayComponent } from './components/trip/trip-display/trip-display.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TripComponent
+    TripDisplayComponent,
   ],
   imports: [
     BrowserModule,
