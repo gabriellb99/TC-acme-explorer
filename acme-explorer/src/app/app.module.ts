@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TripDisplayComponent } from './components/trip/trip-display/trip-display.component';
 import { RegisterComponent } from './components/security/register/register.component';
 import { LoginComponent } from './components/security/login/login.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,10 @@ import { LoginComponent } from './components/security/login/login.component';
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
