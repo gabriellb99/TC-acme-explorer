@@ -11,7 +11,8 @@ export const environment = {
     messagingSenderId: "603325204979",
     appId: "1:603325204979:web:d847f7746c66a9dd89ea86"
   },
-  production : false
+  production : false,
+  backendApiBaseURL: 'http://localhost:3000'
 };
 
 /*
