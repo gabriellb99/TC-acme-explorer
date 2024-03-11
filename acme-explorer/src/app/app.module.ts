@@ -8,12 +8,14 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TripDisplayComponent } from './components/trip/trip-display/trip-display.component';
 import { RegisterComponent } from './components/security/register/register.component';
+import { LoginComponent } from './components/security/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TripDisplayComponent,
     RegisterComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
