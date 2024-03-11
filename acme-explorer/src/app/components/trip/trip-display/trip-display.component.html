@@ -5,20 +5,36 @@
       <h5 class="card-title text-center">{{trip.ticker}}</h5>
       <p class="card-text ml-2 text-center">{{trip.description}}</p>
     </div>
-    <div class="card-body mb-2">
-        <p class="card-text text-center" style="font-size:20px"><strong>{{'Precio: '}}</strong>&nbsp;{{trip.price}}{{'EUR'}}</p>
-        <div class="row text-center">
-            <div class="col-md-4">
-                <p class="card-text ml-2"><strong>{{'Fecha Inicio: '}}</strong>{{trip.startedAt}}</p>
+    <div class="card-body mb-2 text-center">
+        <div class="mb-3">
+            <p class="card-text" style="font-size:20px"><strong>{{'Precio: '}}</strong>&nbsp;{{trip.price}}{{'EUR'}}</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <p class="card-text ml-2"><strong>{{'Fecha Inicio: '}}</strong><br>{{trip.startedAt}}</p>
             </div>
-            <div class="col-md-4">
-                <p class="card-text ml-2"><strong>{{'Fecha Fin: '}}</strong>{{trip.endAt}}</p>
+            <div class="col">
+                <p class="card-text ml-2"><strong>{{'Fecha Fin: '}}</strong><br>{{trip.endAt}}</p>
             </div>
         </div>
     </div>
     <ul class="list-group list-group-flush">
-        <li *ngFor = "let item of trip.requirements;">
-            <p class="card-text ml-2 m2-1">{{item}}</p>
+        <li class="list-group-item">
+            <h6 class="card-text ml-2 mb-1"><strong>Requisitos:</strong></h6>
+            <ul>
+                <li *ngFor="let item of trip.requirements;">
+                    <p class="card-text ml-2">{{item}}</p>
+                </li>
+            </ul>
         </li>
     </ul>
+    <div class="card-body">
+        <h6 class="card-title text-center mb-4"><strong>Galería</strong></h6>
+        
+        <ngb-carousel>
+            <ng-template ngbSlide *ngFor="let image of trip.photos">
+                <img [src]="image" class="d-block w-100" alt="...">
+            </ng-template>
+        </ngb-carousel>
+    </div>
 </div>
