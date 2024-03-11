@@ -1,0 +1,16 @@
+ { 
+    "items" :  [
+        {
+            "ticker": "VI-123",
+            "title": "Punta Cana",
+            "description": "Gran viaje a un sitio paradisiaco",
+            "price": 860,
+            "requirements": ["Llevar crema solar", "Pasarlo bien", "Tomar mucho el sol"],
+            "startedAt": "2024-03-15",
+            "endAt": "2024-03-25",
+            "cancelReason": "",
+            "photos": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5fUUe6vXn77s-W1HET2YT3fRdOJib3xwDA&usqp=CAU", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZhlSPtMtO3cMwY88jGt--dTKhVGdj9Pyrw&usqp=CAU"],
+            "deleted": false
+        }
+    ]
+}
