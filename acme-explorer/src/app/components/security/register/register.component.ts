@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent {
 
-  registrationForm: FormGroup;
+  registrationForm!: FormGroup;
   roleList: string [];
 
   constructor(private authService: AuthService,
@@ -18,26 +19,29 @@ export class RegisterComponent {
       this.createForm();
     }
 
-    createForm(){
-      this.registrationForm = this.fb.group({
-        name: [''],
-        surname: [''],
-        email: [''],
-        password: [''],
-        phone: [''],
-        address: [''],
-        role: [''],
-        validated: ['true']
-      });
-    }
-    
-    onRegister() {
-      this.authService.registerUser(this.registrationForm.value)
-      .then( res => {
-        console.log(res);
-      }, err => {
-        console.log(err);
-      })
-    }
+  createForm(){
+    this.registrationForm = this.fb.group({
+      name: [''],
+      surname: [''],
+      email: [''],
+      password: [''],
+      phone: [''],
+      address: [''],
+      role: [''],
+      validated: ['true']
+    });
   }
+   
+  onRegister() {
+  return new Promise<any>((resolve, reject) => {
+    this.authService.singUp(this.registrationForm.value)
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+
 }

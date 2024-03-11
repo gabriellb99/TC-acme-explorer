@@ -11,6 +11,9 @@ import { TripDisplayComponent } from './components/trip/trip-display/trip-displa
 import { RegisterComponent } from './components/security/register/register.component';
 import { LoginComponent } from './components/security/login/login.component';
 import { environment } from 'src/environments/environment';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +30,8 @@ import { environment } from 'src/environments/environment';
     FontAwesomeModule,
     ReactiveFormsModule,
     HttpClientModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth())
 
   ],
   providers: [],
