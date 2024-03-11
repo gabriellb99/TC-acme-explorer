@@ -33,35 +33,35 @@ export class Actor extends Entity{
         this._role = value;
     }
 
-    private _email!: String;
-    public get email(): String {
+    private _email!: string;
+    public get email(): string {
         return this._email;
     }
-    public set email(value: String) {
+    public set email(value: string) {
         this._email = value;
     }
 
-    private _password!: String;
-    public get password(): String {
+    private _password!: string;
+    public get password(): string {
         return this._password;
     }
-    public set password(value: String) {
+    public set password(value: string) {
         this._password = value;
     }
 
-    private _address!: String;
-    public get address(): String {
+    private _address!: string;
+    public get address(): string {
         return this._address;
     }
-    public set address(value: String) {
+    public set address(value: string) {
         this._address = value;
     }
 
-    private _validate!: Boolean;
-    public get validate(): Boolean {
+    private _validate!: boolean;
+    public get validate(): boolean {
         return this.validate;
     }
-    public set validate(value: Boolean) {
+    public set validate(value: boolean) {
         this._validate = value;
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -32,16 +32,13 @@ export class RegisterComponent {
     });
   }
    
-  onRegister() {
-  return new Promise<any>((resolve, reject) => {
-    this.authService.singUp(this.registrationForm.value)
-      .then(response => {
-        resolve(response);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
+  async onRegister() {
+    try {
+      const response = await this.authService.signUp(this.registrationForm.value);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
 }
 
 }
