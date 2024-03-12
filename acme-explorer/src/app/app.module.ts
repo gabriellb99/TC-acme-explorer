@@ -13,6 +13,7 @@ import { LoginComponent } from './components/security/login/login.component';
 import { environment } from 'src/environments/environment';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { HeaderComponent } from './components/master/header/header.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
     TripDisplayComponent,
     RegisterComponent,
     LoginComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
