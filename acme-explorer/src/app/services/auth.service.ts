@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Actor } from '../models/actor.model';
-import {Auth, createUserWithEmailAndPassword, signOut} from '@angular/fire/auth';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type':'application/json'})
@@ -33,14 +32,6 @@ export class AuthService {
     return ['CLERK', 'ADMINISTRATOR', 'CONSUMER']
   }
 
- /* login(email: string, password: string) {
-    return new Promise<any>((resolve, reject) => {
-      signInWithEmailAndPassword(this.auth, email, password).then(response => {
-        resolve(response);
-      }).catch(err => reject(err));
-    })
-  }*/
-
   async logout() {
     try {
       await signOut(this.auth);
@@ -48,4 +39,15 @@ export class AuthService {
       console.error(error);
     }
 }
+  login(email: string, password: string): Promise<any> {
+    return signInWithEmailAndPassword(this.auth, email, password)
+      .then(response => {
+        console.log('¡Inicio de sesión exitoso!', response);
+        return response;
+      })
+      .catch(err => {
+        console.error('Error al iniciar sesión:', err);
+        throw err; // Propaga el error para que el componente que llama pueda manejarlo
+      });
+  }
 }

@@ -39,6 +39,6 @@ export class RegisterComponent {
     } catch (error) {
       console.error(error);
     }
-}
+  }
 
 }
