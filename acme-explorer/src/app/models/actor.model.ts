@@ -59,7 +59,7 @@ export class Actor extends Entity{
 
     private _validate!: boolean;
     public get validate(): boolean {
-        return this.validate;
+        return this._validate;
     }
     public set validate(value: boolean) {
         this._validate = value;

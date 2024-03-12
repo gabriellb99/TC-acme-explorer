@@ -8,7 +8,7 @@ import { Trip } from 'src/app/models/trip.model';
 })
 export class TripDisplayComponent implements OnInit {
 
-  protected trip: Trip;
+  public trip: Trip;
 
   constructor() { 
     this.trip = new Trip();
