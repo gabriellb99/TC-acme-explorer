@@ -8,8 +8,8 @@ import { TripDisplayComponent } from './components/trip/trip-display/trip-displa
 const routes: Routes = [
 {path: 'login', component: LoginComponent},
 {path: 'register', component: RegisterComponent},
-{path: '', component: TripDisplayComponent, pathMatch: 'full'},
-{path: '**', component: NotFoundComponent}
+//{path: '', component: TripDisplayComponent, pathMatch: 'full'},
+//{path: '**', component: NotFoundComponent}
 
 ];
 
