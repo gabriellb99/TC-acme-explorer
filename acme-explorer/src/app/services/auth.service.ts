@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Actor } from '../models/actor.model';
-import {Auth, createUserWithEmailAndPassword} from '@angular/fire/auth';
+import {Auth, createUserWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const httpOptions = {
@@ -40,4 +40,12 @@ export class AuthService {
       }).catch(err => reject(err));
     })
   }*/
+
+  async logout() {
+    try {
+      await signOut(this.auth);
+    } catch (error) {
+      console.error(error);
+    }
+}
 }
