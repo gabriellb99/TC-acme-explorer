@@ -1,7 +1,6 @@
 import { Entity } from "./entity.model";
 export class Actor extends Entity{
 
-    private _name!: string;
     public get name(): string {
         return this._name;
     }
@@ -9,7 +8,6 @@ export class Actor extends Entity{
         this._name = value;
     }
 
-    private _surname!: string;
     public get surname(): string {
         return this._surname;
     }
@@ -17,7 +15,6 @@ export class Actor extends Entity{
         this._surname = value;
     }
 
-    private _phone!: string;
     public get phone(): string {
         return this._phone;
     }
@@ -25,7 +22,6 @@ export class Actor extends Entity{
         this._phone = value;
     }
 
-    private _role!: string;
     public get role(): string {
         return this._role;
     }
@@ -33,7 +29,6 @@ export class Actor extends Entity{
         this._role = value;
     }
 
-    private _email!: string;
     public get email(): string {
         return this._email;
     }
@@ -41,7 +36,6 @@ export class Actor extends Entity{
         this._email = value;
     }
 
-    private _password!: string;
     public get password(): string {
         return this._password;
     }
@@ -49,7 +43,6 @@ export class Actor extends Entity{
         this._password = value;
     }
 
-    private _address!: string;
     public get address(): string {
         return this._address;
     }
@@ -57,7 +50,6 @@ export class Actor extends Entity{
         this._address = value;
     }
 
-    private _validate!: boolean;
     public get validate(): boolean {
         return this._validate;
     }
@@ -65,8 +57,17 @@ export class Actor extends Entity{
         this._validate = value;
     }
 
-    constructor(){
-        super()
+    constructor(
+    private _name: string,
+    private _surname: string,
+    private _email: string,
+    private _password: string,
+    private _phone: string,
+    private _address: string,
+    private _role: string,
+    private _validate: boolean
+    ) {
+    super();
     }
 
 

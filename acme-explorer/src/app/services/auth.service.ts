@@ -17,15 +17,16 @@ export class AuthService {
 
   constructor(private auth: Auth, private http: HttpClient) { }
 
-  signUp(actor: Actor){
-    createUserWithEmailAndPassword(this.auth, actor.email, actor.password).then(async res => {
-      console.log('¡Se ha registrado correctamente en Firebase!', res);
-      const url = `${environment.backendApiBaseURL + '/actors'}`;
-      const body = JSON.stringify(actor);
-      const response = await firstValueFrom(this.http.post(url, body, httpOptions));
-      console.log(response);
-      return(response)
-    })
+  async signUp(actor: Actor){
+    try{
+        const res = await createUserWithEmailAndPassword(this.auth, actor.email, actor.password)
+        console.log('¡Se ha registrado correctamente en Firebase!', res);
+        return res; 
+    }catch (err) {
+      console.log('Error al registrarse',err);
+      throw err;
+    }
+    
   }
 
   getRoles(): string[] {
@@ -34,9 +35,12 @@ export class AuthService {
 
   async logout() {
     try {
-      await signOut(this.auth);
+      const res = await signOut(this.auth);
+      console.log('¡Ha cerrado sesión correctamente en Firebase!', res);
+      return res;
     } catch (error) {
-      console.error(error);
+      console.log('Error al cerrar sesion',error);
+      return error;
     }
 }
   login(email: string, password: string): Promise<any> {

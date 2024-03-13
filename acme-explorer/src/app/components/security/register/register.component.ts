@@ -28,7 +28,7 @@ export class RegisterComponent {
       phone: [''],
       address: [''],
       role: [''],
-      validated: ['true']
+      validate: ['true']
     });
   }
    

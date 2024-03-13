@@ -15,6 +15,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { NotFoundComponent } from './components/shared/not-found/not-found.component';
 import { HeaderComponent } from './components/master/header/header.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { HeaderComponent } from './components/master/header/header.component';
     provideAuth(() => getAuth())
 
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
