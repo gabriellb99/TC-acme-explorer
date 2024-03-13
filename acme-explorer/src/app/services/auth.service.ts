@@ -42,8 +42,8 @@ export class AuthService {
       console.log('Error al cerrar sesion',error);
       return error;
     }
-}
-  login(email: string, password: string): Promise<any> {
+  }
+  async login(email: string, password: string): Promise<any> {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then(response => {
         console.log('¡Inicio de sesión exitoso!', response);
@@ -53,5 +53,17 @@ export class AuthService {
         console.error('Error al iniciar sesión:', err);
         throw err; // Propaga el error para que el componente que llama pueda manejarlo
       });
+  }
+  async deleteCurrentUser(): Promise<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      try {
+        await user.delete();
+        console.log('Usuario eliminado correctamente.');
+      } catch (error) {
+        console.error('Error al eliminar el usuario:', error);
+        throw error;
+      }
+    }
   }
 }
