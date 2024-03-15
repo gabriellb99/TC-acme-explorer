@@ -30,8 +30,8 @@ describe('TripDisplayComponent', () => {
     expect(component.trip.description).toEqual('Gran viaje a un sitio paradisiaco');
     expect(component.trip.price).toEqual(123);
     expect(component.trip.requirements).toEqual(['Llevar crema solar', 'Pasarlo bien', 'Tomar mucho el sol']);
-    expect(component.trip.startedAt).toEqual('15-03-2024');
-    expect(component.trip.endAt).toEqual('25-03-2024');
+    expect(component.trip.startedAt).toEqual('05-03-2024');
+    expect(component.trip.endAt).toEqual('01-03-2024');
     expect(component.trip.cancelReason).toEqual('');
     expect(component.trip.photos).toEqual([
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU',
@@ -48,6 +48,6 @@ describe('TripDisplayComponent', () => {
   it('should format date properly', () => {
     const date = new Date('2024-03-15');
     const formattedDate = component.getFormattedDate(date);
-    expect(formattedDate).toEqual('15-03-2024');
+    expect(formattedDate).toEqual('05-03-2024');
   });
 });

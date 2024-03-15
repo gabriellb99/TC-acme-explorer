@@ -1,4 +1,4 @@
-<form class="horizontal" (ngSubmit)="onLogin(f)" #f="ngForm">
+<form class="horizontal" (ngSubmit)="onLogin(f)" #f="ngForm" [@loginError]="loginError ? 'show' : 'hide'">
     <div class="form-group">
         <label class="control-label col-sm-2" for="email">Email:</label>
         <div class="col-sm-10">

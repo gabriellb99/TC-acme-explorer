@@ -16,6 +16,9 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { NotFoundComponent } from './components/shared/not-found/not-found.component';
 import { HeaderComponent } from './components/master/header/header.component';
 import { AuthService } from './services/auth.service';
+import { MasterPageComponent } from './components/master/master-page/master-page.component';
+import { FooterComponent } from './components/master/footer/footer.component';
+import { TripListComponent } from './components/trip/components/trip/trip-list/trip-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { AuthService } from './services/auth.service';
     RegisterComponent,
     LoginComponent,
     NotFoundComponent,
-    HeaderComponent
+    HeaderComponent,
+    MasterPageComponent,
+    FooterComponent,
+    TripListComponent
   ],
   imports: [
     BrowserModule,
