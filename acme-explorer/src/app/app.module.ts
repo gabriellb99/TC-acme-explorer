@@ -19,6 +19,7 @@ import { AuthService } from './services/auth.service';
 import { MasterPageComponent } from './components/master/master-page/master-page.component';
 import { FooterComponent } from './components/master/footer/footer.component';
 import { TripListComponent } from './components/trip/components/trip/trip-list/trip-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { TripListComponent } from './components/trip/components/trip/trip-list/t
     FontAwesomeModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth())
 

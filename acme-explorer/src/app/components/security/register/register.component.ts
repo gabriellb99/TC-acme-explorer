@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class RegisterComponent {
   roleList: string [];
 
   constructor(private authService: AuthService,
-    private fb: FormBuilder) { 
+    private fb: FormBuilder, private router: Router) { 
       this.roleList = this.authService.getRoles();
       this.createForm();
     }
@@ -35,6 +36,7 @@ export class RegisterComponent {
   async onRegister() {
     try {
       const response = await this.authService.signUp(this.registrationForm.value);
+      this.router.navigate(["/"]);
       console.log(response);
     } catch (error) {
       console.error(error);
