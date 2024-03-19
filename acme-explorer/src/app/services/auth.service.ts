@@ -52,8 +52,9 @@ export class AuthService {
     return new Promise<any>((resolve,reject) => {
       signInWithEmailAndPassword(this.auth, email, password)
       .then(async _ => {
-        const url = environment.backendApiBaseURL + `actors?email=` + email;
+        const url = environment.backendApiBaseURL + `/actors?email=` + email;
         const actor = await firstValueFrom(this.http.get<Actor[]>(url));
+        console.log(actor);
         this.currentActor = actor[0];
         this.loginStatus.next(true);
         console.log('¡Inicio de sesión exitoso!');
@@ -65,6 +66,7 @@ export class AuthService {
       });
     })
   }
+  
   async deleteCurrentUser(): Promise<void> {
     const user = this.auth.currentUser;
     if (user) {

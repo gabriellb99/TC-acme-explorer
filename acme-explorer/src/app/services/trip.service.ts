@@ -38,7 +38,7 @@ export class TripService {
     trip.startedAt = new Date('2024-04-01');
     trip.endAt = new Date('2024-04-10');
     trip.cancelReason = '';
-    trip.photos = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5fUUe6vXn77s-W1HET2YT3fRdOJib3xwDA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZhlSPtMtO3cMwY88jGt--dTKhVGdj9Pyrw&usqp=CAU'];
+    trip.photos = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5s241tpCIF4WTsxQkR5JPKJKpwhjCInPUOQ&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyRpHn5gVvIODBH-3jE798yAplgVocS027FA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLijxjtd78MwrYktV_IHCbgysSt6A43Eva8A&usqp=CAU'];
     trips.push(trip);
 
 

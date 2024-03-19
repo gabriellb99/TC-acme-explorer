@@ -1,47 +1,62 @@
-<form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
-    <fieldset>
-        <legend>Registra un nuevo usuario</legend>
-        <div class = "form-group has-danger">
-            <label for="role" class="form-control-label">Role:</label>
-            <select id="role" class="form-control" formControlName="role">
-                <option *ngFor="let role of roleList" [value]="role">
-                    {{role}}
-                </option>
-            </select>
-        </div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
+                <fieldset>
+                    <legend class="text-center">Registra un nuevo usuario</legend>
 
-        <div class="form-group has-danger">
-            <label for="name" class="form-control-label">Name:</label>
-            <input id="name" type="text" formControlName="name" class="form-control">
-        </div>
+                    <div class="form-group">
+                        <label for="role">Role:</label>
+                        <div class="custom-select">
+                            <select id="role" class="form-control" formControlName="role">
+                                <option disabled selected>Selecciona un role</option>
+                                <option *ngFor="let role of roleList" [value]="role">
+                                    {{role}}
+                                </option>
+                            </select>
+                            <div class="arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="form-group has-danger">
-            <label for="surname" class="form-control-label">Surname:</label>
-            <input id="surname" type="text" formControlName="surname" class="form-control">
-        </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input id="name" type="text" formControlName="name" class="form-control">
+                    </div>
 
-        <div class="form-group has-danger">
-            <label for="phone" class="form-control-label">Phone:</label>
-            <input id="phone" type="text" formControlName="phone" class="form-control">
-        </div>
+                    <div class="form-group">
+                        <label for="surname">Surname:</label>
+                        <input id="surname" type="text" formControlName="surname" class="form-control">
+                    </div>
 
-        <div class="form-group has-danger">
-            <label for="address" class="form-control-label">Address:</label>
-            <input id="address" type="text" formControlName="address" class="form-control">
-        </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input id="phone" type="text" formControlName="phone" class="form-control">
+                    </div>
 
-        <div class="form-group has-danger">
-            <label for="email" class="form-control-label">Email:</label>
-            <input id="email" type="email" formControlName="email" class="form-control" required>
-        </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input id="address" type="text" formControlName="address" class="form-control">
+                    </div>
 
-        <div class="form-group has-danger">
-            <label for="password" class="form-control-label">Password:</label>
-            <input id="password" type="password" formControlName="password" minlength="6" class="form-control" required>
-        </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input id="email" type="email" formControlName="email" class="form-control" required>
+                    </div>
 
-        <button type="submit" class="btn btn-primary mt-2">
-            Registrarme
-        </button>
-    </fieldset>
-</form>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input id="password" type="password" formControlName="password" minlength="6" class="form-control" required>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary btn-block mt-2">
+                            Registrarme
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

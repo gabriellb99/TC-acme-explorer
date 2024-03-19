@@ -25,10 +25,13 @@ export class ActorRoleGuard {
             const activeRole = new RegExp(currentActor.role.toString(), 'i');
             if(expectedRole.search(activeRole) !== -1) {
               result = true;
+            }else{
+              this.router.navigate(['denied-access'],
+              {queryParams: {previousURL: state.url}})
             }
             resolve(result);
           } else {
-            if (expectedRole.indexOf('Anonymous') !== -1){
+            if (expectedRole.indexOf('anonymous') !== -1){
               result = true;
             } else {
               this.router.navigate(['login'],

@@ -1,0 +1,15 @@
+.custom-select {
+    position: relative;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.arrow i {
+    color: #495057;
+}
