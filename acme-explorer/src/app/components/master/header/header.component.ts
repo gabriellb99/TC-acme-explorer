@@ -48,4 +48,8 @@ export class HeaderComponent implements OnInit {
     this.logoutAnimationState = 'closed'; // Cambia el estado para cerrar la animación
   }
 
+  changeLanguage(language: String) {
+    
+  }
+
 }

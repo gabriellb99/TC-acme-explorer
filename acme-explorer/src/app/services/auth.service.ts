@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   getRoles(): string[] {
-    return ['CLERK', 'ADMINISTRATOR', 'CONSUMER']
+    return ['Anonymous', 'Manager', 'Administrator', 'Explorer', 'Sponsor']
   }
 
   async logout() {

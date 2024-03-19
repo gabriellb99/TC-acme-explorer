@@ -1,40 +1,42 @@
-<table class="table table-hover">
-<thead>
-    <tr>
-        <th scope="col"></th>
-        <th scope="col">#</th>
-        <th scope="col">Image</th>
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col">Price</th>
-        <th scope="col">StartAT</th>
-        <th scope="col">EndAt</th>
-        <th scope="col">Requirements</th>
-    </tr>
-</thead>
-<tbody *ngFor="let trip of trips; let i = index">
-    <tr>
-    <!--<tr *ngIf = "trip.status=='cancelled'">-->
-        <th scope = "row">
-            <!--<button [hidden] = "trip.status" (click) = "removeTrip(i)">
-                <fa-icon [icon]="trash"></fa-icon>
-            </button>-->
-        </th>
-        <th scope="row">{{i+1}}</th>
-        <!--<td><img scr="{{trip}}" alt="{{trip.name}}" class="card-img-top" width="150" height="150"></td>-->
-        <td></td>
-        <td>{{trip.title}}</td>
-        <td>{{trip.description}}</td>
-        <td>{{trip.price}}</td>
-        <td>{{trip.startedAt}}</td>
-        <td>{{trip.endAt}}</td>        
-        <td>
-            <ul class="list-group">
-                <li class="list-group-item" *ngFor="let requirement of trip.requirements">
-                    <p class="card-text">{{requirement}}</p>
-                </li>
-            </ul>
-        </td>
-    </tr>
-</tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">StartAT</th>
+                <th scope="col">EndAt</th>
+                <th scope="col">Requirements</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let trip of trips; let i = index">
+            <tr>
+            <!--<tr *ngIf = "trip.status=='cancelled'">-->
+                <th scope = "row">
+                    <!--<button [hidden] = "trip.status" (click) = "removeTrip(i)">
+                        <fa-icon [icon]="trash"></fa-icon>
+                    </button>-->
+                </th>
+                <th scope="row">{{i+1}}</th>
+                <!--<td><img scr="{{trip}}" alt="{{trip.name}}" class="card-img-top" width="150" height="150"></td>-->
+                <td></td>
+                <td>{{trip.title}}</td>
+                <td>{{trip.description}}</td>
+                <td>{{trip.price}}</td>
+                <td>{{trip.startedAt}}</td>
+                <td>{{trip.endAt}}</td>        
+                <td>
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let requirement of trip.requirements">
+                            <p class="card-text">{{requirement}}</p>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

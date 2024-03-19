@@ -29,18 +29,18 @@ export class Trip extends Entity{
     public set cancelReason(value: string) {
         this._cancelReason = value;
     }
-    private _startedAt!: String;
-    public get startedAt(): String {
+    private _startedAt!: Date;
+    public get startedAt(): Date {
         return this._startedAt;
     }
-    public set startedAt(value: String) {
+    public set startedAt(value: Date) {
         this._startedAt = value;
     }
-    private _endAt!: String;
-    public get endAt(): String {
+    private _endAt!: Date;
+    public get endAt(): Date {
         return this._endAt;
     }
-    public set endAt(value: String) {
+    public set endAt(value: Date) {
         this._endAt = value;
     }
     private _photos!: string[];
