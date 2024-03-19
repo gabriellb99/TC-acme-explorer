@@ -21,6 +21,10 @@ import { FooterComponent } from './components/master/footer/footer.component';
 import { TripListComponent } from './components/trip/components/trip/trip-list/trip-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ApplyComponent } from './components/trip/apply/apply.component';
+import { StageComponent } from './components/trip/stage/stage.component';
+import { PaymentComponent } from './components/trip/payment/payment.component';
+import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MasterPageComponent,
     FooterComponent,
     TripListComponent,
-    DashboardComponent
+    DashboardComponent,
+    ApplyComponent,
+    StageComponent,
+    PaymentComponent,
+    DeniedAccessComponent
   ],
   imports: [
     BrowserModule,
