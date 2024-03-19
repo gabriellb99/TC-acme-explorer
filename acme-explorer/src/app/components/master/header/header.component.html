@@ -13,10 +13,33 @@
                         Trips
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Stages</a></li>
+                        <li><a class="dropdown-item" href="#">Apply</a></li>
+                        <li><a class="dropdown-item" href="#">Payments</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Administration
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" routerLink="/dashboard">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#">Managers</a></li>                    
+                        <li><a class="dropdown-item" href="#">Sponsors</a></li>
+                        <li><a class="dropdown-item" href="#">FlateRates</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sponsorships
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Sponsorships</a></li>
+                        <li><a class="dropdown-item" href="#">Payments</a></li>                    
                     </ul>
                 </li>
             </ul>
@@ -30,21 +53,13 @@
             </div>
             <ul class="navbar-nav mb-2 mb-lg-0" style="margin-left: auto;">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/register"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
+                <a class="nav-link active" aria-current="page" routerLink="/register"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active" href="/login">
+                <a class="nav-link active" routerLink="/login">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>
                     Login
                 </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        Cart
-                    </a>
-                    </li>
-                <li class="nav-item">
                 <a class="nav-link" href="#" (click)="logout()">
                     <i class="fa fa-sign-out" aria-hidden="true"></i>
                     Logout

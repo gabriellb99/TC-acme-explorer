@@ -20,6 +20,7 @@ import { MasterPageComponent } from './components/master/master-page/master-page
 import { FooterComponent } from './components/master/footer/footer.component';
 import { TripListComponent } from './components/trip/components/trip/trip-list/trip-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HeaderComponent,
     MasterPageComponent,
     FooterComponent,
-    TripListComponent
+    TripListComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
