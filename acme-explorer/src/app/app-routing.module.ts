@@ -6,14 +6,16 @@ import { NotFoundComponent } from './components/shared/not-found/not-found.compo
 import { TripDisplayComponent } from './components/trip/trip-display/trip-display.component';
 import { TripListComponent } from './components/trip/components/trip/trip-list/trip-list.component';
 import { ActorRoleGuard } from './guards/actor-role.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
 {path: 'login', component: LoginComponent,
-canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
-{path: 'shopping-cart', component: RegisterComponent,
-canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous|consumer'}},
+  canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
+{path: 'dashboard', component: DashboardComponent,
+  //canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}
+},
 {path: 'register', component: RegisterComponent,
-canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
+  canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
 {path: 'trips', children:[
   {path: ':id', component: TripDisplayComponent, canActivate: [ActorRoleGuard]},
   {path: '', component: TripListComponent}
