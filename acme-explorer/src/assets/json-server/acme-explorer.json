@@ -1,7 +1,9 @@
  { 
-    "items" :  [
+    "trips" :  [
         {
-            "ticker": "VI-123",
+            "id": "1234567890",
+            "version": 0,
+            "ticker": "240321-ABCD",
             "title": "Punta Cana",
             "description": "Gran viaje a un sitio paradisiaco",
             "price": 860,
@@ -11,6 +13,71 @@
             "cancelReason": "",
             "photos": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5fUUe6vXn77s-W1HET2YT3fRdOJib3xwDA&usqp=CAU", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZhlSPtMtO3cMwY88jGt--dTKhVGdj9Pyrw&usqp=CAU"],
             "deleted": false
+        },
+        {
+            "id": "4567890sdrtyuu",
+            "version": 0,
+            "ticker": "240214-ERTT",
+            "title": "Riviera Maya",
+            "description": "Viaja una de las maravillas",
+            "price": 860,
+            "requirements": ["La crema solar debe ser biodegradable", "llevar efectivo", "Comer"],
+            "startedAt": "2024-06-10",
+            "endAt": "2024-06-20",
+            "cancelReason": "",
+            "photos": ["https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.delphinusworld.com%2Fes%2Fque-hacer-en-la-riviera-maya-guia-de-viaje-completa&psig=AOvVaw0aCX1xuNY762DXeI51l5mA&ust=1710962607222000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCODDrcWGgYUDFQAAAAAdAAAAABAE", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.viceroyhotelsandresorts.com%2Fes%2Friviera-maya&psig=AOvVaw0aCX1xuNY762DXeI51l5mA&ust=1710962607222000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCODDrcWGgYUDFQAAAAAdAAAAABAR"],
+            "deleted": false
+        }
+    ],
+
+    "actors": [
+        {
+            "id": "ertyu66w78ywtuiw",
+            "version": 0,
+            "name": "Juan",
+            "surname": "Soria Lora",
+            "email": "customer1@gmail.com",
+            "password": "customer1",
+            "phone": "678654321",
+            "address": "C/Fuente",
+            "role": "Explorer",
+            "validate": true
+        },
+        {
+            "id": "rtyuiw6272io",
+            "version": 0,
+            "name": "Julia",
+            "surname": "Aguilar Cerqueira",
+            "email": "admin@gmail.com",
+            "password": "adminPassword",
+            "phone": "698765443",
+            "address": "C/Lirio",
+            "role": "Administrator",
+            "validate": true
+        },
+        {
+            "id": "627f2uygis78t82",
+            "version": 0,
+            "name": "Lucas",
+            "surname": "Gutierrez Diaz",
+            "email": "manager@gmail.com",
+            "password": "managerPassword",
+            "phone": "657891110",
+            "address": "C/Rosa",
+            "role": "Manager",
+            "validate": true
+        },
+        {
+            "id": "sugui27687292",
+            "version": 0,
+            "name": "Maria",
+            "surname": "Jimenez Sola",
+            "email": "sponsor@gmail.com",
+            "password": "sponsorPassword",
+            "phone": "666777909",
+            "address": "C/Sol",
+            "role": "Sponsor",
+            "validate": true
         }
     ]
 }
