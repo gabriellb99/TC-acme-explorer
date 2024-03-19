@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Actor } from 'src/app/models/actor.model';
 
 @Component({
   selector: 'app-header',
@@ -29,9 +30,20 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 export class HeaderComponent implements OnInit {
   logoutAnimationState = 'closed';
+  protected currentActor: Actor | undefined;
+  protected activeRole: string = 'anonymous';
   constructor(private authService: AuthService){ }
 
   ngOnInit(): void {
+    this.authService.getStatus().subscribe((loggedIn: Boolean) =>{
+      if(loggedIn){
+        this.currentActor = this.authService.getCurrentActor();
+        this.activeRole = this.currentActor.role.toString().toLowerCase();
+      }else{
+        this.activeRole = 'anonymous';
+        this.currentActor = undefined;
+      }
+    })
   }
 
   async logout() {

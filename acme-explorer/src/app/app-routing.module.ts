@@ -12,10 +12,10 @@ const routes: Routes = [
 {path: 'login', component: LoginComponent,
   canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
 {path: 'dashboard', component: DashboardComponent,
-  //canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}
-},
+  canActivate: [ActorRoleGuard], data: {expectedRole: 'administrator'}},
 {path: 'register', component: RegisterComponent,
   canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
+
 {path: 'trips', children:[
   {path: ':id', component: TripDisplayComponent, canActivate: [ActorRoleGuard]},
   {path: '', component: TripListComponent}

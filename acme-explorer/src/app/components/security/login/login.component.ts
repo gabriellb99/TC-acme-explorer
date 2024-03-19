@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -25,21 +25,24 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   loginError = false; // Variable para controlar si se muestra el error de inicio de sesión
+  private returnUrl!: string;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
 
   async onLogin(form: NgForm){
     const email = form.value.email;
     const password = form.value.password;
-    try {
-      const response = await this.authService.login(email, password);
-      this.router.navigate(["/"]);
-      console.log(response);
-    } catch (error) {
+      this.authService.login(email, password)
+      .then(_ => {
+        form.reset();
+        this.router.navigateByUrl(this.returnUrl);
+      }).catch( (error) => {
       console.error(error);
       this.loginError = true; // Establece loginError en true cuando hay un error en el inicio de sesión
-    }
+    })
   }
 }

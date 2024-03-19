@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class ActorRoleGuard {
   
-/*
+
   constructor(private authService: AuthService, private router: Router){}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -18,10 +18,24 @@ export class ActorRoleGuard {
       | boolean 
       | UrlTree {
         return new Promise ((resolve,reject) => {
-          const expectedRole = router.data['expectedRole'];
-          const currentActor = this.authService.getCurrentActor
-        })
-    return true;
+          const expectedRole = route.data['expectedRole'];
+          const currentActor = this.authService.getCurrentActor();
+          let result = false;
+          if(currentActor){
+            const activeRole = new RegExp(currentActor.role.toString(), 'i');
+            if(expectedRole.search(activeRole) !== -1) {
+              result = true;
+            }
+            resolve(result);
+          } else {
+            if (expectedRole.indexOf('Anonymous') !== -1){
+              result = true;
+            } else {
+              this.router.navigate(['login'],
+                {queryParams: {returnUrl: state.url}})
+            }
+            resolve(result);
+          }
+        });
   }
-  */
 }
