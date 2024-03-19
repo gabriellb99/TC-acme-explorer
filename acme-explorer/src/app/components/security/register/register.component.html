@@ -10,9 +10,11 @@
                         <div class="custom-select">
                             <select id="role" class="form-control" formControlName="role">
                                 <option disabled selected>Selecciona un role</option>
-                                <option *ngFor="let role of roleList" [value]="role">
-                                    {{role}}
-                                </option>
+                                <ng-container *ngFor="let role of roleList">
+                                    <ng-container *ngIf="role !== 'Anonymous'">
+                                        <option [value]="role">{{ role }}</option>
+                                    </ng-container>
+                                </ng-container>
                             </select>
                             <div class="arrow">
                                 <i class="fas fa-chevron-down"></i>

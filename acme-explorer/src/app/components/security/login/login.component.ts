@@ -36,8 +36,6 @@ export class LoginComponent implements OnInit {
   async onLogin(form: NgForm){
     const email = form.value.email;
     const password = form.value.password;
-    console.log(email);
-    console.log(password);
       this.authService.login(email, password)
       .then(_ => {
         form.reset();
