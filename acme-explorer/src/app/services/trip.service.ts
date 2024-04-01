@@ -8,13 +8,16 @@ import { Timestamp } from 'firebase/firestore';
 })
 export class TripService {
 
-  constructor(private firestore: Firestore) {} // Inyecta Firestore
+  constructor(private firestore: Firestore) {} 
 
   async getAllAvailableTrips(): Promise<Trip[]> {
-    const tripRef = collection(this.firestore, 'trips'); // Utiliza Firestore.collection()
-    //const q = query(tripRef, where("cancelReason", "==", ""), where("startedAt", ">", Timestamp.now()));
+    const tripRef = collection(this.firestore, 'trips'); 
+    var now = new Date(new Date().toUTCString());
+    const q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now));
+    console.log(q);
 
-    const querySnapshot = await getDocs(tripRef);
+    const querySnapshot = await getDocs(q);
+    console.log(querySnapshot);
   
     const trips: Trip[] = [];
     querySnapshot.forEach((doc) => {

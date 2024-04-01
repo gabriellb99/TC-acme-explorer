@@ -29,12 +29,12 @@
             <p class="card-text">{{trip.description | slice:50}}</p>
         </details>
         <div class="card-footer text-center">
-            <a *ngIf="checkRole('ADMINISTRADOR')"
+            <a *ngIf="checkRole('ADMINISTRADOR,MANAGER')"
             routerLink="/trips/{{trip.id}}/edit"
             class="pull-left">
                 <i class="fa fa-pencil" aria-hidden="true">Edit</i>
             </a>
-            <a *ngIf="!checkRole('ADMINISTRADOR')"
+            <a *ngIf="!checkRole('ADMINISTRADOR,MANAGER')"
             routerLink="/trips/{{trip.id}}"
             class="pull-left">
                 <i class="fa fa-search-plus" aria-hidden="true">Details</i>

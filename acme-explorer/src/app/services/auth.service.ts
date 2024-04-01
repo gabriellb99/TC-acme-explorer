@@ -92,9 +92,9 @@ export class AuthService {
   checkRole(roles: string): boolean{
     let result = false;
     if(this.currentActor){
-      result = roles.indexOf(this.currentActor.role.toString()) !== -1; 
+      result = roles.indexOf(this.currentActor.role.toString().toUpperCase()) !== -1; 
     } else {
-      result = roles.indexOf('anonymous') !== -1;
+      result = roles.indexOf('ANONYMOUS') !== -1;
     }
     return result;
   }
