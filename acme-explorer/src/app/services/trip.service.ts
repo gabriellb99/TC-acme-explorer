@@ -1,49 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Trip } from '../models/trip.model';
+import { Firestore, Timestamp, collection, query, where } from '@angular/fire/firestore'
+import { getDocs } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TripService {
 
-  constructor() { }
+  constructor(private firestore: Firestore) { }
 
-  createTrips(): Trip[] {
-    let trip: Trip;
-    let trips: Trip[];
+  async getAllAvailableTrips(){
+    const tripRef = collection(this.firestore, 'trips');
+    const q = query(tripRef, where("cancelReason", "==", ""), where("startedAt", ">", Timestamp.now()));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) =>{
+      let trip = this.getTrip(doc)
+      return(doc.data())
+    }  
 
-    // trip 1
-    trips = new Array();
-    trip = new Trip();
-    trip = new Trip();
-    trip.ticker = 'VI-123';
-    trip.title = 'Punta Cana';
-    trip.description = 'Gran viaje a un sitio paradisiaco';
-    trip.price = 123;
-    trip.requirements = ['Llevar crema solar', 'Pasarlo bien', 'Tomar mucho el sol'];
-    trip.startedAt = new Date('2024-03-15');
-    trip.endAt = new Date('2024-03-25');
-    trip.cancelReason = '';
-    trip.photos = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5fUUe6vXn77s-W1HET2YT3fRdOJib3xwDA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZhlSPtMtO3cMwY88jGt--dTKhVGdj9Pyrw&usqp=CAU'];
-    trips.push(trip);
+    );
+  }
 
-    // trip 2
-    trip = new Trip();
-    trip = new Trip();
-    trip.ticker = 'VI-100';
-    trip.title = 'Paris';
-    trip.description = 'Gran viaje a un sitio romántico';
-    trip.price = 123;
-    trip.requirements = ['Llevar calzado cómodo', 'Equipaje ligero', 'Disfrutar de la gastronomía'];
-    trip.startedAt = new Date('2024-04-01');
-    trip.endAt = new Date('2024-04-10');
-    trip.cancelReason = '';
-    trip.photos = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5s241tpCIF4WTsxQkR5JPKJKpwhjCInPUOQ&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyRpHn5gVvIODBH-3jE798yAplgVocS027FA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLijxjtd78MwrYktV_IHCbgysSt6A43Eva8A&usqp=CAU'];
-    trips.push(trip);
-
-
-    return trips;
-
-
+  //metodo que devuelve todos los trips que no esten ni cancelados y que aún no hayan empezado
+  public getTrip(doc: any):Trip{
+    const data = doc.data;
+    let trip = new Trip();
+    trip.ticker = data['ticker'];
+    trip.title = data['title'];
+    trip.description = data['description'];
+    trip.price = data['price'];
+    trip.cancelReason = data['cancelReason'];
+    trip.startedAt = data['startedAt'];
+    trip.endAt = data['endAt'];
+    trip.requirements = data['requirements'];
+    trip.photos = data['photos'];
+ 
+    return trip;
   }
 }
