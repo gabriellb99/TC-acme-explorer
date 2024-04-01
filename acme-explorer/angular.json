@@ -100,6 +100,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "acme-explorer:build:production",
+            "firebaseProject": "acme-explorer-ebd2f",
+            "firebaseHostingSite": "acme-explorer-ebd2f"
+          }
         }
       }
     }

@@ -25,6 +25,7 @@ import { ApplyComponent } from './components/trip/apply/apply.component';
 import { StageComponent } from './components/trip/stage/stage.component';
 import { PaymentComponent } from './components/trip/payment/payment.component';
 import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { DeniedAccessComponent } from './components/shared/denied-access/denied-
     HttpClientModule,
     BrowserAnimationsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth())
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())
 
   ],
   providers: [AuthService],

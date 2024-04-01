@@ -19,15 +19,17 @@ export class AuthService {
   constructor(private auth: Auth, private http: HttpClient) { }
 
   async signUp(actor: Actor){
-    try{
-        const res = await createUserWithEmailAndPassword(this.auth, actor.email, actor.password)
-        console.log('¡Se ha registrado correctamente en Firebase!', res);
-        return res; 
-    }catch (err) {
-      console.log('Error al registrarse',err);
-      throw err;
-    }
-    
+
+    return new Promise<any>((resolve, reject) =>{
+      createUserWithEmailAndPassword(this.auth, actor.email, actor.password)
+      .then(response =>{
+        console.log('¡Se ha registrado correctamente en Firebase!', response);
+        resolve(response);
+      }).catch(error =>{
+        console.log('Error al registrarse',error);
+        reject(error);
+      })
+    })
   }
 
   getRoles(): string[] {
@@ -86,4 +88,15 @@ export class AuthService {
   getStatus(): Observable<Boolean>{
     return this.loginStatus.asObservable();
   }
+
+  checkRole(roles: string): boolean{
+    let result = false;
+    if(this.currentActor){
+      result = roles.indexOf(this.currentActor.role.toString()) !== -1; 
+    } else {
+      result = roles.indexOf('anonymous') !== -1;
+    }
+    return result;
+  }
+  
 }

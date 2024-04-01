@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from 'src/app/models/trip.model';
+import { TripService } from 'src/app/services/trip.service';
 
 @Component({
   selector: 'app-trip-display',
@@ -9,8 +11,15 @@ import { Trip } from 'src/app/models/trip.model';
 export class TripDisplayComponent implements OnInit {
 
   public trip: Trip;
+  public id: string;
 
-  constructor() { 
+  constructor(private tripService: TripService, private router: Router,
+    private route: ActivatedRoute){
+      this.id = '0';
+      this.trip = new Trip();
+    }
+
+  /*constructor() { 
     this.trip = new Trip();
     this.trip.ticker = 'VI-123';
     this.trip.title = 'Punta Cana';
@@ -21,7 +30,7 @@ export class TripDisplayComponent implements OnInit {
     this.trip.endAt = new Date('2024-03-25');
     this.trip.cancelReason = '';
     this.trip.photos = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5fUUe6vXn77s-W1HET2YT3fRdOJib3xwDA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZhlSPtMtO3cMwY88jGt--dTKhVGdj9Pyrw&usqp=CAU'];
-  }
+  }*/
 
   getRequirements() {
     return this.trip.requirements;
@@ -38,6 +47,14 @@ export class TripDisplayComponent implements OnInit {
   }*/
 
   ngOnInit(): void {
+  }
+
+  /*removeTrip(){
+    this.trip.deleted = true;
+  }*/
+
+  goBack() {
+    this.router.navigate(['/']);
   }
 
 }
