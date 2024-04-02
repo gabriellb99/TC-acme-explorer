@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query, where, getDocs } from '@angular/fire/firestore'; // Importa Firestore
+import { Firestore, collection, query, where, getDocs, doc, getDoc, DocumentSnapshot } from '@angular/fire/firestore'; // Importa Firestore
 import { Trip } from '../models/trip.model';
-import { Timestamp } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +13,14 @@ export class TripService {
     const tripRef = collection(this.firestore, 'trips'); 
     var now = new Date(new Date().toUTCString());
     const q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now));
-    console.log(q);
+    //console.log(q);
 
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot);
+    //console.log(querySnapshot);
   
     const trips: Trip[] = [];
     querySnapshot.forEach((doc) => {
+      console.log(doc)
       let trip = this.getTrip(doc);
       trips.push(trip);
     });
@@ -40,7 +40,29 @@ export class TripService {
     trip.endAt = data['endAt'];
     trip.requirements = data['requirements'];
     trip.photos = data['photos'];
+    trip.id = data['id']
  
     return trip;
   }
+
+  async getTripById(tripId: string): Promise<Trip | null> {
+    try {
+        const tripRef = collection(this.firestore, 'trips');
+        const q = query(tripRef, where('id', '==', tripId));
+        const querySnapshot = await getDocs(q);
+        let trip: Trip | null = null; // Inicializa la variable trip fuera del bucle
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach((doc) => {
+            trip = this.getTrip(doc);
+          });
+        }
+        return trip; // Devuelve el valor de trip fuera del bucle
+    } catch (error) {
+        console.error('Error al obtener el viaje por ID:', error);
+        throw error;
+    }
+}
+
+
+
 }

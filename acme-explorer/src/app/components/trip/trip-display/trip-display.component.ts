@@ -10,17 +10,38 @@ import { TripService } from 'src/app/services/trip.service';
 })
 export class TripDisplayComponent implements OnInit {
 
-  public trip: Trip;
-  public id: string;
+  public trip!: Trip;
+  public id!: string;
 
-  constructor(private tripService: TripService, private router: Router,
+  constructor(private tripService: TripService, private router: Router, private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (idParam !== null) {
+        this.id = idParam;
+        console.log('ID:', this.id);
+        this.tripService.getTripById(this.id).then(trip => {
+          this.trip = trip!;
+        });
+      } else {
+        // Manejar el caso en que no se encuentre ningún valor para el parámetro 'id'
+        console.error('No se encontró ningún valor para el parámetro "id" en la URL.');
+      }
+    });
+  }
+
+
+  /*constructor(private tripService: TripService, private router: Router,
     private route: ActivatedRoute){
       this.id = '0';
       this.trip = new Trip();
-    }
+    }*/
 
-  /*constructor() { 
-    this.trip = new Trip();
+  /*constructor(private tripService: TripService, private router: Router,
+    private route: ActivatedRoute) {
+    this.id = '0';
+    this.trip = new Trip(); 
     this.trip.ticker = 'VI-123';
     this.trip.title = 'Punta Cana';
     this.trip.description = 'Gran viaje a un sitio paradisiaco';
@@ -45,9 +66,6 @@ export class TripDisplayComponent implements OnInit {
     let fechaFormateada = `${diaFormateado}-${mesFormateado}-${anio}`;
     return fechaFormateada
   }*/
-
-  ngOnInit(): void {
-  }
 
   /*removeTrip(){
     this.trip.deleted = true;

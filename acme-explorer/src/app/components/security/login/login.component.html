@@ -3,19 +3,19 @@
         <div class="col-md-6">
             <form class="rounded p-4 shadow" (ngSubmit)="onLogin(f)" #f="ngForm">
                 <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input class="form-control form-control-sm" type="email" id="email" name="email" 
+                    <label i18n for="email">Email:</label>
+                    <input class="form-control form-control-sm" type="email" id="email" name="email" i18n-placeholder
                     placeholder="Enter email" ngModel>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input class="form-control form-control-sm" type="password" id="password" name="password"
+                    <label i18n for="password">Password:</label>
+                    <input class="form-control form-control-sm" type="password" id="password" name="password" i18n-placeholder
                     placeholder="Enter password" ngModel>
                 </div>
 
                 <div class="text-center mt-2">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                    <button i18n type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
                 </div>
             </form>
         </div>

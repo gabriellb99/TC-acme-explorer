@@ -1,5 +1,4 @@
 <div class="card mx-auto mt-4" style="width: 18rem;">
-    <img src="https://res.cloudinary.com/lastminute-contenthub/s--BzOJUV1q--/c_crop,h_3840,w_5760,x_0,y_0/c_limit,h_999999,w_1920/f_auto/q_auto:eco/v1/DAM/Photos/Destinations/Americas/Dominican%20Republic/shutterstock_270486656" class="card-img-top" alt="...">
     <div class="card-body mb-2">
       <h5 class="card-title text-center">{{trip.title}}</h5>
       <h5 class="card-title text-center">{{trip.ticker}}</h5>
@@ -7,20 +6,20 @@
     </div>
     <div class="card-body mb-2 text-center">
         <div class="mb-3">
-            <p class="card-text" style="font-size:20px"><strong>{{'Precio: '}}</strong>&nbsp;{{trip.price}}{{'EUR'}}</p>
+            <p i18n class="card-text" style="font-size:20px"><strong>{{'Price: '}}</strong>&nbsp;{{trip.price}}{{'EUR'}}</p>
         </div>
         <div class="row justify-content-center">
             <div class="col">
-                <p class="card-text ml-2"><strong>{{'Fecha Inicio: '}}</strong><br>{{trip.startedAt}}</p>
+                <p i18n class="card-text ml-2"><strong>{{'Start Date: '}}</strong><br>{{trip.startedAt}}</p>
             </div>
             <div class="col">
-                <p class="card-text ml-2"><strong>{{'Fecha Fin: '}}</strong><br>{{trip.endAt}}</p>
+                <p i18n class="card-text ml-2"><strong>{{'End Date: '}}</strong><br>{{trip.endAt}}</p>
             </div>
         </div>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
-            <h6 class="card-text ml-2 mb-1"><strong>Requisitos:</strong></h6>
+            <h6 i18n class="card-text ml-2 mb-1"><strong>Requirements:</strong></h6>
             <ul>
                 <li *ngFor="let item of trip.requirements;">
                     <p class="card-text ml-2">{{item}}</p>
@@ -29,7 +28,7 @@
         </li>
     </ul>
     <div class="card-body">
-        <h6 class="card-title text-center mb-4"><strong>Galería</strong></h6>
+        <h6 i18n class="card-title text-center mb-4"><strong>Galery</strong></h6>
         
         <ngb-carousel>
             <ng-template ngbSlide *ngFor="let image of trip.photos">
