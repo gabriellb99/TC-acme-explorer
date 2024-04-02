@@ -49,6 +49,7 @@ export class TripService {
     try {
         const tripRef = collection(this.firestore, 'trips');
         const q = query(tripRef, where('id', '==', tripId));
+        console.log(q)
         const querySnapshot = await getDocs(q);
         let trip: Trip | null = null; // Inicializa la variable trip fuera del bucle
         if (!querySnapshot.empty) {

@@ -26,6 +26,7 @@ import { StageComponent } from './components/trip/stage/stage.component';
 import { PaymentComponent } from './components/trip/payment/payment.component';
 import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     DeniedAccessComponent
   ],
   imports: [
+    NgbCarouselModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,

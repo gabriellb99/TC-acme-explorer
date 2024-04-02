@@ -5,6 +5,8 @@ import { TripService } from 'src/app/services/trip.service';
 import { ActivatedRouteStub } from '../../shared/activatedroute-stub';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 describe('TripDisplayComponent', () => {
   let component: TripDisplayComponent;
@@ -29,35 +31,36 @@ describe('TripDisplayComponent', () => {
     trip.photos = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5fUUe6vXn77s-W1HET2YT3fRdOJib3xwDA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZhlSPtMtO3cMwY88jGt--dTKhVGdj9Pyrw&usqp=CAU'];
   
     let tripSpy = jasmine.createSpyObj('TripService', ['getTripById']);
-    getTripSpy = tripSpy.getTrip.and.returnValue(of(trip));
+    getTripSpy = tripSpy.getTripById.and.returnValue(of(trip));
 
     await TestBed.configureTestingModule({
       declarations: [ TripDisplayComponent ],
-      providers: [{provide:TripService, useValue:tripSpy},{provide:ActivatedRoute, useValue:mockActivateRoute}]
+      imports: [NgbCarouselModule],
+      providers: [
+        { provide: TripService, useValue: tripSpy },
+        { provide: ActivatedRoute, useValue: mockActivateRoute }
+      ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(TripDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    });
-
-
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize trip with proper values', () => {
+  it('should initialize trip with proper values', async () => {
     expect(component.trip).toBeDefined();
     expect(component.trip.ticker).toEqual('VI-123');
     expect(component.trip.title).toEqual('Punta Cana');
     expect(component.trip.description).toEqual('Gran viaje a un sitio paradisiaco');
     expect(component.trip.price).toEqual(123);
     expect(component.trip.requirements).toEqual(['Llevar crema solar', 'Pasarlo bien', 'Tomar mucho el sol']);
-    expect(component.trip.startedAt).toEqual(new Date('05-03-2024'));
-    expect(component.trip.endAt).toEqual(new Date('01-03-2024'));
+    expect(component.trip.startedAt).toEqual(new Date('2024-03-15'));
+    expect(component.trip.endAt).toEqual(new Date('2024-03-25'));
     expect(component.trip.cancelReason).toEqual('');
     expect(component.trip.photos).toEqual([
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU',
