@@ -21,7 +21,7 @@ const routes: Routes = [
   canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
 
 {path: 'trips', children:[
-  {path: ':id', component: TripDisplayComponent}, //{path: ':id', component: TripDisplayComponent, canActivate: [ActorRoleGuard]},
+  {path: ':id', component: TripDisplayComponent},
   {path: '', component: TripListComponent}
 ]},
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query, where, getDocs, doc, getDoc, DocumentSnapshot } from '@angular/fire/firestore'; // Importa Firestore
+import { Firestore, collection, query, where, getDocs, doc, getDoc } from '@angular/fire/firestore'; // Importa Firestore
 import { Trip } from '../models/trip.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -40,28 +41,34 @@ export class TripService {
     trip.endAt = data['endAt'];
     trip.requirements = data['requirements'];
     trip.photos = data['photos'];
-    trip.id = data['id']
- 
+    trip.id = doc.id;
+    console.log(trip);
     return trip;
   }
 
-  async getTripById(tripId: string): Promise<Trip | null> {
-    try {
-        const tripRef = collection(this.firestore, 'trips');
-        const q = query(tripRef, where('id', '==', tripId));
-        console.log(q)
-        const querySnapshot = await getDocs(q);
-        let trip: Trip | null = null; // Inicializa la variable trip fuera del bucle
-        if (!querySnapshot.empty) {
-          querySnapshot.forEach((doc) => {
-            trip = this.getTrip(doc);
+ getTripById(tripId: string): Observable<Trip | null> {
+    return new Observable<Trip | null>(observer => {
+      try {
+          const tripRef = collection(this.firestore, 'trips');
+          const docRef = doc(tripRef, tripId);
+          getDoc(docRef).then(doc => {
+            if (doc.exists()) {
+              const trip = this.getTrip(doc);
+              observer.next(trip);
+            } else {
+                observer.next(null);
+            }
+            observer.complete();
+          }).catch((err) => {
+            observer.error(err);
           });
-        }
-        return trip; // Devuelve el valor de trip fuera del bucle
-    } catch (error) {
-        console.error('Error al obtener el viaje por ID:', error);
-        throw error;
-    }
+          
+      } catch (error) {
+          console.error('Error al obtener el viaje por ID:', error);
+          observer.error(error);
+      }
+    });
+  
 }
 
 
