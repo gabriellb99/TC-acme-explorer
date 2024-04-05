@@ -1,8 +1,8 @@
 <div class="breadcrumb">
-    <legend i18n class="text-center">List of Items</legend>
+    <legend class="text-center"><ng-container i18n>List of Trips</ng-container></legend>
 </div>
 <div i18n *ngIf="trips && trips.length === 0">
-    Sorry, no items found
+    Sorry, no trips found
 </div>
 <button (click)="navigateToDatatableView()">Change to datatable view</button>
 <div *ngIf="trips && trips.length > 0" class="row .row-cols-3 row-cols-md-3 g-4">
@@ -29,15 +29,15 @@
             <p class="card-text">{{trip.description | slice:50}}</p>
         </details>
         <div class="card-footer text-center">
-            <a i18n *ngIf="checkRole('ADMINISTRADOR,MANAGER')"
+            <a *ngIf="checkRole('ADMINISTRADOR,MANAGER')"
             routerLink="/trips/{{trip.id}}/edit"
             class="pull-left">
-                <i class="fa fa-pencil" aria-hidden="true">Edit</i>
+                <i class="fa fa-pencil" aria-hidden="true" i18n>Edit</i>
             </a>
-            <a i18n *ngIf="!checkRole('ADMINISTRADOR,MANAGER')"
+            <a *ngIf="!checkRole('ADMINISTRADOR,MANAGER')"
             routerLink="/trips/{{trip.id}}"
             class="pull-left">
-                <i class="fa fa-search-plus" aria-hidden="true">Details</i>
+                <i class="fa fa-search-plus" aria-hidden="true" i18n>Details</i>
             </a>
         </div>
     </div>

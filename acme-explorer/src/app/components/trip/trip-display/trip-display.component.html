@@ -6,20 +6,20 @@
     </div>
     <div class="card-body mb-2 text-center">
         <div class="mb-3">
-            <p i18n class="card-text" style="font-size:20px"><strong>{{'Price: '}}</strong>&nbsp;{{trip.price}}{{'EUR'}}</p>
+            <p class="card-text" style="font-size:20px"><strong i18n>Price: </strong>&nbsp;{{trip.price}}{{'EUR'}}</p>
         </div>
         <div class="row justify-content-center">
             <div class="col">
-                <p i18n class="card-text ml-2"><strong>{{'Start Date: '}}</strong><br>{{trip.startedAt}}</p>
+                <p class="card-text ml-2"><strong i18n>Start Date: </strong><br>{{trip.startedAt}}</p>
             </div>
             <div class="col">
-                <p i18n class="card-text ml-2"><strong>{{'End Date: '}}</strong><br>{{trip.endAt}}</p>
+                <p class="card-text ml-2"><strong i18n>End Date: </strong><br>{{trip.endAt}}</p>
             </div>
         </div>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
-            <h6 i18n class="card-text ml-2 mb-1"><strong>Requirements:</strong></h6>
+            <h6 class="card-text ml-2 mb-1"><strong i18n>Requirements:</strong></h6>
             <ul>
                 <li *ngFor="let item of trip.requirements;">
                     <p class="card-text ml-2">{{item}}</p>
@@ -28,7 +28,7 @@
         </li>
     </ul>
     <div class="card-body">
-        <h6 i18n class="card-title text-center mb-4"><strong>Galery</strong></h6>
+        <h6 class="card-title text-center mb-4"><strong i18n>Galery</strong></h6>
         
         <ngb-carousel>
             <ng-template ngbSlide *ngFor="let image of trip.photos">

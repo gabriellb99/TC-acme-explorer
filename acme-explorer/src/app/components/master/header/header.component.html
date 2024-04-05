@@ -53,15 +53,15 @@
             </div>
             <ul class="navbar-nav mb-2 mb-lg-0" style="margin-left: auto;">
                 <li class="nav-item" *ngIf="!currentActor">
-                    <a i18n class="nav-link active" aria-current="page" routerLink="/register">
+                    <a class="nav-link active" aria-current="page" routerLink="/register">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
-                        Register
+                        <ng-container i18n>Register</ng-container>
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="!currentActor">
-                    <a i18n class="nav-link active" routerLink="/login">
+                    <a class="nav-link active" routerLink="/login">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>
-                        Login
+                        <ng-container i18n>Login</ng-container>
                     </a>
                 </li>
             </ul>
@@ -78,6 +78,6 @@
     </div>
 </nav>
 <div [@logoutAnimation]="logoutAnimationState" class="logout-popup">
-    <p i18n >¡Te esperamos en tu próxima aventura!<a (click)="cerrarAnimacion()"><i class="fa fa-window-close" style="margin-left: 2%;" aria-hidden="true"></i></a></p>
+    <p><ng-container i18n>¡Te esperamos en tu próxima aventura!</ng-container><a (click)="cerrarAnimacion()"><i class="fa fa-window-close" style="margin-left: 2%;" aria-hidden="true"></i></a></p>
 </div>
   

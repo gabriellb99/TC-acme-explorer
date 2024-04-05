@@ -9,11 +9,20 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "es": {
+            "translation": "src/assets/i18n/messages_es.json"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/acme-explorer",
+            "localize": true,
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -42,7 +51,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -57,6 +66,12 @@
                 }
               ],
               "outputHashing": "all"
+            },
+            "es-ES": {
+              "localize": ["es-ES"]
+            },
+            "en-US": {
+              "localize": ["en-US"]
             },
             "development": {
               "buildOptimizer": false,
@@ -77,6 +92,12 @@
             },
             "development": {
               "browserTarget": "acme-explorer:build:development"
+            },
+            "es-ES": {
+              "browserTarget": "acme-explorer:build:development,es-ES"
+            },
+            "en-US": {
+              "browserTarget": "acme-explorer:build:en-US"
             }
           },
           "defaultConfiguration": "development"
