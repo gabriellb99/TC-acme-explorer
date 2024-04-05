@@ -9,20 +9,11 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
-      "i18n": {
-        "sourceLocale": "en-US",
-        "locales": {
-          "es": {
-            "translation": "src/assets/i18n/messages_es.json"
-          }
-        }
-      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/acme-explorer",
-            "localize": true,
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -36,10 +27,7 @@
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.css",
-              "./node_modules/@swimlane/ngx-datatable/index.css",
-              "src/styles.css",
-              "./node_modules/@swimlane/ngx-datatable/themes/bootstrap.css",
-              "./node_modules/@swimlane/ngx-datatable/assets/icons.css"
+              "src/styles.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -51,7 +39,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2mb"
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -66,12 +54,6 @@
                 }
               ],
               "outputHashing": "all"
-            },
-            "es-ES": {
-              "localize": ["es-ES"]
-            },
-            "en-US": {
-              "localize": ["en-US"]
             },
             "development": {
               "buildOptimizer": false,
@@ -92,12 +74,6 @@
             },
             "development": {
               "browserTarget": "acme-explorer:build:development"
-            },
-            "es-ES": {
-              "browserTarget": "acme-explorer:build:development,es-ES"
-            },
-            "en-US": {
-              "browserTarget": "acme-explorer:build:en-US"
             }
           },
           "defaultConfiguration": "development"
