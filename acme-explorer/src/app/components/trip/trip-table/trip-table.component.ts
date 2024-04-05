@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { Actor } from 'src/app/models/actor.model';
@@ -13,9 +13,9 @@ import { TripService } from 'src/app/services/trip.service';
 })
 export class TripTableComponent implements OnInit {
 
-  protected trips!: Trip[];
-  protected currentActor: Actor | undefined;
-  protected sorts = [
+  trips!: Trip[];
+  currentActor: Actor | undefined;
+  sorts = [
     {
       prop: 'startedAt',
       dir:'asc'
@@ -25,7 +25,9 @@ export class TripTableComponent implements OnInit {
       dir:'desc'
     }
   ];
-  protected selectionType = SelectionType.single;
+  selectionType = SelectionType.single;
+  @ViewChild('myTable') table: any;
+
 
   constructor(private authService: AuthService, private tripService: TripService, private router: Router) { }
 
@@ -52,6 +54,15 @@ export class TripTableComponent implements OnInit {
 
   navigateToCardView(){
     this.router.navigate(['/trips'])
+  }
+
+  toggleExpandRow(row: any) {
+    console.log('Toggled Expand Row!', row);
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event: any) {
+    console.log('Detail Toggled', event);
   }
 
 
