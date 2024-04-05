@@ -1,7 +1,6 @@
 {
   "locale": "es",
   "translations": {
-<<<<<<< Updated upstream
     "ngb.alert.close": "Cerrar",
     "ngb.carousel.slide-number": " Imagen {$INTERPOLATION} of {$INTERPOLATION_1} ",
     "ngb.carousel.previous": "Anterior",
@@ -10,16 +9,6 @@
     "ngb.datepicker.select-year": "Selecciona año",
     "ngb.datepicker.previous-month": "Mes anterior",
     "ngb.datepicker.next-month": "Mes siguiente",
-=======
-    "ngb.alert.close": "Close",
-    "ngb.carousel.slide-number": " Slide {$INTERPOLATION} of {$INTERPOLATION_1} ",
-    "ngb.carousel.previous": "Previous",
-    "ngb.carousel.next": "Next",
-    "ngb.datepicker.select-month": "Select month",
-    "ngb.datepicker.select-year": "Select year",
-    "ngb.datepicker.previous-month": "Previous month",
-    "ngb.datepicker.next-month": "Next month",
->>>>>>> Stashed changes
     "ngb.pagination.first": "««",
     "ngb.pagination.previous": "«",
     "ngb.pagination.next": "»",
@@ -32,7 +21,6 @@
     "ngb.timepicker.HH": "HH",
     "ngb.timepicker.hours": "Hours",
     "ngb.timepicker.MM": "MM",
-<<<<<<< Updated upstream
     "ngb.timepicker.minutes": "Minutos",
     "ngb.timepicker.increment-hours": "Incrementa horas",
     "ngb.timepicker.decrement-hours": "Disminuye horas",
@@ -42,17 +30,6 @@
     "ngb.timepicker.seconds": "Segundos",
     "ngb.timepicker.increment-seconds": "Incrementa segundos",
     "ngb.timepicker.decrement-seconds": "Disminuye segundos",
-=======
-    "ngb.timepicker.minutes": "Minutes",
-    "ngb.timepicker.increment-hours": "Increment hours",
-    "ngb.timepicker.decrement-hours": "Decrement hours",
-    "ngb.timepicker.increment-minutes": "Increment minutes",
-    "ngb.timepicker.decrement-minutes": "Decrement minutes",
-    "ngb.timepicker.SS": "SS",
-    "ngb.timepicker.seconds": "Seconds",
-    "ngb.timepicker.increment-seconds": "Increment seconds",
-    "ngb.timepicker.decrement-seconds": "Decrement seconds",
->>>>>>> Stashed changes
     "ngb.timepicker.PM": "{$INTERPOLATION}",
     "ngb.timepicker.AM": "{$INTERPOLATION}",
     "ngb.toast.close-aria": "Close",
@@ -92,7 +69,6 @@
     "2481831830353470441": "Pagos funciona!",
     "703077885130968829": "Etapas funciona!",
     "2502388485848434957": "Precio: ",
-<<<<<<< Updated upstream
     "6918871917201353101": "Fecha inicio:",
     "546611767641046985": "Fecha fin:",
     "8339433609465808354": "Requisitos:",
@@ -105,19 +81,5 @@
     "2640320613245356117": "Termina",
     "8339688406057804495": "Precio",
     "841311519047609428": "Eliminar"
-=======
-    "6918871917201353101": "Fecha Inicio: ",
-    "546611767641046985": "Fecha Fin: ",
-    "8339433609465808354": "Requerimientos:",
-    "7338669329582634668": "Galeria",
-    "1991740644022678534": "Requirements",
-    "5095730324791216093": "Ticket",
-    "125111376198337295": "Título",
-    "6777974573583289938": "Descripción",
-    "8863301520157595405": "Fecha Inicio",
-    "2640320613245356117": "Fecha Fin",
-    "8339688406057804495": "Precio",
-    "841311519047609428": "ELIMINAR"
->>>>>>> Stashed changes
   }
 }
