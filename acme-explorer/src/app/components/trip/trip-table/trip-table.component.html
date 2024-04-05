@@ -2,7 +2,7 @@
     <button class="btn btn-secondary me-2" (click)="navigateToCardView()">Change to card view</button>
     <ngx-datatable [rows]="trips"
     #myTable
-    class="dark expandable"
+    class="bootstrap-theme"
     [headerHeight]="40"
     [footerHeight]="80"
     [columnMode]="'force'"
@@ -76,11 +76,18 @@
 
     </ngx-datatable-column>
 <!--hay que poner el if pero cuando se arregle lo de que se mantenga el rol en la sesión
-*ngIf="checkRole('ADMINISTRADOR,MANAGER')"-->
+*ngIf="checkRole('MANAGER')"-->
     <ngx-datatable-column  i18n-name name="DELETE">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <button [disabled] = "row.cancelReason">
                 <i class="fa-solid fa-ban"></i>
+            </button>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="UPDATE">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button [disabled] = "row.cancelReason">
+                <i class="fas fa-pencil-alt"></i>
             </button>
         </ng-template>
     </ngx-datatable-column>
