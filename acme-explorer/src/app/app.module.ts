@@ -27,6 +27,8 @@ import { PaymentComponent } from './components/trip/payment/payment.component';
 import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
 
 @NgModule({
   declarations: [
@@ -43,10 +45,12 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
     ApplyComponent,
     StageComponent,
     PaymentComponent,
-    DeniedAccessComponent
+    DeniedAccessComponent,
+    TripTableComponent
   ],
   imports: [
     NgbCarouselModule,
+    NgxDatatableModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,

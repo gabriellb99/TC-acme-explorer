@@ -1,28 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { Trip } from 'src/app/models/trip.model';
-import { TripService } from 'src/app/services/trip.service';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from '../../../../../services/auth.service';
-import { Actor } from 'src/app/models/actor.model';
 import { Router } from '@angular/router';
+import { SelectionType } from '@swimlane/ngx-datatable';
+import { Actor } from 'src/app/models/actor.model';
+import { Trip } from 'src/app/models/trip.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { TripService } from 'src/app/services/trip.service';
 
 @Component({
-  selector: 'app-trip-list',
-  templateUrl: './trip-list.component.html',
-  styleUrls: ['./trip-list.component.css']
+  selector: 'app-trip-table',
+  templateUrl: './trip-table.component.html',
+  styleUrls: ['./trip-table.component.css']
 })
-export class TripListComponent implements OnInit {
+export class TripTableComponent implements OnInit {
 
   protected trips!: Trip[];
-  protected trash = faTrash;
   protected currentActor: Actor | undefined;
+  protected sorts = [
+    {
+      prop: 'startedAt',
+      dir:'asc'
+    },
+    {
+      prop:'price',
+      dir:'desc'
+    }
+  ];
+  protected selectionType = SelectionType.single;
 
   constructor(private authService: AuthService, private tripService: TripService, private router: Router) { }
-  
-
-  removeTrip(index: number){
-    this.trips[index].cancelReason = "cancelled";
-  }
 
   ngOnInit(): void {
     this.tripService.getAllAvailableTrips()
@@ -45,17 +50,9 @@ export class TripListComponent implements OnInit {
     return this.authService.checkRole(roles);
   }
 
-  displayTrip(id:String){
-    console.log("Displaying: " + id);
-    this.router.navigate(['/trips/'+id])
+  navigateToCardView(){
+    this.router.navigate(['/trips'])
   }
 
-  newTrip(){
-    this.router.navigate(['/trips/new'])
-  }
-
-  navigateToDatatableView(){
-    this.router.navigate(['/trips/dt'])
-  }
 
 }

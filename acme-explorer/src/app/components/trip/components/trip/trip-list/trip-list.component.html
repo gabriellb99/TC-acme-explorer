@@ -4,7 +4,7 @@
 <div i18n *ngIf="trips && trips.length === 0">
     Sorry, no items found
 </div>
-
+<button (click)="navigateToDatatableView()">Change to datatable view</button>
 <div *ngIf="trips && trips.length > 0" class="row .row-cols-3 row-cols-md-3 g-4">
     <div *ngFor="let trip of trips" class="card">
         <div class="card-header">

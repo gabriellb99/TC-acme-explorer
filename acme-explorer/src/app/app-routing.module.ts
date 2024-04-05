@@ -11,6 +11,7 @@ import { StageComponent } from './components/trip/stage/stage.component';
 import { ApplyComponent } from './components/trip/apply/apply.component';
 import { PaymentComponent } from './components/trip/payment/payment.component';
 import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
+import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
 
 const routes: Routes = [
 {path: 'login', component: LoginComponent,
@@ -21,8 +22,10 @@ const routes: Routes = [
   canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
 
 {path: 'trips', children:[
+  {path: 'dt', component: TripTableComponent},
   {path: ':id', component: TripDisplayComponent},
   {path: '', component: TripListComponent}
+  
 ]},
 
 {path: 'stages', component: StageComponent},

@@ -1,0 +1,84 @@
+<div>
+    <button (click)="navigateToCardView()">Change to card view</button>
+    <ngx-datatable [rows]="trips"
+    #myTable
+    class="dark expandable"
+    [headerHeight]="40"
+    [footerHeight]="80"
+    [columnMode]="'force'"
+    [limit]="10"
+    [rowHeight]="'auto'"
+    [reorderable]="true"
+    [selectionType]="selectionType"
+    [sorts]="sorts">
+
+    <!--Columns-->
+   <!-- <ngx-datatable-column [width]="70" [resizeable]="false" [draggable]="false"
+        [canAutoResize]="false" i18n-name name="Requirements">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <a href="javascript:void(0)" title="Expand/Collapse row" (click)="toggleExpandRow(row)">
+                <i class="fa-solid fa-table-list"></i>
+            </a>
+        </ng-template>
+    </ngx-datatable-column>-->
+
+    <ngx-datatable-column i18n-name name="ticker" prop="ticker">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="title" prop="title">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="description" prop="description">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="startedAt" prop="startedAt">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value.toDate() | date:'dd/MM/yyyy HH:mm' }}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="endAt" prop="endAt">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value.toDate() | date:'dd/MM/yyyy HH:mm' }}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="price" prop="price">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+
+    <!--Row Detail
+    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div style="padding-left:35px;">
+                <div><strong>Trip Requirements</strong></div>
+                <div *ngFor="let requirement of row.requirements">
+                    {{ requirement }}
+                </div>
+            </div>
+        </ng-template>
+
+
+    </ngx-datatable-row-detail>-->
+
+    
+    </ngx-datatable>
+</div>
