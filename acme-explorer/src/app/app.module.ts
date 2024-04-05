@@ -29,6 +29,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
+import { I18nModule } from './i18n.module';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { TripTableComponent } from './components/trip/trip-table/trip-table.comp
     provideFirestore(() => getFirestore())
 
   ],
-  providers: [AuthService],
+  providers: [AuthService, I18nModule.setLocale(), I18nModule.setLocaleId()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
