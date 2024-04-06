@@ -1,6 +1,16 @@
 import { Entity } from "./entity.model";
 export class Actor extends Entity{
 
+    
+    private _name!: string
+    private _surname!: string
+    private _email!: string
+    private _password!: string
+    private _phone!: string
+    private _address!: string
+    private _role!: string
+    private _validate!: boolean
+
     public get name(): string {
         return this._name;
     }
@@ -57,18 +67,13 @@ export class Actor extends Entity{
         this._validate = value;
     }
 
-    constructor(
-    private _name: string,
-    private _surname: string,
-    private _email: string,
-    private _password: string,
-    private _phone: string,
-    private _address: string,
-    private _role: string,
-    private _validate: boolean
-    ) {
-    super();
-    }
+
+  
+
+    constructor(){
+        super()
+    };
+
 
 
 ;
