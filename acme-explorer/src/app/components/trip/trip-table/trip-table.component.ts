@@ -113,7 +113,6 @@ export class TripTableComponent implements OnInit {
     const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
 
     if (differenceInDays < 7){
-      console.log("hola")
       return 'row-highlight';
     }else{
       return '';

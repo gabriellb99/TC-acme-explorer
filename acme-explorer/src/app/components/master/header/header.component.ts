@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
   
   //constructor(private authService: AuthService){ }
 
-  constructor(private authService:AuthService, private tripService: TripService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private authService:AuthService, private tripService: TripService, private router: Router, private route: ActivatedRoute, private searchService: SearchService) {}
 
 
   ngOnInit(): void {
@@ -80,31 +80,10 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  async onSearch(form: NgForm) {
+  onSearch(form: NgForm) {
     const searchValue = form.value.searchValue;
-    console.log("patron busqueda:" + searchValue);
-    
-    try {
-      // Llama al servicio de búsqueda con los parámetros especificados
-      const trips = await this.tripService.searchTrips(searchValue);
-      
-      // Realiza alguna acción con los viajes encontrados
-      console.log("Trips encontrados:", trips);
-      
-      // Reinicia el formulario después de realizar la búsqueda
-      form.resetForm(); // Utiliza resetForm() para resetear solo el formulario
-
-
-      
-      // Redirige a la página correspondiente después de realizar la búsqueda    
-      this.router.navigateByUrl(this.returnUrl);
-    } catch (error) {
-      // Maneja el error si la búsqueda falla
-      console.error("Error al realizar la búsqueda:", error);
-    }
+    this.searchService.searchValue$.next(searchValue); // Emitir el valor de búsqueda al servicio
   }
-  
-
-
 
 }
+

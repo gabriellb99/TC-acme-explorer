@@ -64,16 +64,17 @@ ngOnInit(): void {
   // Obtener el actor actual
   this.currentActor = this.authService.getCurrentActor();
 
-  // Suscribirse al observable searchValue$ del servicio de búsqueda
+  // Obtener todos los viajes disponibles al inicio
   this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
     // Si hay un valor de búsqueda, realizar la búsqueda
     // De lo contrario, obtener todos los viajes disponibles
-    if (searchValue) {
+    if (searchValue.length > 0) {
       return this.searchTrips(searchValue);
     } else {
       return this.getAllTrips();
     }
   });
+  return this.getAllTrips();
 }
 
 // Método para obtener todos los viajes disponibles
