@@ -1,10 +1,12 @@
 <div class="breadcrumb">
     <legend class="text-center"><ng-container i18n>List of Trips</ng-container></legend>
 </div>
+<button i18n class="btn btn-primary me-2" (click)="navigateToDatatableView()">Change to datatable view</button>
+<hr>
 <div i18n *ngIf="trips && trips.length === 0">
     Sorry, no trips found
 </div>
-<button class="btn btn-secondary me-2" (click)="navigateToDatatableView()">Change to datatable view</button>
+
 <div *ngIf="trips && trips.length > 0" class="row .row-cols-3 row-cols-md-3 g-4">
     <div *ngFor="let trip of trips" class="card">
         <div class="card-header">

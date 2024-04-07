@@ -1,14 +1,44 @@
-<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-  <div class="col-md-4 d-flex align-items-center">
-      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-          <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-      </a>
-      <span class="mb-3 mb-md-0 text-muted">© 2024 Company, Inc</span>
-  </div>
-
-  <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <a><li class="ms-3 fa-brands fa-twitter"></li></a>
-      <a><li class="ms-3 fa-brands fa-instagram"></li></a>
-      <a><li class="ms-3 fa-brands fa-facebook"></li></a>
-  </ul>
+<footer class="footer-distributed">
+    <div class="footer-left">
+        <h3>Acme<span>Explorer</span></h3>
+        <p class="footer-links">
+            <a href="/terms-and-conditions">
+                {{'Terms and Conditions'}}
+            </a>
+        </p>
+        <p class="footer-company-name">
+            Acme Explorer © 2024 {{today}}
+        </p>
+        <span class="text-muted">
+            <b>{{'Visitors'}}</b>
+            {{visitorNumber}}
+        </span>
+    </div>
+    <div class="footer-center">
+        <div>
+            <i class="fa fa-map-marker"></i>
+            <p><span>Av. de la Reina Mercedes, s/n, 41012</span>Seville, Spain</p>
+        </div>
+        <div>
+            <i class="fa-solid fa-phone"></i>
+            <p>+34 654321987</p>
+        </div>
+        <div>
+            <i class="fa-solid fa-envelope"></i>
+            <p><a href="mailto:support@acme-explorer.com">
+                {{'support@acme-explorer.com'}}
+            </a></p>
+        </div>
+    </div>
+    <div class="footer-right">
+        <p class="footer-company-about">
+            <span>{{'About us'}}</span><br>
+            {{'Streamline your travel bookings with our intuitive app: book flights, hotels, and activities all in one place for a hassle-free travel experience.'}}
+        </p>
+        <div class="footer-icons">
+            <a><li class="ms-3 fa-brands fa-twitter"></li></a>
+            <a><li class="ms-3 fa-brands fa-instagram"></li></a>
+            <a><li class="ms-3 fa-brands fa-facebook"></li></a>
+        </div>
+    </div>
 </footer>

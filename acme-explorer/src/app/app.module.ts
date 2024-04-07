@@ -30,6 +30,8 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
 import { I18nModule } from './i18n.module';
+import { MessageComponent } from './components/master/message/message.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { I18nModule } from './i18n.module';
     StageComponent,
     PaymentComponent,
     DeniedAccessComponent,
-    TripTableComponent
+    TripTableComponent,
+    MessageComponent
   ],
   imports: [
     NgbCarouselModule,
@@ -60,6 +63,7 @@ import { I18nModule } from './i18n.module';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    CommonModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())

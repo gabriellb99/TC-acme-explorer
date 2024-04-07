@@ -1,5 +1,6 @@
 <div>
-    <button class="btn btn-secondary me-2" (click)="navigateToCardView()">Change to card view</button>
+    <button i18n class="btn btn-primary me-2" (click)="navigateToCardView()">Change to card view</button>
+    <hr>
     <ngx-datatable [rows]="trips"
     #myTable
     class="bootstrap-theme"
@@ -34,42 +35,42 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column i18n-name name="ticker" prop="ticker">
+    <ngx-datatable-column i18n-name name="Ticker" prop="ticker">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <strong>{{value}}</strong>
         </ng-template>
 
     </ngx-datatable-column>
 
-    <ngx-datatable-column i18n-name name="title" prop="title">
+    <ngx-datatable-column i18n-name name="Title" prop="title">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <strong>{{value}}</strong>
         </ng-template>
 
     </ngx-datatable-column>
 
-    <ngx-datatable-column i18n-name name="description" prop="description">
+    <ngx-datatable-column i18n-name name="Description" prop="description">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <strong>{{value}}</strong>
         </ng-template>
 
     </ngx-datatable-column>
 
-    <ngx-datatable-column i18n-name name="startedAt" prop="startedAt">
+    <ngx-datatable-column i18n-name name="Start" prop="startedAt">
         <ng-template let-value="value" ngx-datatable-cell-template>
-            <strong>{{value.toDate() | date:'dd/MM/yyyy HH:mm' }}</strong>
+            <strong>{{transformDate(value)}}</strong>
         </ng-template>
 
     </ngx-datatable-column>
 
-    <ngx-datatable-column i18n-name name="endAt" prop="endAt">
+    <ngx-datatable-column i18n-name name="Finally" prop="endAt">
         <ng-template let-value="value" ngx-datatable-cell-template>
-            <strong>{{value.toDate() | date:'dd/MM/yyyy HH:mm' }}</strong>
+            <strong>{{transformDate(value)}}</strong>
         </ng-template>
 
     </ngx-datatable-column>
 
-    <ngx-datatable-column i18n-name name="price" prop="price">
+    <ngx-datatable-column i18n-name name="Price" prop="price">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <strong>{{value}}</strong>
         </ng-template>
@@ -77,14 +78,14 @@
     </ngx-datatable-column>
 <!--hay que poner el if pero cuando se arregle lo de que se mantenga el rol en la sesión
 *ngIf="checkRole('MANAGER')"-->
-    <ngx-datatable-column  i18n-name name="DELETE">
+    <ngx-datatable-column  i18n-name name="Delete">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <button [disabled] = "row.cancelReason">
                 <i class="fa-solid fa-ban"></i>
             </button>
         </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="UPDATE">
+    <ngx-datatable-column i18n-name name="Update">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <button [disabled] = "row.cancelReason">
                 <i class="fas fa-pencil-alt"></i>

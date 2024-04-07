@@ -5,6 +5,8 @@ import { Actor } from 'src/app/models/actor.model';
 import { Trip } from 'src/app/models/trip.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TripService } from 'src/app/services/trip.service';
+import { MessageService } from 'src/app/services/message.service';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-trip-table',
@@ -29,7 +31,7 @@ export class TripTableComponent implements OnInit {
   @ViewChild('myTable') table: any;
 
 
-  constructor(private authService: AuthService, private tripService: TripService, private router: Router) { }
+  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.currentActor = this.authService.getCurrentActor()
@@ -42,7 +44,7 @@ export class TripTableComponent implements OnInit {
       .then((trips: Trip[]) => {
         this.trips = trips;
         // Manejar los datos de los viajes aquí
-        console.log('Trips:', trips);
+        //console.log('Trips:', trips);
       })
       .catch((error) => {
         // Manejar errores aquí
@@ -69,5 +71,22 @@ export class TripTableComponent implements OnInit {
     console.log('Detail Toggled', event);
   }
 
+  removeTrip(index: number){
+    this.trips[index].cancelReason = "cancelled";
+    let message = "Item successfully deleted";
+    this.messageService.notifyMessage(message, "alert alert-success")
+  }
+
+  transformDate(timestamp: Timestamp): string {
+    console.log(timestamp);
+    let date = new Date(timestamp.seconds * 1000);
+    const locale = localStorage.getItem('locale');
+    if (locale == 'es'){
+      return date.toLocaleDateString('es-ES');
+    }else{
+      return date.toLocaleDateString('en-US');
+    }
+   
+  }
 
 }
