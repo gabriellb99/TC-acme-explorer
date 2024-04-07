@@ -13,6 +13,7 @@
                         Trips
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a i18n class="dropdown-item" routerLink="/dashboard">Dashboard</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/stages">Stages</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/applies">Applies</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/payments">Payments</a></li>
@@ -43,14 +44,16 @@
                     </ul>
                 </li>
             </ul>
+            
             <div class="justify-content-center d-flex" style="margin: 0 auto;">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" i18n-placeholder placeholder="Search" aria-label="Search">
+                <form class="d-flex" role="search"  (ngSubmit)="onSearch(f)" #f="ngForm">
+                    <input id="searchValue" name="searchValue" ngModel class="form-control me-2" type="search" i18n-placeholder placeholder="Search" aria-label="Search">
                     <button i18n class="btn btn-outline-success me-2" type="submit">Search</button>
-                </form>
+                </form>                
                 <button class="btn btn-secondary me-2" (click)="changeLanguage('EN')">EN</button>
                 <button class="btn btn-secondary me-2" (click)="changeLanguage('EN')">ES</button>
             </div>
+
             <ul class="navbar-nav mb-2 mb-lg-0" style="margin-left: auto;">
                 <li class="nav-item" *ngIf="!currentActor">
                     <a i18n class="nav-link active" aria-current="page" routerLink="/register">

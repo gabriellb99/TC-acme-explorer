@@ -1,57 +1,120 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Trip } from 'src/app/models/trip.model';
 import { TripService } from 'src/app/services/trip.service';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../../../../services/auth.service';
 import { Actor } from 'src/app/models/actor.model';
 import { Router } from '@angular/router';
+import { SearchService } from 'src/app/services/search.service'; // Importar el servicio de búsqueda
 
 @Component({
   selector: 'app-trip-list',
   templateUrl: './trip-list.component.html',
   styleUrls: ['./trip-list.component.css']
 })
-export class TripListComponent implements OnInit {
+export class TripListComponent implements OnInit, OnDestroy {
 
   protected trips!: Trip[];
   protected trash = faTrash;
   protected currentActor: Actor | undefined;
+  private searchSubscription: Subscription = new Subscription(); // Inicializar searchSubscription
+  searchValue: string = ''; // Definir tipo para el parámetro searchValue
+  protected advstatus: boolean = true; // Definición de advstatus
 
-  constructor(private authService: AuthService, private tripService: TripService, private router: Router) { }
-  
+  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private searchService: SearchService) { }
 
   removeTrip(index: number){
     this.trips[index].cancelReason = "cancelled";
   }
-
+/*
   ngOnInit(): void {
+    // Suscribirse al observable searchValue$ del servicio de búsqueda
+    this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
+      // Realizar la búsqueda y actualizar la lista de trips
+      this.searchTrips(searchValue);
+    });
+
+    // Obtener todos los viajes disponibles al inicio
     this.tripService.getAllAvailableTrips()
     .then((trips: Trip[]) => {
       this.trips = trips;
       // Manejar los datos de los viajes aquí
-      console.log('Trips:', trips);
+      console.log('getAllAvailableTrips:', trips);
     })
     .catch((error) => {
       // Manejar errores aquí
       console.error('Error fetching trips:', error);
     });
 
-    
+    // Suscribirse al observable searchValue$ del servicio de búsqueda
+    this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
+      // Realizar la búsqueda y actualizar la lista de trips
+      console.log('searchValue:', searchValue);
+      this.searchTrips(searchValue);
+    });
 
-    this.currentActor = this.authService.getCurrentActor()
+    // Obtener el actor actual
+    this.currentActor = this.authService.getCurrentActor();
+  }
+*/
+
+ngOnInit(): void {
+  // Obtener el actor actual
+  this.currentActor = this.authService.getCurrentActor();
+
+  // Suscribirse al observable searchValue$ del servicio de búsqueda
+  this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
+    // Si hay un valor de búsqueda, realizar la búsqueda
+    // De lo contrario, obtener todos los viajes disponibles
+    if (searchValue) {
+      return this.searchTrips(searchValue);
+    } else {
+      return this.getAllTrips();
+    }
+  });
+}
+
+// Método para obtener todos los viajes disponibles
+getAllTrips(): void {
+  this.tripService.getAllAvailableTrips()
+    .then((trips: Trip[]) => {
+      this.trips = trips;
+      // Manejar los datos de los viajes aquí
+      console.log('getAllAvailableTrips:', trips);
+    })
+    .catch((error) => {
+      // Manejar errores aquí
+      console.error('Error fetching trips:', error);
+    });
+}
+
+
+  ngOnDestroy(): void {
+    // Desuscribirse del observable al destruir el componente para evitar memory leaks
+    this.searchSubscription.unsubscribe();
   }
 
   checkRole(roles: string): boolean {
     return this.authService.checkRole(roles);
   }
 
-  displayTrip(id:String){
+  displayTrip(id: string): void {
     console.log("Displaying: " + id);
-    this.router.navigate(['/trips/'+id])
+    this.router.navigate(['/trips/' + id]);
   }
 
-  newTrip(){
-    this.router.navigate(['/trips/new'])
+  newTrip(): void {
+    this.router.navigate(['/trips/new']);
   }
 
+  // Método para realizar la búsqueda de trips
+  searchTrips(searchValue: string): void {
+    // Llamar al método searchTrips del servicio de trips para buscar trips
+    this.tripService.searchTrips(searchValue).then(trips => {
+      this.trips = trips;
+    }).catch(error => {
+      console.error("Error al buscar trips:", error);
+    });
+  }
 }

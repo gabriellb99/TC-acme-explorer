@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Actor } from 'src/app/models/actor.model';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TripService } from 'src/app/services/trip.service';
 
 @Component({
   selector: 'app-header',
@@ -28,11 +31,18 @@ import { Actor } from 'src/app/models/actor.model';
   
 })
 
+
 export class HeaderComponent implements OnInit {
   logoutAnimationState = 'closed';
   protected currentActor: Actor | undefined;
   protected activeRole: string = 'anonymous';
-  constructor(private authService: AuthService){ }
+  private returnUrl!: string;
+
+  
+  //constructor(private authService: AuthService){ }
+
+  constructor(private authService:AuthService, private tripService: TripService, private router: Router, private route: ActivatedRoute) {}
+
 
   ngOnInit(): void {
     this.authService.getStatus().subscribe((loggedIn: Boolean) =>{
@@ -44,6 +54,7 @@ export class HeaderComponent implements OnInit {
         this.currentActor = undefined;
       }
     })
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   async logout() {
@@ -63,5 +74,33 @@ export class HeaderComponent implements OnInit {
   changeLanguage(language: String) {
     
   }
+
+
+  async onSearch(form: NgForm) {
+    const searchValue = form.value.searchValue;
+    console.log("patron busqueda:" + searchValue);
+    
+    try {
+      // Llama al servicio de búsqueda con los parámetros especificados
+      const trips = await this.tripService.searchTrips(searchValue);
+      
+      // Realiza alguna acción con los viajes encontrados
+      console.log("Trips encontrados:", trips);
+      
+      // Reinicia el formulario después de realizar la búsqueda
+      form.resetForm(); // Utiliza resetForm() para resetear solo el formulario
+
+
+      
+      // Redirige a la página correspondiente después de realizar la búsqueda    
+      this.router.navigateByUrl(this.returnUrl);
+    } catch (error) {
+      // Maneja el error si la búsqueda falla
+      console.error("Error al realizar la búsqueda:", error);
+    }
+  }
+  
+
+
 
 }
