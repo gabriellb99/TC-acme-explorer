@@ -100,7 +100,7 @@ export class TripTableComponent implements OnInit {
     return differenceInDays < 10;
   }
 
-  getRowClass(row: any) {
+  getRowColor(row: any) {
     const tripDateObject = row.startedAt.toDate();
 
     // Obtener la fecha actual
@@ -111,10 +111,12 @@ export class TripTableComponent implements OnInit {
 
     // Calcular el número de días
     const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+    console.log(differenceInDays)
 
-    if (differenceInDays < 7){
+    if (Math.floor(differenceInDays) < 7){
       return 'row-highlight';
     }else{
+      console.log('entra aqui')
       return '';
     }
   }
