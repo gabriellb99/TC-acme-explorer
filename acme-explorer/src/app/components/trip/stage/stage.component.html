@@ -1,1 +1,31 @@
-<p i18n>stage works!</p>
+<div>
+    <ngx-datatable
+      [rows]="stages"
+      [columnMode]="'force'"
+      class="bootstrap-theme"
+      [headerHeight]="40"
+      [footerHeight]="80"
+      [limit]="10"
+      [rowHeight]="'auto'"
+      [reorderable]="true"
+    >
+      <ngx-datatable-column name="Title">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+  
+      <ngx-datatable-column name="Description">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+  
+      <ngx-datatable-column name="Price">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+  

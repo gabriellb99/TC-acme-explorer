@@ -84,5 +84,9 @@ export class TripDisplayComponent implements OnInit {
   goBack() {
     this.router.navigate(['/']);
   }
+  
+  goToStages(){
+    this.router.navigate(['/trips/' + this.id + "/stages"]);
+  }
 
 }

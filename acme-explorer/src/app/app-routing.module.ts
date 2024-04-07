@@ -28,6 +28,7 @@ const routes: Routes = [
 
 {path: 'trips', children:[
   {path: 'dt', component: TripTableComponent},
+  {path: ':id/stages', component: StageComponent},
   {path: ':id', component: TripDisplayComponent},
   {path: '', component: TripListComponent}
   
