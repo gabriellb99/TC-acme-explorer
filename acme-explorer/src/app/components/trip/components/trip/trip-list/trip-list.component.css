@@ -22,3 +22,7 @@ details summary::marker {
     display: none;
     content: "";
 }
+
+.green-background {
+    background-color: #03BB85;
+  }

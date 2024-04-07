@@ -78,7 +78,6 @@ export class TripTableComponent implements OnInit {
   }
 
   transformDate(timestamp: Timestamp): string {
-    console.log(timestamp);
     let date = new Date(timestamp.seconds * 1000);
     const locale = localStorage.getItem('locale');
     if (locale == 'es'){
@@ -87,6 +86,38 @@ export class TripTableComponent implements OnInit {
       return date.toLocaleDateString('en-US');
     }
    
+  }
+
+  isTripDateGreaterThan10Days(tripDate: any): boolean {
+    const tripDateObject = tripDate.toDate();
+
+    const today = new Date();
+
+    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
+
+    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+
+    return differenceInDays < 10;
+  }
+
+  getRowClass(row: any) {
+    const tripDateObject = row.startedAt.toDate();
+
+    // Obtener la fecha actual
+    const today = new Date();
+
+    // Calcular la diferencia en milisegundos entre las fechas
+    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
+
+    // Calcular el número de días
+    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+
+    if (differenceInDays < 7){
+      console.log("hola")
+      return 'row-highlight';
+    }else{
+      return '';
+    }
   }
 
 }

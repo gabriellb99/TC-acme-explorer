@@ -12,7 +12,7 @@
         <div class="card-header">
             <h4 class="card-title text-center">{{trip.title}}</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body" [ngClass]="{'green-background': isTripDateGreaterThan10Days(trip.startedAt)}">
             <span class="badge bg-primary">{{trip.price}}</span>
             <div class="container-fluid text-center">
                 <ngb-carousel>

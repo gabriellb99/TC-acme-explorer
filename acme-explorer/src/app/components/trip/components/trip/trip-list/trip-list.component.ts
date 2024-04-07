@@ -6,7 +6,11 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../../../../services/auth.service';
 import { Actor } from 'src/app/models/actor.model';
 import { Router } from '@angular/router';
+<<<<<<< Updated upstream
 import { SearchService } from 'src/app/services/search.service'; // Importar el servicio de búsqueda
+=======
+import { Timestamp } from 'firebase/firestore';
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'app-trip-list',
@@ -39,8 +43,11 @@ export class TripListComponent implements OnInit, OnDestroy {
     this.tripService.getAllAvailableTrips()
     .then((trips: Trip[]) => {
       this.trips = trips;
+<<<<<<< Updated upstream
       // Manejar los datos de los viajes aquí
       console.log('getAllAvailableTrips:', trips);
+=======
+>>>>>>> Stashed changes
     })
     .catch((error) => {
       // Manejar errores aquí
@@ -112,6 +119,7 @@ getAllTrips(): void {
     this.router.navigate(['/trips/dt'])
   }
 
+<<<<<<< Updated upstream
   
   // Método para realizar la búsqueda de trips
   searchTrips(searchValue: string): void {
@@ -124,3 +132,22 @@ getAllTrips(): void {
   }
 
 }
+=======
+  isTripDateGreaterThan10Days(tripDate: any): boolean {
+    const tripDateObject = tripDate.toDate();
+
+    // Obtener la fecha actual
+    const today = new Date();
+
+    // Calcular la diferencia en milisegundos entre las fechas
+    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
+
+    // Calcular el número de días
+    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+
+    // Verificar si la diferencia es mayor que 10 días
+    return differenceInDays < 7;
+  }
+
+}
+>>>>>>> Stashed changes

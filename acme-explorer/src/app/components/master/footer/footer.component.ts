@@ -21,5 +21,6 @@ export class FooterComponent implements OnInit {
     }else{
       this.today = dateObject.toLocaleDateString('en-US');
     }
+  this.visitorNumber = Math.floor((Math.random() * 1000000) + 1);
   }
 }
