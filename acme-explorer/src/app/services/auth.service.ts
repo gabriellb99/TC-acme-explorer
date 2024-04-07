@@ -4,6 +4,7 @@ import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Actor } from '../models/actor.model';
 import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
+import { Firestore, collection, doc, getDoc, getDocs, query, where } from '@angular/fire/firestore';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type':'application/json'})
@@ -16,7 +17,7 @@ const httpOptions = {
 export class AuthService {
   private currentActor!: Actor;
   private loginStatus = new Subject<Boolean>();
-  constructor(private auth: Auth, private http: HttpClient) { }
+  constructor(private auth: Auth, private http: HttpClient, private firestore: Firestore) { }
 
   async signUp(actor: Actor){
 
@@ -50,20 +51,42 @@ export class AuthService {
     })
   }
 
+  public getActor(doc: any): Actor {
+    const data = doc.data();
+    let actor = new Actor();
+    actor.name = data['name'];
+    actor.surname = data['surname'];
+    actor.email = data['email'];
+    actor.phone = data['phone'];
+    actor.address = data['address'];
+    actor.role = data['role'];
+    actor.validate = data['validate'];
+    actor.id = doc.id;
+    console.log(actor);
+    return actor;
+  }
+
   async login(email: string, password: string): Promise<any> {
     return new Promise<any>((resolve,reject) => {
       signInWithEmailAndPassword(this.auth, email, password)
       .then(async _ => {
-        const url = environment.backendApiBaseURL + `/actors?email=` + email;
-        const actor = await firstValueFrom(this.http.get<Actor[]>(url));
-        this.currentActor = actor[0];
-        this.loginStatus.next(true);
-        console.log('¡Inicio de sesión exitoso!');
-        resolve(actor);
-      })
+        const actorRef = collection(this.firestore, 'actors');
+        const q = query(actorRef,where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const actorDoc = querySnapshot.docs[0];
+            let actor = this.getActor(actorDoc);
+            this.currentActor = actor;
+            this.loginStatus.next(true);
+        
+          resolve(actor);
+        }else{
+          console.log("No se encontró un actor con ese correo electrónico.");
+        }})
       .catch(err => {
-        console.error('Error al iniciar sesión:', err);
-        reject(err); // Propaga el error para que el componente que llama pueda manejarlo
+        console.error('Error al buscar el actor:', err);
+        reject(err); 
       });
     })
   }

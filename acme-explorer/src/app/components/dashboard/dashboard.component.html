@@ -1,1 +1,80 @@
-<p i18n>dashboard works!</p>
+  <div class="dashboard">
+    <div class="container">
+      <h1 class="mt-4 mb-4">Dashboard</h1>
+      
+      <!-- Sección para información disponible para administradores y managers -->
+      <div *ngIf="checkRole('administrator')" >
+        <!-- Información sobre los viajes por manager -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 i18n class="card-title">Trips per Manager</h5>
+            <ul>
+              <li>Average trips per manager: 10</li>
+              <li>Minimum trips per manager: 5</li>
+              <li>Maximum trips per manager: 20</li>
+              <li>Standard deviation of trips per manager: 3.5</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Información sobre las aplicaciones por viaje -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 i18n class="card-title">Applications per Trip</h5>
+            <ul>
+              <li>Average applications per trip: 15</li>
+              <li>Minimum applications per trip: 10</li>
+              <li>Maximum applications per trip: 30</li>
+              <li>Standard deviation of applications per trip: 5.2</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Información sobre el precio de los viajes -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 i18n class="card-title">Trip Prices</h5>
+            <ul>
+              <li>Average trip price: $500</li>
+              <li>Minimum trip price: $200</li>
+              <li>Maximum trip price: $1000</li>
+              <li>Standard deviation of trip prices: $150</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Información sobre la proporción de aplicaciones por estado -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 i18n class="card-title">Applications Ratio by Status</h5>
+            <ul>
+              <li>Accepted: 30%</li>
+              <li>Pending: 50%</li>
+              <li>Rejected: 20%</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección para información disponible para managers -->
+      <div *ngIf="checkRole('manager')">
+        <!-- Información sobre el rango de precios -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 i18n class="card-title">Average Price Range in Finders</h5>
+            <!-- Contenido -->
+          </div>
+        </div>
+        
+        <!-- Información sobre las palabras clave más utilizadas -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 i18n class="card-title">Top 10 Keywords in Finders</h5>
+            <!-- Contenido -->
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+>>>>>>> Stashed changes

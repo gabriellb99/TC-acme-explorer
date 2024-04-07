@@ -1,0 +1,97 @@
+<div>
+    <button i18n class="btn btn-primary me-2" (click)="navigateToCardView()">Change to card view</button>
+    <hr>
+    <ngx-datatable [rows]="trips"
+    #myTable
+    class="bootstrap-theme"
+    [headerHeight]="40"
+    [footerHeight]="80"
+    [columnMode]="'force'"
+    [limit]="10"
+    [rowHeight]="'auto'"
+    [reorderable]="true"
+    [selectionType]="selectionType"
+    [sorts]="sorts">
+
+ <!--Row Detail-->
+ <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <div style="padding-left:35px;">
+            <div><strong>Trip Requirements</strong></div>
+            <div *ngFor="let requirement of row.requirements">
+                {{ requirement }}
+            </div>
+        </div>
+    </ng-template>
+</ngx-datatable-row-detail>
+
+    <!--Columns-->
+   <ngx-datatable-column [width]="110" [resizeable]="false" [draggable]="false" [sortable]="true"
+        [canAutoResize]="false" i18n-name name="Requirements">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <a href="javascript:void(0)" title="Expand/Collapse row" (click)="toggleExpandRow(row)">
+                <i class="fa-solid fa-table-list"></i>
+            </a>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="Ticker" prop="ticker">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="Title" prop="title">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="Description" prop="description">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="Start" prop="startedAt">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{transformDate(value)}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="Finally" prop="endAt">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{transformDate(value)}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+
+    <ngx-datatable-column i18n-name name="Price" prop="price">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+
+    </ngx-datatable-column>
+<!--hay que poner el if pero cuando se arregle lo de que se mantenga el rol en la sesión
+*ngIf="checkRole('MANAGER')"-->
+    <ngx-datatable-column  i18n-name name="Delete">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button [disabled] = "row.cancelReason">
+                <i class="fa-solid fa-ban"></i>
+            </button>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column i18n-name name="Update">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button [disabled] = "row.cancelReason">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+        </ng-template>
+    </ngx-datatable-column>
+
+    </ngx-datatable>
+</div>

@@ -6,6 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { environment } from "src/environments/environment";
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 
 
 describe('AuthService', () => {
@@ -16,11 +17,22 @@ describe('AuthService', () => {
         TestBed.configureTestingModule({
             providers: [AuthService],
             imports: [HttpClientModule,  provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-                provideAuth(() => getAuth())]
+                provideAuth(() => getAuth()), provideFirestore(() => getFirestore())],
         });
         authService = TestBed.inject(AuthService);
 
-        actor = new Actor('Paula', 'Prueba', 'paula@example.com', 'password123', '689654232', '123 Main St', 'CONSUMER', true);
+        
+        actor = new Actor();
+        actor.name = 'Paula';
+        actor.surname = 'Prueba';
+        actor.email = 'paula@example.com';
+        actor.phone = '689654232';
+        actor.password = 'password123';
+        actor.phone = '689654232';
+        actor.address = '123 Main St';
+        actor.role = 'CONSUMER';
+        actor.validate = true;
+
     });
 
     it('should be created', () => {

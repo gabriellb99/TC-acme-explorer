@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
+  protected today!:string;
+  visitorNumber!: number;
+
   constructor() { }
 
   ngOnInit(): void {
-  }
 
+  let dateObject = new Date(); 
+    const locale = localStorage.getItem('locale');
+    if (locale == 'es'){
+      this.today = dateObject.toLocaleDateString('es-ES');
+    }else{
+      this.today = dateObject.toLocaleDateString('en-US');
+    }
+  }
 }

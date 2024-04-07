@@ -1,8 +1,10 @@
 <div class="breadcrumb">
-    <legend i18n class="text-center">List of Items</legend>
+    <legend class="text-center"><ng-container i18n>List of Trips</ng-container></legend>
 </div>
+<button i18n class="btn btn-primary me-2" (click)="navigateToDatatableView()">Change to datatable view</button>
+<hr>
 <div i18n *ngIf="trips && trips.length === 0">
-    Sorry, no items found
+    Sorry, no trips found
 </div>
 
 <div *ngIf="trips && trips.length > 0" class="row .row-cols-3 row-cols-md-3 g-4">
@@ -12,7 +14,7 @@
         </div>
         <div class="card-body">
             <span class="badge bg-primary">{{trip.price}}</span>
-            <div class="container-fluid text-center" ng-init="advstatus=true">
+            <div class="container-fluid text-center">
                 <ngb-carousel>
                     <ng-template ngbSlide *ngFor="let image of trip.photos">
                         <img [src]="image" class="d-block card-img-top" alt="...">
@@ -21,23 +23,23 @@
             </div>
         </div>
         <details>
-            <summary ng-hide="advstatus">{{trip.description}}
-                <span class="badge bg-light text-dark" ng-click="advstatus=true">
+            <summary>{{trip.description}}
+                <span class="badge bg-light text-dark" (click)="advstatus=true">
                     (...)
                 </span>
             </summary>
             <p class="card-text">{{trip.description | slice:50}}</p>
         </details>
         <div class="card-footer text-center">
-            <a i18n *ngIf="checkRole('ADMINISTRADOR,MANAGER')"
+            <a *ngIf="checkRole('ADMINISTRADOR,MANAGER')"
             routerLink="/trips/{{trip.id}}/edit"
             class="pull-left">
-                <i class="fa fa-pencil" aria-hidden="true">Edit</i>
+                <i class="fa fa-pencil" aria-hidden="true" i18n>Edit</i>
             </a>
-            <a i18n *ngIf="!checkRole('ADMINISTRADOR,MANAGER')"
+            <a *ngIf="!checkRole('ADMINISTRADOR,MANAGER')"
             routerLink="/trips/{{trip.id}}"
             class="pull-left">
-                <i class="fa fa-search-plus" aria-hidden="true">Details</i>
+                <i class="fa fa-search-plus" aria-hidden="true" i18n>Details</i>
             </a>
         </div>
     </div>

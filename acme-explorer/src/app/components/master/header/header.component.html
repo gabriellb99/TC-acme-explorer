@@ -35,9 +35,7 @@
             </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="activeRole === 'sponsor'">
                 <li class="nav-item dropdown">
-                    <a i18n class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sponsorships
-                    </a>
+                    <a i18n class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sponsorships</a>
                     <ul class="dropdown-menu">
                         <li><a i18n class="dropdown-item" href="#">Sponsorships</a></li>
                         <li><a i18n class="dropdown-item" href="#">Payments</a></li>                    
@@ -49,22 +47,22 @@
                 <form class="d-flex" role="search"  (ngSubmit)="onSearch(f)" #f="ngForm">
                     <input id="searchValue" name="searchValue" ngModel class="form-control me-2" type="search" i18n-placeholder placeholder="Search" aria-label="Search">
                     <button i18n class="btn btn-outline-success me-2" type="submit">Search</button>
-                </form>                
+                </form>
                 <button class="btn btn-secondary me-2" (click)="changeLanguage('EN')">EN</button>
                 <button class="btn btn-secondary me-2" (click)="changeLanguage('EN')">ES</button>
             </div>
 
             <ul class="navbar-nav mb-2 mb-lg-0" style="margin-left: auto;">
                 <li class="nav-item" *ngIf="!currentActor">
-                    <a i18n class="nav-link active" aria-current="page" routerLink="/register">
+                    <a class="nav-link active" aria-current="page" routerLink="/register">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
-                        Register
+                        <ng-container i18n> Register</ng-container>
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="!currentActor">
-                    <a i18n class="nav-link active" routerLink="/login">
+                    <a class="nav-link active" routerLink="/login">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>
-                        Login
+                        <ng-container i18n> Login</ng-container>
                     </a>
                 </li>
             </ul>
@@ -81,6 +79,6 @@
     </div>
 </nav>
 <div [@logoutAnimation]="logoutAnimationState" class="logout-popup">
-    <p i18n >¡Te esperamos en tu próxima aventura!<a (click)="cerrarAnimacion()"><i class="fa fa-window-close" style="margin-left: 2%;" aria-hidden="true"></i></a></p>
+    <p><ng-container i18n>We are waiting for you on your next adventure!</ng-container><a (click)="cerrarAnimacion()"><i class="fa fa-window-close" style="margin-left: 2%;" aria-hidden="true"></i></a></p>
 </div>
   

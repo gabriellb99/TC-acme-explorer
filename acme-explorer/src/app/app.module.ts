@@ -27,6 +27,11 @@ import { PaymentComponent } from './components/trip/payment/payment.component';
 import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
+import { I18nModule } from './i18n.module';
+import { MessageComponent } from './components/master/message/message.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -43,10 +48,13 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
     ApplyComponent,
     StageComponent,
     PaymentComponent,
-    DeniedAccessComponent
+    DeniedAccessComponent,
+    TripTableComponent,
+    MessageComponent
   ],
   imports: [
     NgbCarouselModule,
+    NgxDatatableModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -55,12 +63,13 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    CommonModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
 
   ],
-  providers: [AuthService],
+  providers: [AuthService, I18nModule.setLocale(), I18nModule.setLocaleId()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

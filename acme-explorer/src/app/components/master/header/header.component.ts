@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Actor } from 'src/app/models/actor.model';
+import { $localize } from '@angular/localize/init';
+import { SearchService } from 'src/app/services/search.service'; // Importar el servicio de búsqueda
+import { TripService } from 'src/app/services/trip.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TripService } from 'src/app/services/trip.service';
 
 @Component({
   selector: 'app-header',
@@ -59,9 +61,10 @@ export class HeaderComponent implements OnInit {
 
   async logout() {
     try {
+      //let msg = $localize `Logging out`;
       await this.authService.logout();
       this.logoutAnimationState = 'open';
-      console.log("Logout Completo");
+      console.log("Logging out");
     } catch (error) {
       console.error(error);
     }
@@ -71,8 +74,9 @@ export class HeaderComponent implements OnInit {
     this.logoutAnimationState = 'closed'; // Cambia el estado para cerrar la animación
   }
 
-  changeLanguage(language: String) {
-    
+  changeLanguage(language: string) {
+    localStorage.setItem('locale', language);
+    location.reload();
   }
 
 

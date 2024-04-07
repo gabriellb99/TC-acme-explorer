@@ -21,8 +21,9 @@ export class ActorRoleGuard {
           const expectedRole = route.data['expectedRole'];
           const currentActor = this.authService.getCurrentActor();
           let result = false;
-          if(currentActor){
+          if(currentActor){            
             const activeRole = new RegExp(currentActor.role.toString(), 'i');
+            console.log ("activeRole:" + activeRole + " ,expectedRole: " + expectedRole);
             if(expectedRole.search(activeRole) !== -1) {
               result = true;
             }else{

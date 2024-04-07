@@ -78,6 +78,18 @@
             "address": "C/Sol",
             "role": "Sponsor",
             "validate": true
+        },        {
+            "id": "sugui27688292",
+            "version": 0,
+            "name": "Maria Jose",
+            "surname": "castro perez",
+            "email": "mjcastroperez@gmail.com",
+            "password": "mjcastro",
+            "phone": "666777909",
+            "address": "C/Sol",
+            "role": "Administrator",
+            "validate": true
         }
+
     ]
 }

@@ -108,6 +108,11 @@ getAllTrips(): void {
     this.router.navigate(['/trips/new']);
   }
 
+  navigateToDatatableView(){
+    this.router.navigate(['/trips/dt'])
+  }
+
+  
   // Método para realizar la búsqueda de trips
   searchTrips(searchValue: string): void {
     // Llamar al método searchTrips del servicio de trips para buscar trips
@@ -117,4 +122,5 @@ getAllTrips(): void {
       console.error("Error al buscar trips:", error);
     });
   }
+
 }
