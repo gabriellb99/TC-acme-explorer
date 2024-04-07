@@ -40,11 +40,8 @@ export class TripListComponent implements OnInit, OnDestroy {
     this.tripService.getAllAvailableTrips()
     .then((trips: Trip[]) => {
       this.trips = trips;
-<<<<<<< Updated upstream
       // Manejar los datos de los viajes aquí
       console.log('getAllAvailableTrips:', trips);
-=======
->>>>>>> Stashed changes
     })
     .catch((error) => {
       // Manejar errores aquí
