@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Timestamp } from 'firebase/firestore';
 import { Trip } from 'src/app/models/trip.model';
 import { TripService } from 'src/app/services/trip.service';
 
@@ -14,7 +13,7 @@ export class TripDisplayComponent implements OnInit {
   public trip!: Trip;
   public id!: string;
   countdownInterval: any;
-  tripDateCountdown!: any;
+  tripCountdown!: any;
 
   constructor(private tripService: TripService, private router: Router, private route: ActivatedRoute) {
     this.id = '0';
@@ -38,38 +37,43 @@ export class TripDisplayComponent implements OnInit {
   }
 
   startCountdown(): void {
-    const targetDate = new Date(this.trip.startedAt).getTime();
-    console.log(targetDate)
+    let dateStart:any = this.trip.startedAt;
+    let segundos = dateStart.seconds;
+    const date = new Date(segundos * 1000).getTime();
 
     this.countdownInterval = setInterval(() => {
       const now = new Date().getTime();
-      const distance = targetDate - now;
+      const distance = date - now;
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-      let msg= $localize `left`
-      this.tripDateCountdown = `${days}d ${hours}h ${minutes}m` + msg;
+
+      this.tripCountdown = `${days}d ${hours}h ${minutes}m`;
 
       if (distance < 0) {
         clearInterval(this.countdownInterval);
-        this.tripDateCountdown = $localize `Trip has started`;
+        this.tripCountdown = $localize `Trip has started`;
       }
     }, 1000);
 
   }
 
+  ngOnDestroy(): void {
+    clearInterval(this.countdownInterval);
+  }
 
-  transformDate(timestamp: Date): string {
-    let date = new Date(timestamp);
+
+  transformDate(timestamp: any): string {
+    let segundos = timestamp.seconds;
+    let date = new Date(segundos * 1000);
     const locale = localStorage.getItem('locale');
     if (locale == 'es'){
       return date.toLocaleDateString('es-ES');
     }else{
       return date.toLocaleDateString('en-US');
     }
-   
   }
 
  getRequirements() {

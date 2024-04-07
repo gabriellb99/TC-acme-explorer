@@ -1,0 +1,6 @@
+.contador {
+    font-size: 24px; /* Tamaño de fuente grande para resaltar */
+    color: #007bff; /* Color azul para destacar */
+    margin-top: 10px; /* Espacio superior */
+    font-weight: bold; /* Texto en negrita */
+}
