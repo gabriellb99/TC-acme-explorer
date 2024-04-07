@@ -111,12 +111,9 @@ export class TripTableComponent implements OnInit {
 
     // Calcular el número de días
     const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-    console.log(differenceInDays)
-
     if (Math.floor(differenceInDays) < 7){
       return 'row-highlight';
     }else{
-      console.log('entra aqui')
       return '';
     }
   }
