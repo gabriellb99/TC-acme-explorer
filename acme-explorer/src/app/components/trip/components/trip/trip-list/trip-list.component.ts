@@ -6,11 +6,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../../../../services/auth.service';
 import { Actor } from 'src/app/models/actor.model';
 import { Router } from '@angular/router';
-<<<<<<< Updated upstream
 import { SearchService } from 'src/app/services/search.service'; // Importar el servicio de búsqueda
-=======
 import { Timestamp } from 'firebase/firestore';
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-trip-list',
@@ -119,7 +116,6 @@ getAllTrips(): void {
     this.router.navigate(['/trips/dt'])
   }
 
-<<<<<<< Updated upstream
   
   // Método para realizar la búsqueda de trips
   searchTrips(searchValue: string): void {
@@ -131,8 +127,7 @@ getAllTrips(): void {
     });
   }
 
-}
-=======
+
   isTripDateGreaterThan10Days(tripDate: any): boolean {
     const tripDateObject = tripDate.toDate();
 
@@ -150,4 +145,3 @@ getAllTrips(): void {
   }
 
 }
->>>>>>> Stashed changes
