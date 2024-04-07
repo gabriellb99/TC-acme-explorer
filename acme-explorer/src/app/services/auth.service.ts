@@ -119,6 +119,7 @@ export class AuthService {
     } else {
       result = roles.indexOf('ANONYMOUS') !== -1;
     }
+    console.log(result);
     return result;
   }
   

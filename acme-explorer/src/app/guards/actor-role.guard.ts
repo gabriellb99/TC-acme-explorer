@@ -22,7 +22,7 @@ export class ActorRoleGuard {
           const currentActor = this.authService.getCurrentActor();
           let result = false;
           if(currentActor){            
-            const activeRole = new RegExp(currentActor.role.toString(), 'i');
+            const activeRole = new RegExp(currentActor.role.toString().toLocaleLowerCase(), 'i');
             console.log ("activeRole:" + activeRole + " ,expectedRole: " + expectedRole);
             if(expectedRole.search(activeRole) !== -1) {
               result = true;
