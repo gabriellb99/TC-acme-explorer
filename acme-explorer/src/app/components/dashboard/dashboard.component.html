@@ -3,7 +3,7 @@
       <h1 class="mt-4 mb-4">Dashboard</h1>
       
       <!-- Sección para información disponible para administradores y managers -->
-      <div *ngIf="checkRole('administrator')" >
+      <div *ngIf="checkRole('ADMINISTRATOR,MANAGER')">
         <!-- Información sobre los viajes por manager -->
         <div class="card mb-4">
           <div class="card-body">
@@ -57,7 +57,7 @@
       </div>
 
       <!-- Sección para información disponible para managers -->
-      <div *ngIf="checkRole('manager')">
+      <div *ngIf="checkRole('MANAGER')">
         <!-- Información sobre el rango de precios -->
         <div class="card mb-4">
           <div class="card-body">
@@ -77,4 +77,3 @@
       
     </div>
   </div>
->>>>>>> Stashed changes
