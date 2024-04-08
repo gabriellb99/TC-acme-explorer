@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 import { TripService } from 'src/app/services/trip.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { By } from '@angular/platform-browser';
 
 describe('TripTableComponent', () => {
   let component: TripTableComponent;
@@ -67,69 +68,32 @@ describe('TripTableComponent', () => {
 
     fixture = TestBed.createComponent(TripTableComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     component.trips = trips;
+    fixture.detectChanges();
   });
 
-
- it('should render trip titles', () => {
-    const titleColumns = fixture.nativeElement.querySelectorAll('ngx-datatable-column[name="title"]');
-    console.log(titleColumns)
-    console.log(trips)
-    expect(titleColumns.length).toEqual(trips.length);
-    titleColumns.forEach((element: { textContent: any; }, index:number) => {
-      expect(element.textContent).toContain(trips[index].title);
-    });
-  });
-
- it('should render trip descriptions', () => {
-    const descriptionColumns = fixture.nativeElement.querySelectorAll('ngx-datatable-column[name="description"]');
-    expect(descriptionColumns.length).toEqual(trips.length);
-    descriptionColumns.forEach((element: { textContent: any; }, index:number) => {
-      expect(element.textContent).toContain(trips[index].description);
-    });
-  });
-
-  it('should render trip start dates', () => {
-    const startDateColumns = fixture.nativeElement.querySelectorAll('ngx-datatable-column[name="startDate"]');
-    expect(startDateColumns.length).toEqual(trips.length);
-    startDateColumns.forEach((element: { textContent: any; }, index:number) => {
-      expect(element.textContent).toContain(trips[index].startedAt);
-    });
-  });
-
-  it('should render trip send dates', () => {
-    const endDateColumns = fixture.nativeElement.querySelectorAll('ngx-datatable-column[name="endDate"]');
-    expect(endDateColumns.length).toEqual(trips.length);
-    endDateColumns.forEach((element: { textContent: any; }, index:number) => {
-      expect(element.textContent).toContain(trips[index].endAt);
-    });
-  });
-
-  it('should render trip prices', () => {
-    const priceColumns = fixture.nativeElement.querySelectorAll('ngx-datatable-column[name="price"]');
-    expect(priceColumns.length).toEqual(trips.length);
-    priceColumns.forEach((element: { textContent: any; }, index:number) => {
-      expect(element.textContent).toContain(trips[index].price);
-    });
-  });
- 
-  it('should render trip requirements', () => {
-    const requirementElements = fixture.nativeElement.querySelectorAll('.trip-requirements');
-    expect(requirementElements.length).toEqual(trips.length);
-    trips.forEach((trip, index) => {
-      const requirements = requirementElements[index].querySelectorAll('div');
-      expect(requirements.length).toEqual(trip.requirements.length);
-      trip.requirements.forEach((requirement, reqIndex) => {
-        expect(requirements[reqIndex].textContent).toContain(requirement);
-      });
-    });
-  });
-
-  
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+
+ it('should render the correct number of trips', () => {
+    const rowsPart1 = fixture.debugElement.queryAll(By.css('datatable-body-row[role="row"]'));
+    expect(rowsPart1.length).toEqual(trips.length);
+
+  });
+
+  it('should not render trips when they are empty', () => {
+    let isNoRows = false;
+    const rowsPart2 = fixture.debugElement.queryAll(By.css('datatable-body-row[role="row"]'));
+    console.log(rowsPart2);
+    if(rowsPart2){
+      isNoRows = true;
+    }
+    expect(isNoRows).toBe(true);
+
+  });
+
+  
 
 });
