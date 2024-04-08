@@ -6,6 +6,7 @@ import { ActivatedRouteStub } from '../../shared/activatedroute-stub';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { Timestamp } from '@angular/fire/firestore';
 
 
 describe('TripDisplayComponent', () => {
@@ -25,8 +26,8 @@ describe('TripDisplayComponent', () => {
     trip.description = 'Gran viaje a un sitio paradisiaco';
     trip.price = 123;
     trip.requirements = ['Llevar crema solar', 'Pasarlo bien', 'Tomar mucho el sol'];
-    trip.startedAt = new Date('2024-03-15');
-    trip.endAt = new Date('2024-03-25');
+    trip.startedAt = Timestamp.fromDate(new Date('2024-03-15'));
+    trip.endAt = Timestamp.fromDate(new Date('2024-03-25'));
     trip.cancelReason = '';
     trip.photos = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuwFKwx9FE8D82cONDRPwYuj-xNSjVmyJfDw&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5fUUe6vXn77s-W1HET2YT3fRdOJib3xwDA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZhlSPtMtO3cMwY88jGt--dTKhVGdj9Pyrw&usqp=CAU'];
   

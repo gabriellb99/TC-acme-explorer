@@ -1,3 +1,4 @@
+import { Timestamp } from "@angular/fire/firestore";
 import { Entity } from "./entity.model";
 export class Trip extends Entity{
 
@@ -29,18 +30,18 @@ export class Trip extends Entity{
     public set cancelReason(value: string) {
         this._cancelReason = value;
     }
-    private _startedAt!: Date;
-    public get startedAt(): Date {
+    private _startedAt!: Timestamp;
+    public get startedAt(): Timestamp {
         return this._startedAt;
     }
-    public set startedAt(value: Date) {
+    public set startedAt(value: Timestamp) {
         this._startedAt = value;
     }
-    private _endAt!: Date;
-    public get endAt(): Date {
+    private _endAt!: Timestamp;
+    public get endAt(): Timestamp {
         return this._endAt;
     }
-    public set endAt(value: Date) {
+    public set endAt(value: Timestamp) {
         this._endAt = value;
     }
     private _photos!: string[];

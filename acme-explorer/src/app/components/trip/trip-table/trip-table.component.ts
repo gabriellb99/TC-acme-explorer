@@ -33,23 +33,14 @@ export class TripTableComponent implements OnInit {
 
   constructor(private authService: AuthService, private tripService: TripService, private router: Router, private messageService: MessageService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.currentActor = this.authService.getCurrentActor()
     //Si es un manager se muestran todos sus viajes 
     if(this.currentActor != null && this.currentActor.role === "Manager"){
       //hay un metodo en el trip.service pero no me sale
     }else{
         //si es un explorer se muestran todos los viajes disponibles
-      this.tripService.getAllAvailableTrips()
-      .then((trips: Trip[]) => {
-        this.trips = trips;
-        // Manejar los datos de los viajes aquí
-        //console.log('Trips:', trips);
-      })
-      .catch((error) => {
-        // Manejar errores aquí
-        console.error('Error fetching trips:', error);
-      });
+      this.trips = await this.tripService.getAllAvailableTrips(); 
     }
   
   }
