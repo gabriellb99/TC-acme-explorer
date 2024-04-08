@@ -12,6 +12,7 @@ import { ApplyComponent } from './components/trip/apply/apply.component';
 import { PaymentComponent } from './components/trip/payment/payment.component';
 import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
 import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
+import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-table/sponsor-table.component';
 
 const routes: Routes = [
 {path: 'login', component: LoginComponent,
@@ -38,6 +39,7 @@ const routes: Routes = [
 {path: 'applies', component: ApplyComponent},
 {path: 'payments', component: PaymentComponent},
 
+{path: 'sponsorships', component: SponsorTableComponent},
 
 {path: 'denied-access', component: DeniedAccessComponent},
 {path: '', redirectTo: '/trips', pathMatch: 'full'},
