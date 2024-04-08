@@ -1,0 +1,35 @@
+<div class="container">
+    <h1 i18n class="text-center">My sponsorships</h1>
+    <ngb-accordion #acc="ngbAccordion" activeIds="sponsors">
+
+      <ngb-panel id="mySponsors">
+        <ng-template ngbPanelTitle>
+          <span i18n>Sponsorship </span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4" *ngFor="let sponsor of sponsors">
+                <div class="card mb-3">
+                  <div class="card-header">{{ sponsor.url }}</div>
+                  <div class="card-body" style="background-color: #eed6d8">
+                    <h5 class="card-title">
+                      <ng-container i18n>Additional info</ng-container>
+                      {{ sponsor.linkAddInfo }}
+                    </h5>                      
+                    <p class="card-text"><ng-container i18n>FlatRate:</ng-container> {{ sponsor.flatRate }}</p>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+  
+      
+     
+    </ngb-accordion>
+  </div>
+  
+  
