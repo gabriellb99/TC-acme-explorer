@@ -77,6 +77,7 @@ export class AuthService {
             const actorDoc = querySnapshot.docs[0];
             let actor = this.getActor(actorDoc);
             this.currentActor = actor;
+            //guardar actor en sesionStorage
             this.loginStatus.next(true);
         
           resolve(actor);

@@ -33,19 +33,10 @@ export class ApplyComponent implements OnInit {
    
   }
 
-  getAllApplications(): void {
-    this.applyService.getAllApplications()
-      .then((applications: Application[]) => {
-        this.applications = applications; 
+  async getAllApplications(): Promise<void> {
+    this.applications = await this.applyService.getAllApplications(); 
         console.log("service-getAllApplications:" , this.applications.length);    
-        
-      })
-      .catch((error) => {
-        // Manejar errores aquí
-        console.error('Error fetching trips:', error);
-      });
   }
-
 
 }
 
