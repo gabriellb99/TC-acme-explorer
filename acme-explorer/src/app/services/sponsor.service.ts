@@ -19,8 +19,8 @@ export class SponsorService {
   constructor(private firestore: Firestore) {} 
 
   async getAllSponsors(): Promise<Sponsor[]> {
-    const applicationRef = collection(this.firestore, 'sponsors');    
-    const q = query(applicationRef,where("flatRate", ">=", "0"));
+    const sponsorRef = collection(this.firestore, 'sponsorships');    
+    const q = query(sponsorRef,where("flatRate", ">=",0));
     
     const querySnapshot = await getDocs(q);
     //console.log(querySnapshot);
@@ -28,8 +28,8 @@ export class SponsorService {
     const sponsors: Sponsor[] = [];
     querySnapshot.forEach((doc) => {
       console.log(doc)
-      let application = this.getSponsor(doc);
-      sponsors.push(application);
+      let sponsor = this.getSponsor(doc);
+      sponsors.push(sponsor);
     });
 
     console.log(sponsors);
