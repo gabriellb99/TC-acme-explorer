@@ -62,7 +62,6 @@ export class AuthService {
     actor.role = data['role'];
     actor.validate = data['validate'];
     actor.id = doc.id;
-    console.log(actor);
     return actor;
   }
 
@@ -119,7 +118,6 @@ export class AuthService {
     } else {
       result = roles.indexOf('ANONYMOUS') !== -1;
     }
-    console.log(result);
     return result;
   }
   

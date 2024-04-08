@@ -22,7 +22,6 @@ export class TripService {
   
     const trips: Trip[] = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc)
       let trip = this.getTrip(doc);
       trips.push(trip);
     });
@@ -82,11 +81,10 @@ export class TripService {
     trip.requirements = data['requirements'];
     trip.photos = data['photos'];
     trip.id = doc.id;
-    console.log(trip);
     return trip;
   }
 
- getTripById(tripId: string): Observable<Trip | null> {  
+  getTripById(tripId: string): Observable<Trip | null> {  
     return new Observable<Trip | null>(observer => {
       try {
           const tripRef = collection(this.firestore, 'trips');
@@ -111,6 +109,34 @@ export class TripService {
   
   }
 
+  getStagesByTripId(tripId: string): Observable<any[]> {
+    return new Observable<any[]>(observer => {
+      try {
+        const tripRef = collection(this.firestore, 'trips');
+        const docRef = doc(tripRef, tripId);
+  
+        // Acceder a la colección "stages" dentro del viaje
+        const stagesRef = collection(docRef, 'stages');
+  
+        // Obtener todos los documentos de la colección "stages"
+        getDocs(stagesRef).then(stagesSnapshot => {
+          let stages: any[] = [];
+          stagesSnapshot.forEach(stageDoc => {
+            stages.push(stageDoc.data());
+          });
+  
+          observer.next(stages);
+          observer.complete();
+        }).catch(err => {
+          console.error('Error al obtener los stages:', err);
+          observer.error(err);
+        });
+      } catch (error) {
+        console.error('Error general:', error);
+        observer.error(error);
+      }
+    });
+  }
 
 async searchTrips(searchValue: string): Promise<Trip[]> {
 

@@ -1,20 +1,20 @@
 <div class="card mx-auto mt-4" style="width: 18rem;">
     <div class="card-body mb-2">
-      <h5 class="card-title text-center">{{trip.title}}</h5>
-      <h5 class="card-title text-center contador">{{ tripCountdown }}</h5>
-      <h5 class="card-title text-center">{{trip.ticker}}</h5>
-      <p class="card-text ml-2 text-center">{{trip.description}}</p>
+        <h5 class="card-title text-center">{{ trip.title }}</h5>
+        <h5 class="card-title text-center contador">{{ tripCountdown }}</h5>
+        <h5 class="card-title text-center">{{ trip.ticker }}</h5>
+        <p class="card-text ml-2 text-center">{{ trip.description }}</p>
     </div>
     <div class="card-body mb-2 text-center">
         <div class="mb-3">
-            <p class="card-text" style="font-size:20px"><strong i18n>Price: </strong>&nbsp;{{trip.price}}{{'EUR'}}</p>
+            <p class="card-text" style="font-size:20px"><strong i18n>Price: </strong>&nbsp;{{ trip.price }}{{ 'EUR' }}</p>
         </div>
         <div class="row justify-content-center">
             <div class="col">
-                <p class="card-text ml-2"><strong i18n>Start Date: </strong><br>{{transformDate(trip.startedAt)}}</p>
+                <p class="card-text ml-2"><strong i18n>Start Date: </strong><br>{{ transformDate(trip.startedAt) }}</p>
             </div>
             <div class="col">
-                <p class="card-text ml-2"><strong i18n>End Date: </strong><br>{{transformDate(trip.endAt)}}</p>
+                <p class="card-text ml-2"><strong i18n>End Date: </strong><br>{{ transformDate(trip.endAt) }}</p>
             </div>
         </div>
     </div>
@@ -23,18 +23,21 @@
             <h6 class="card-text ml-2 mb-1"><strong i18n>Requirements:</strong></h6>
             <ul>
                 <li *ngFor="let item of trip.requirements;">
-                    <p class="card-text ml-2">{{item}}</p>
+                    <p class="card-text ml-2">{{ item }}</p>
                 </li>
             </ul>
         </li>
     </ul>
     <div class="card-body">
-        <h6 class="card-title text-center mb-4"><strong i18n>Galery</strong></h6>
-        
+        <h6 class="card-title text-center mb-4"><strong i18n>Gallery</strong></h6>
         <ngb-carousel>
             <ng-template ngbSlide *ngFor="let image of trip.photos">
                 <img [src]="image" class="d-block w-100" alt="...">
             </ng-template>
         </ngb-carousel>
+    </div>
+    <div class="card-body text-center">
+        <button class="btn btn-primary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="btn btn-warning ml-2" (click)="goToStages()"><i class="fas fa-route"></i> Stages</button>
     </div>
 </div>

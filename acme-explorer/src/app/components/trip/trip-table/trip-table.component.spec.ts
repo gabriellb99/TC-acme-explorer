@@ -72,11 +72,10 @@ describe('TripTableComponent', () => {
   });
 
 
-  it('should render trip titles', () => {
-    expect(fixture.nativeElement).toBeTruthy();
-    console.log(fixture.nativeElement);
-    const titleColumns = fixture.debugElement.nativeElement.querySelector('ngx-datatable-body');
+ it('should render trip titles', () => {
+    const titleColumns = fixture.nativeElement.querySelectorAll('ngx-datatable-column[name="title"]');
     console.log(titleColumns)
+    console.log(trips)
     expect(titleColumns.length).toEqual(trips.length);
     titleColumns.forEach((element: { textContent: any; }, index:number) => {
       expect(element.textContent).toContain(trips[index].title);

@@ -83,7 +83,7 @@ getAllTrips(): void {
     .then((trips: Trip[]) => {
       this.trips = trips;
       // Manejar los datos de los viajes aquí
-      console.log('getAllAvailableTrips:', trips);
+      //console.log('getAllAvailableTrips:', trips);
     })
     .catch((error) => {
       // Manejar errores aquí
