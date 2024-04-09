@@ -3,6 +3,13 @@ import { Firestore, collection, query, where, getDocs, doc, getDoc } from '@angu
 import { Trip } from '../models/trip.model';
 import { Observable, forkJoin } from 'rxjs';
 import { observeInsideAngular } from '@angular/fire';
+import { HttpHeaders } from '@angular/common/http';
+
+const httpOptions ={
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+}
 
 @Injectable({
   providedIn: 'root'

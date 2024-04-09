@@ -13,6 +13,8 @@ import { PaymentComponent } from './components/trip/payment/payment.component';
 import { DeniedAccessComponent } from './components/shared/denied-access/denied-access.component';
 import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
 import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-table/sponsor-table.component';
+import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
+
 
 const routes: Routes = [
 {path: 'login', component: LoginComponent,
@@ -28,6 +30,7 @@ const routes: Routes = [
   canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
 
 {path: 'trips', children:[
+  {path: 'new', component: TripFormComponent},
   {path: 'dt', component: TripTableComponent},
   {path: ':id/stages', component: StageComponent},
   {path: ':id', component: TripDisplayComponent},

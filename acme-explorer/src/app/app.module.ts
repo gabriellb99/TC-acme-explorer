@@ -33,6 +33,7 @@ import { I18nModule } from './i18n.module';
 import { MessageComponent } from './components/master/message/message.component';
 import { CommonModule } from '@angular/common';
 import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-table/sponsor-table.component';
+import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-tabl
     DeniedAccessComponent,
     TripTableComponent,
     MessageComponent,
-    SponsorTableComponent
+    SponsorTableComponent,
+    TripFormComponent
   ],
   imports: [
     NgbCarouselModule,

@@ -1,0 +1,16 @@
+<h5>New Trip</h5>
+<form [formGroup]="newTripForm" (ngSubmit)="onSubmit()">
+
+    <label class="center-block" i18n>Title</label>
+    <input class="form-control" formControlName="title">
+
+    <label class="center-block" i18n>Description</label>
+    <input class="form-control" formControlName="description">
+
+    <label class="center-block" i18n>Started At</label>
+    <input type="date" class="form-control" formControlName="startedAt">
+    
+    
+
+    <button type="submit" class="btn btn-success" i18n>Save</button>
+</form>
