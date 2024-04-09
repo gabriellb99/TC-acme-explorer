@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormValidation } from 'src/app/models/form-validation';
 
 
 @Component({
@@ -9,23 +10,26 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent  implements FormValidation{
 
   registrationForm!: FormGroup;
   roleList: string [];
+  private formSubmitted = false;
+  isFormValid = () => this.formSubmitted || !this.registrationForm?.dirty
 
-  constructor(private authService: AuthService,
+  constructor(private route: ActivatedRoute, private authService: AuthService,
     private fb: FormBuilder, private router: Router) { 
       this.roleList = this.authService.getRoles();
       this.createForm();
     }
 
+
   createForm(){
     this.registrationForm = this.fb.group({
-      name: [''],
-      surname: [''],
-      email: [''],
-      password: [''],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       phone: [''],
       address: [''],
       role: [''],
@@ -34,6 +38,7 @@ export class RegisterComponent {
   }
    
   async onRegister() {
+    this.formSubmitted = true;
     try {
       const response = await this.authService.signUp(this.registrationForm.value);
       this.router.navigate(["/"]);

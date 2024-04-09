@@ -14,6 +14,7 @@ import { DeniedAccessComponent } from './components/shared/denied-access/denied-
 import { TripTableComponent } from './components/trip/trip-table/trip-table.component';
 import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-table/sponsor-table.component';
 import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
+import { LeaveFormGuard } from './guards/leave-form.guard';
 
 
 const routes: Routes = [
@@ -27,7 +28,8 @@ const routes: Routes = [
 },
 
 {path: 'register', component: RegisterComponent,
-  canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'}},
+  canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'},
+  canDeactivate: [LeaveFormGuard]},
 
 {path: 'trips', children:[
   {path: 'new', component: TripFormComponent},
