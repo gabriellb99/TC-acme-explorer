@@ -34,4 +34,12 @@ export class MessageComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
+  closeAlert() {
+    this.messageService.getMessage().subscribe(
+      (data:InfoMessage | null) => {
+       this.showMessage = false;
+      }
+    )
+  }
+
 }

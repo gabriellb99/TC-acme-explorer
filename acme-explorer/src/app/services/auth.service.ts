@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Actor } from '../models/actor.model';
 import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import { Firestore, collection, doc, getDoc, getDocs, query, where } from '@angular/fire/firestore';
+import { MessageService } from 'src/app/services/message.service';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type':'application/json'})
@@ -17,7 +18,7 @@ const httpOptions = {
 export class AuthService {
   private currentActor!: Actor;
   private loginStatus = new Subject<Boolean>();
-  constructor(private auth: Auth, private http: HttpClient, private firestore: Firestore) { }
+  constructor(private auth: Auth, private http: HttpClient, private firestore: Firestore, private messageService: MessageService) { }
 
   async signUp(actor: Actor){
 
@@ -41,6 +42,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) =>{
       signOut(this.auth)
       .then(response =>{
+        this.setCurrentActor();
         this.loginStatus.next(false)
         console.log('¡Ha cerrado sesión correctamente en Firebase!', response);
         resolve(response);
@@ -78,8 +80,9 @@ export class AuthService {
             let actor = this.getActor(actorDoc);
             this.currentActor = actor;
             //guardar actor en sesionStorage
+            this.setCurrentActor(actor);
             this.loginStatus.next(true);
-        
+            this.messageService.notifyMessage('', 'alert alert-danger');
           resolve(actor);
         }else{
           console.log("No se encontró un actor con ese correo electrónico.");
@@ -89,6 +92,32 @@ export class AuthService {
         reject(err); 
       });
     })
+  }
+
+  setCurrentActor(actor?: Actor){
+    if(actor){
+      localStorage.setItem('currentActor', JSON.stringify({
+        id: actor.id,
+        name: actor.name,
+        surname: actor.surname,
+        role: actor.role
+      }))
+    } else {
+      localStorage.removeItem('currentActor');
+    }
+  }
+
+  getCurrentActor(): Actor{
+    let result = null;
+    const currentActor = localStorage.getItem('currentActor');
+    if(currentActor){
+      result = JSON.parse(currentActor);
+      this.currentActor = result;
+    } else {
+      let message = $localize `User mode is anonymous`;
+      this.messageService.notifyMessage(message, 'alert alert-warning');
+    }
+    return result;
   }
 
   async deleteCurrentUser(): Promise<void> {
@@ -104,18 +133,19 @@ export class AuthService {
     }
   }
 
-  getCurrentActor(): Actor {
-    return this.currentActor;
-  }
-
   getStatus(): Observable<Boolean>{
     return this.loginStatus.asObservable();
   }
 
   checkRole(roles: string): boolean{
     let result = false;
-    if(this.currentActor){
-      result = roles.indexOf(this.currentActor.role.toString().toUpperCase()) !== -1; 
+    const currentActor = this.getCurrentActor();
+    if(currentActor){
+      if(roles.indexOf(currentActor.role.toString().toUpperCase()) !== -1){
+        result = true;
+      }else{
+        result = false;
+      } 
     } else {
       result = roles.indexOf('ANONYMOUS') !== -1;
     }

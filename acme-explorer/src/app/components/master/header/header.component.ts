@@ -43,7 +43,15 @@ export class HeaderComponent implements OnInit {
   
   //constructor(private authService: AuthService){ }
 
-  constructor(private authService:AuthService, private tripService: TripService, private router: Router, private route: ActivatedRoute, private searchService: SearchService) {}
+  constructor(private authService:AuthService, private tripService: TripService, private router: Router, private route: ActivatedRoute, private searchService: SearchService) {
+    this.currentActor = this.authService.getCurrentActor();
+    console.log(this.currentActor);
+    if(this.currentActor == null){
+      this.activeRole = 'anonymous';
+    } else {
+      this.activeRole = this.currentActor.role.toString().toLowerCase();
+    }
+  }
 
 
   ngOnInit(): void {
@@ -51,6 +59,7 @@ export class HeaderComponent implements OnInit {
       if(loggedIn){
         this.currentActor = this.authService.getCurrentActor();
         this.activeRole = this.currentActor.role.toString().toLowerCase();
+        console.log(this.currentActor);
       }else{
         this.activeRole = 'anonymous';
         this.currentActor = undefined;
@@ -63,6 +72,8 @@ export class HeaderComponent implements OnInit {
     try {
       //let msg = $localize `Logging out`;
       await this.authService.logout();
+      this.activeRole = 'anonymous';
+      this.currentActor = undefined;
       this.logoutAnimationState = 'open';
       console.log("Logging out");
     } catch (error) {
