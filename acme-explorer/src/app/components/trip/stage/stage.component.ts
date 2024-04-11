@@ -34,4 +34,8 @@ export class StageComponent implements OnInit {
      });
   }
 
+  goBack() {
+    this.router.navigate(['/trips/' + this.id]);
+  }
+
 }

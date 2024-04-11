@@ -45,7 +45,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService:AuthService, private tripService: TripService, private router: Router, private route: ActivatedRoute, private searchService: SearchService) {
     this.currentActor = this.authService.getCurrentActor();
-    console.log(this.currentActor);
     if(this.currentActor == null){
       this.activeRole = 'anonymous';
     } else {
@@ -59,7 +58,6 @@ export class HeaderComponent implements OnInit {
       if(loggedIn){
         this.currentActor = this.authService.getCurrentActor();
         this.activeRole = this.currentActor.role.toString().toLowerCase();
-        console.log(this.currentActor);
       }else{
         this.activeRole = 'anonymous';
         this.currentActor = undefined;

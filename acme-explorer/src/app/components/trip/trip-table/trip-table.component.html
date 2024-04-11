@@ -79,14 +79,14 @@
         </ngx-datatable-column>
     <!--hay que poner el if pero cuando se arregle lo de que se mantenga el rol en la sesión
     *ngIf="checkRole('MANAGER')"-->
-        <ngx-datatable-column  i18n-name name="Delete">
+        <ngx-datatable-column *ngIf="checkRole('MANAGER')"  i18n-name name="Delete">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 <button [disabled] = "row.cancelReason" >
                     <i class="fa-solid fa-ban"></i>
                 </button>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column i18n-name name="Update">
+        <ngx-datatable-column *ngIf="checkRole('MANAGER')" i18n-name name="Update">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 <button [disabled] = "row.cancelReason" >
                     <i class="fas fa-pencil-alt"></i>
