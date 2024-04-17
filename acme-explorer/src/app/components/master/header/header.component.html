@@ -18,6 +18,7 @@
                         <li><a i18n class="dropdown-item" routerLink="/applies">Applies</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/payments">Payments</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/sponsorships">Sponsorships</a></li>
+                        <li *ngIf="activeRole === 'manager'"><a i18n class="dropdown-item" routerLink="/trips/new" >New Trip</a></li>
                     </ul>
                 </li>
             </ul>
@@ -71,8 +72,8 @@
                     <img src="https://github.com/mdo.png" alt="mdo"width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small" data-popper-placement="bottom-end"style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform:translate3d(0.5px, 34px, 0px);">
-                    <li><a i18n class="dropdown-item" href="#">Profile</a></li>
-                    <li><a i18n class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+                    <li><a i18n class="dropdown-item" (click)="editUser()">Profile</a></li>
+                    <li><a i18n class="dropdown-item" (click)="logout()">Logout</a></li>
                 </ul>
             </div>
         </div>

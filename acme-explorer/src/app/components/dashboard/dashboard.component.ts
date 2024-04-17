@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    /*/
     this.dashboardService.getGeneralInformationTrips().then(value => {
       this.data.push(value);
     })
@@ -26,7 +27,7 @@ export class DashboardComponent implements OnInit {
     })
     this.dashboardService.getGeneralInformationPrice().then(value => {
       this.data.push(value);
-    })
+    })*/
   }
 
   

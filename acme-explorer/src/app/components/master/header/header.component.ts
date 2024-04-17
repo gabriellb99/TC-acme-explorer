@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
   protected currentActor: Actor | undefined;
   protected activeRole: string = 'anonymous';
   private returnUrl!: string;
+  loginUser!: any;
 
   
   //constructor(private authService: AuthService){ }
@@ -77,6 +78,12 @@ export class HeaderComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  editUser() {
+    console.log(this.authService.getUser())
+    this.loginUser = this.authService.getUser();
+    this.router.navigate([`register/${this.loginUser._id}`])
   }
 
   cerrarAnimacion() {

@@ -54,33 +54,6 @@ export class TripFormComponent implements OnInit {
         [Validators.required]
       ),
     });
-
-
-    this.newTripForm = new FormGroup({
-      title: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
-      startAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
-      endAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
-      requirements: new FormArray(
-        [new FormControl(null)],
-        [Validators.required]
-      ),
-      cancelReason: new FormControl(null),  
-      status: new FormControl(null),
-      ticker: new FormControl(null),
-      photos: new FormArray([new FormControl(null)]),     
-      price: new FormControl(null, [Validators.required, this.priceGreaterThanCero]),
-      stages: new FormArray(
-        [
-          new FormGroup({
-            title: new FormControl(null, [Validators.required]),
-            description: new FormControl(null, [Validators.required]),
-            price: new FormControl(null, [Validators.required]),
-          }),
-        ],
-        [Validators.required]
-      ),
-    });
     
   }
 
@@ -151,7 +124,7 @@ export class TripFormComponent implements OnInit {
     this.newTripForm
       .get('requirements')
       ?.setValidators(Validators.required);
-    return this.newTripForm.get('equirements') as FormArray;
+    return this.newTripForm.get('requirements') as FormArray;
   }
 
   get stages() {

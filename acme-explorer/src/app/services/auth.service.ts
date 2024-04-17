@@ -4,7 +4,7 @@ import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Actor } from '../models/actor.model';
 import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
-import { Firestore, collection, doc, getDoc, getDocs, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, getDocs, query, where, updateDoc } from '@angular/fire/firestore';
 import { MessageService } from 'src/app/services/message.service';
 
 const httpOptions = {
@@ -38,19 +38,29 @@ export class AuthService {
     return ['Anonymous', 'Manager', 'Administrator', 'Explorer', 'Sponsor']
   }
 
-  async logout() {
-    return new Promise<any>((resolve, reject) =>{
-      signOut(this.auth)
-      .then(response =>{
-        this.setCurrentActor();
-        this.loginStatus.next(false)
-        console.log('¡Ha cerrado sesión correctamente en Firebase!', response);
-        resolve(response);
-      }).catch(error =>{
-        console.log('Error al cerrar sesion',error);
-        reject(error);
-      })
-    })
+  getActorById(actorId: string): Observable<Actor | null> {  
+    return new Observable<Actor | null>(observer => {
+      try {
+          const actorRef = collection(this.firestore, 'actors');
+          const docRef = doc(actorRef, actorId);
+          getDoc(docRef).then(doc => {
+            if (doc.exists()) {
+              const actor = this.getActorTotal(doc);
+              observer.next(actor);
+            } else {
+                observer.next(null);
+            }
+            observer.complete();
+          }).catch((err) => {
+            observer.error(err);
+          });
+          
+      } catch (error) {
+          console.error('Error al obtener el actor por ID:', error);
+          observer.error(error);
+      }
+    });
+  
   }
 
   public getActor(doc: any): Actor {
@@ -63,6 +73,21 @@ export class AuthService {
     actor.address = data['address'];
     actor.role = data['role'];
     actor.validate = data['validate'];
+    actor.id = doc.id;
+    return actor;
+  }
+
+  public getActorTotal(doc: any): Actor {
+    const data = doc.data();
+    let actor = new Actor();
+    actor.name = data['name'];
+    actor.surname = data['surname'];
+    actor.email = data['email'];
+    actor.phone = data['phone'];
+    actor.address = data['address'];
+    actor.role = data['role'];
+    actor.validate = data['validate'];
+    actor.password = data['password'];
     actor.id = doc.id;
     return actor;
   }
@@ -81,6 +106,7 @@ export class AuthService {
             this.currentActor = actor;
             //guardar actor en sesionStorage
             this.setCurrentActor(actor);
+            this.setUser(actor);
             this.loginStatus.next(true);
             this.messageService.notifyMessage('', 'alert alert-danger');
           resolve(actor);
@@ -120,6 +146,16 @@ export class AuthService {
     return result;
   }
 
+  setUser(actor: any) {
+    sessionStorage.setItem('actor', JSON.stringify(actor));
+  }
+
+  getUser() {
+    const actor = sessionStorage.getItem('actor');
+    if (actor) return JSON.parse(actor);
+    else return actor;
+  }
+
   async deleteCurrentUser(): Promise<void> {
     const user = this.auth.currentUser;
     if (user) {
@@ -137,6 +173,22 @@ export class AuthService {
     return this.loginStatus.asObservable();
   }
 
+  async logout() {
+    return new Promise<any>((resolve, reject) =>{
+      signOut(this.auth)
+      .then(response =>{
+        this.setCurrentActor();
+        sessionStorage.clear();
+        this.loginStatus.next(false)
+        console.log('¡Ha cerrado sesión correctamente en Firebase!', response);
+        resolve(response);
+      }).catch(error =>{
+        console.log('Error al cerrar sesion',error);
+        reject(error);
+      })
+    })
+  }
+
   checkRole(roles: string): boolean{
     let result = false;
     const currentActor = this.getCurrentActor();
@@ -150,6 +202,16 @@ export class AuthService {
       result = roles.indexOf('ANONYMOUS') !== -1;
     }
     return result;
+  }
+
+  async updateActor(newData: any, actorId: string) {
+    try {
+      await updateDoc(doc(this.firestore, 'actors', actorId), newData);
+      console.log("Actor actualizado exitosamente");
+    } catch (error) {
+      console.error("Error al actualizar el actor:", error);
+      throw error;
+    }
   }
   
 }

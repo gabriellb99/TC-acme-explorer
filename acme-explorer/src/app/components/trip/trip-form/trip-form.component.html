@@ -1,114 +1,80 @@
 <form class="form-container" [formGroup]="newTripForm" (ngSubmit)="onSubmit()">
     <section class="form-inputs">
         <h2 i18n>Trip</h2>
-        <div class="form-floating mb-2">
-            <input type="text" class="form-control" formControlName="title" id="title" placeholder="title">
-            <label i18n for="title">Title</label>
-            <span i18n *ngIf = "newTripForm.get('title')?.hasError('required') && newTripForm.get('title')?.touched" class="text-danger errorLabel"><strong>*Required</strong>
-            </span>
+        <div class="form-group">
+            <label i18n for="title" i18n>Title:</label>
+            <input type="text" class="form-control" formControlName="title" id="title" placeholder="">
+            <span i18n *ngIf="newTripForm.get('title')?.hasError('required') && newTripForm.get('title')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
         </div>
-        <div class="form-floating mb-2">
-            <input type="text" class="form-control" formControlName="description" id="description" placeholder="description" required>
-            <label i18n for="description">Description</label>
-            <span i18n *ngIf = "newTripForm.get('description')?.hasError('required') && newTripForm.get('description')?.touched" class="text-danger errorLabel"><strong>*Required</strong>
-            </span>
+        <div class="form-group">
+            <label i18n for="description" i18n>Description:</label>
+            <input type="text" class="form-control" formControlName="description" id="description" placeholder="">
+            <span i18n *ngIf="newTripForm.get('description')?.hasError('required') && newTripForm.get('description')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
         </div>
         <div class="row">
-            <div class="form-floating mb-2 col-md-6">
-                <label i18n for="status">Status</label>
-                <input type="text" class="form-control" formControlName="status" id="status" placeholder="status" required>            
-                <span i18n *ngIf = "newTripForm.get('status')?.hasError('required') && newTripForm.get('status')?.touched" class="text-danger errorLabel"></span>
+            <div class="form-group col-md-6">
+                <label i18n for="startedAt" i18n>Started At</label>
+                <input type="date" class="form-control" formControlName="startedAt" id="startedAt" placeholder="">
+                <span i18n *ngIf="newTripForm.get('startedAt')?.hasError('required') && newTripForm.get('startedAt')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
+                <span i18n *ngIf="newTripForm.get('startedAt')?.getError('startedAt') && newTripForm.get('startedAt')?.touched" class="text-danger errorLabel"><strong>Cannot be earlier than the current date</strong></span>
             </div>
-
-            <div class="form-floating mb-2 col-md-6">
-                <label i18n for="cancelReason">Cancel Reason</label>
-                <input type="text" class="form-control" formControlName="cancelReason" id="cancelReason" placeholder="cancelReason" required>            
-                <span i18n *ngIf = "newTripForm.get('cancelReason')?.hasError('required') && newTripForm.get('cancelReason')?.touched" class="text-danger errorLabel"></span>
-           </div>
-
-        </div>
-        <div class="row">
-            <div class="form-floating mb-2 col-md-6">
-                <input type="date" class="form-control" formControlName="startedAt" id="startedAt"  required>
-                <label i18n class="ml-3" for="startedAt">Started At</label>
-                <span i18n *ngIf = "newTripForm.get('startedAt')?.hasError('required') && newTripForm.get('startedAt')?.touched" class="text-danger errorLabel"><strong>*Required</strong>                  
-                </span>
-                <span i18n *ngIf = "newTripForm.get('startedAt')?.getError('startedAt') && newTripForm.get('startedAt')?.touched" class="text-danger errorLabel">
-                    <strong> cannot be earlier than the current date</strong>
-                </span>
+            <div class="form-group col-md-6">
+                <label i18n for="endAt" i18n>End At</label>
+                <input type="date" class="form-control" formControlName="endAt" id="endAt" placeholder="">
+                <span i18n *ngIf="newTripForm.get('endAt')?.hasError('required') && newTripForm.get('endAt')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
+                <span i18n *ngIf="newTripForm.get('endAt')?.getError('endAt') && newTripForm.get('endAt')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
             </div>
-
-            <div class="form-floating mb-2 col-md-6">
-                <input type="date" class="form-control" formControlName="endAt" id="endAt" placeholder="endAt" required>
-                <label i18n for="endAt">End At</label>
-                <span i18n *ngIf = "newTripForm.get('endAt')?.hasError('required') && newTripForm.get('endAt')?.touched" class="text-danger errorLabel"><strong>*Required</strong></span>
-              <span i18n *ngIf = "newTripForm.get('endAt')?.getError('endAt')  && newTripForm.get('endAt')?.touched" class="text-danger errorLabel"><strong>*Required</strong></span>
-            </div>
-
         </div>
         <h4 i18n>Requirements</h4>
         <!--Requirements-->
         <div formArrayName="requirements">
-            <div class="form-floating mb-2">
-                <div class="form-floating mb-2 row-form req-bg p-2">
-                    <div class="col-form">
-                        <input i18n-placeholder type="text" class="form-control p-3" placeholder="Add requirement" formControlName="" required>
-                        <span i18n class="text-danger errorLabel"><strong>*Required</strong></span>
+            <div class="form-group">
+                <div class="form-group" *ngFor="let req of requirements.controls; index as i ">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" formControlName="{{i}}" required>
+                        <button type="button" class="btn btn-outline-secondary" (click)="removeRequirement(i)">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
-                    <div class="col-form-btn">
-                        <!--<button type="button" class="btn-delete" (click)="removeRequirement(i)"><img src="../../../../assets/images/trash.svg" alt=""></button>-->
-                        <button i18n type="button" class="btn-delete-stage" (click)="addRequirement()">Add Requirement</button>
-                    </div>
-
                 </div>
-                
+                <button type="button" class="btn-delete-stage mt-2" (click)="addRequirement()" i18n>Add Requirement</button>
             </div>
         </div>
-
-        <h4>Photos</h4>
+        <h4 i18n>Photos</h4>
         <!--photos-->
-        <div class formArrayName="photos" class="mb-2">
-            <div class="form-floating mb-2 row-form img-bg p-2" *ngFor="let photo of photos.controls; index as i " >
-                <div class="col-form">
-                    <input i18n-placeholder type="text" class="form-control p-3" placeholder="Introduce some image URL" formControlName="{{i}}">
+        <div formArrayName="photos">
+            <div class="form-group">
+                <div class="form-group" *ngFor="let photo of photos.controls; index as i ">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" formControlName="{{i}}">
+                        <button type="button" class="btn btn-outline-secondary" (click)="removePhotos(i)">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-form-btn">                    
-                    <button type="button" class="btn-delete" (click)="removePhotos(i)"><img src="../../../../assets/images/trash.svg" alt=""></button>
-                    <button i18n type="button" class="btn-delete-stage" (click)="addPhoto()">Add photo</button>
-                </div>
+                <button type="button" class="btn-delete-stage mt-2" (click)="addPhoto()" i18n>Add photo</button>
             </div>            
         </div>
-        
-    <h4 i18n>Stages</h4>
-    <!--Stages-->
-    <div formArrayName="stages" class="satge-container">
-        <div class=" stage-bg form-floating mb-2" *ngFor="let stage of stages.controls; index as i ">
-            <div class="p-2" formGroupName="{{i}}">
-            <input type="text" i18n-placeholder formControlName="title" class="form-control mb-2 p-3" placeholder="Stage title">
-            <span i18n class="text-danger errorLabel">
-                The <strong>title</strong> is required
-            </span>
-            <input type="text" i18n-placeholder formControlName="description" class="form-control mb-2 p-3" placeholder="Stage description" required>
-            <span i18n  class="text-danger errorLabel">
-                The <strong>description</strong> is required
-            </span>
-            <input type="number" i18n-placeholder formControlName="price" class="form-control mb-2 p-3" placeholder="Stage price" required pattern="^\d+(\.\d+)?$">
-            <span i18n class="text-danger errorLabel">The <strong>price</strong> is required</span>
-            <span i18n class="text-danger errorLabel">
-                Please enter a positive <strong>price</strong>
-            </span>
-            </div>
-            <div>
-                <button type="button" class="btn-delete-stage" (click)="removeStage(i)"><img src="../../../../assets//images/trash.svg" alt="">Delete Stage</button>
-                <button i18n type="button" class="btn-delete-stage" (click)="addStage()">Add Stage</button>
+        <h4 i18n>Stages</h4>
+        <!--Stages-->
+        <div formArrayName="stages" class="satge-container">
+            <div class=" stage-bg form-floating mb-2" *ngFor="let stage of stages.controls; index as i ">
+                <div class="p-2" formGroupName="{{i}}">
+                    <input type="text" class="form-control mb-2 p-3" placeholder=" " formControlName="title">
+                    <span i18n class="text-danger errorLabel">The <strong>Title</strong> is required</span>
+                    <input type="text" class="form-control mb-2 p-3" placeholder=" " formControlName="description">
+                    <span i18n class="text-danger errorLabel">The <strong>Description</strong> is required</span>
+                    <input type="number" class="form-control mb-2 p-3" placeholder=" " formControlName="price">
+                    <span i18n class="text-danger errorLabel">Please enter a positive <strong>Price</strong></span>
+                </div>
+                <div>
+                    <button type="button" class="btn-delete-stage" (click)="removeStage(i)"><img src="../../../../assets//images/trash.svg" alt="">Delete Stage</button>
+                    <button type="button" class="btn-delete-stage" (click)="addStage()" i18n>Add Stage</button>
+                </div>
             </div>
         </div>
-               
-
         <div class="d-grid gap-2 mt-3">
-            <button i18n class="btn btn-primary btn-lg" type="submit">Save</button>
+            <button type="submit" class="btn btn-primary btn-lg" i18n>Save</button>
         </div>
-    </div>
     </section>
-
 </form>

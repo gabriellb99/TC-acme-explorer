@@ -14,8 +14,13 @@
                     placeholder="Enter password" ngModel>
                 </div>
 
-                <div class="text-center mt-2">
-                    <button i18n type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                <div class="text-center mt-2 row">
+                    <div class="col">
+                        <button class="btn btn-primary btn-lg btn-block" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                    </div>
+                    <div class="col">
+                        <button i18n type="submit" class="btn btn-warning btn-lg btn-block">Login</button>
+                    </div>
                 </div>
             </form>
         </div>

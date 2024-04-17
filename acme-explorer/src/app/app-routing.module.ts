@@ -26,15 +26,20 @@ const routes: Routes = [
   canActivate: [ActorRoleGuard], 
   data: {expectedRole: 'administrator,manager'}
 },
-
-{path: 'register', component: RegisterComponent,
-  canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'},
-  canDeactivate: [LeaveFormGuard]},
+{
+  path: 'register',
+  children: [
+    {path: ':id', component: RegisterComponent},
+    {path: '', component: RegisterComponent, canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'},
+    canDeactivate: [LeaveFormGuard]},
+  ]
+},
 
 {path: 'trips', children:[
   {path: 'new', component: TripFormComponent},
   {path: 'dt', component: TripTableComponent},
   {path: ':id/stages', component: StageComponent},
+  {path: ':id/edit', component: TripFormComponent},
   {path: ':id', component: TripDisplayComponent},
   {path: '', component: TripListComponent}
   

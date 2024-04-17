@@ -3,25 +3,8 @@
         <div class="col-md-6">
             <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
                 <fieldset>
-                    <legend class="text-center"><ng-container i18n>Register a new use</ng-container></legend>
-
-                    <div class="form-group">
-                        <label i18n for="role">Role:</label>
-                        <div class="custom-select">
-                            <select id="role" class="form-control" formControlName="role">
-                                <option i18n disabled selected>Select a role</option>
-                                <ng-container *ngFor="let role of roleList">
-                                    <ng-container *ngIf="role !== 'Anonymous'">
-                                        <option [value]="role">{{ role }}</option>
-                                    </ng-container>
-                                </ng-container>
-                            </select>
-                            <div class="arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                        </div>
-                    </div>
-
+                    <legend class="text-center"><ng-container *ngIf="actorId; else newActor" i18n>Edit user</ng-container></legend>
+                    <legend class="text-center"><ng-template #newActor><ng-container i18n>Register a new user</ng-container></ng-template></legend>
                     <div class="form-group">
                         <label i18n for="name">Name:</label>
                         <input id="name" type="text" formControlName="name" class="form-control" required>
@@ -51,12 +34,30 @@
                         <label i18n for="password">Password:</label>
                         <input id="password" type="password" formControlName="password" minlength="6" class="form-control" required>
                     </div>
-
-                    <div class="form-group text-center">
-                        <button i18n type="submit" class="btn btn-primary btn-block mt-2" [disabled]="registrationForm.valid">
-                            Sing In
-                        </button>
+                    
+                    <div class="form-group text-center row mt-2" *ngIf="actorId; else newActorButton">
+                        <div class="col">
+                            <button class="btn btn-primary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                        </div>
+                        <div class="col">
+                            <button i18n type="submit" class="btn btn-warning btn-block" [disabled]="registrationForm.invalid">
+                                Update
+                            </button>
+                        </div>
                     </div>
+                    
+                        <ng-template #newActorButton>
+                            <div class="form-group text-center row mt-2">
+                                <div class="col">
+                                    <button class="btn btn-primary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                                </div>
+                                <div class="col">
+                                    <button i18n type="submit" class="btn btn-warning btn-block" [disabled]="registrationForm.invalid">
+                                    Sing In
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-template>
                 </fieldset>
             </form>
         </div>

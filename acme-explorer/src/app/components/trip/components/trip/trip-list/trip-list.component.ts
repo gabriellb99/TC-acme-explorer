@@ -106,10 +106,6 @@ getAllTrips(): void {
     this.router.navigate(['/trips/' + id]);
   }
 
-  newTrip(): void {
-    this.router.navigate(['/trips/new']);
-  }
-
   navigateToDatatableView(){
     this.router.navigate(['/trips/dt'])
   }

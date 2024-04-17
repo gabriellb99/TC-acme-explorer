@@ -45,4 +45,8 @@ export class LoginComponent implements OnInit {
       this.loginError = true; // Establece loginError en true cuando hay un error en el inicio de sesión
     })
   }
+
+  goBack() {
+    this.router.navigate(['/']);
+  }
 }
