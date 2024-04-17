@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query, where, getDocs, doc, getDoc } from '@angular/fire/firestore'; // Importa Firestore
+import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc } from '@angular/fire/firestore'; // Importa Firestore
 import { Trip } from '../models/trip.model';
-import { Observable, forkJoin } from 'rxjs';
-import { observeInsideAngular } from '@angular/fire';
-import { HttpHeaders } from '@angular/common/http';
+import { firstValueFrom, Observable, forkJoin } from 'rxjs';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+
 
 const httpOptions ={
   headers: new HttpHeaders({
@@ -16,7 +18,7 @@ const httpOptions ={
 })
 export class TripService {
 
-  constructor(private firestore: Firestore) {} 
+  constructor(private firestore: Firestore, private http: HttpClient, private activatedRout: ActivatedRoute) {} 
 
   async getAllAvailableTrips(): Promise<Trip[]> {
     const tripRef = collection(this.firestore, 'trips'); 
@@ -198,7 +200,40 @@ async searchTrips(searchValue: string): Promise<Trip[]> {
     return trips;
 }
 
+async createTrip(newTrip: Trip): Promise<void> {
+  try {
+    // Añade un nuevo documento a la colección 'trips' con los datos proporcionados
+    await addDoc(collection(this.firestore, 'trips'), {
+      _ticker: newTrip.ticker,
+      _title: newTrip.title,
+      _description: newTrip.description,
+      _startedAt: newTrip.startedAt,
+      _endAt: newTrip.endAt,
+      _price: newTrip.price,
+      _cancelReason: '',
+      _requirements: null,
+      _photos: null,
+           
 
+    });
+    console.log('Trip created successfully');
+  } catch (error) {
+    console.error('Error creating trip:', error);
+    throw error;
+  }
+}
+
+async updateTrip(tripId: string, updatedTrip: Partial<Trip>): Promise<void> {
+  try {
+    const tripRef = doc(this.firestore, 'trips', tripId);
+    // Actualiza el documento del viaje con los nuevos datos proporcionados
+    await updateDoc(tripRef, updatedTrip);
+    console.log('Trip updated successfully');
+  } catch (error) {
+    console.error('Error updating trip:', error);
+    throw error;
+  }
+}
 
 
 

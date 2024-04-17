@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ngx-cookie-service": "^14.0.1",
+    "ngx-paypal": "^10.0.0"
+  }
+}
