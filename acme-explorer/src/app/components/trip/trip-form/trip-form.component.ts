@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { TripService } from 'src/app/services/trip.service';
 import { Trip } from 'src/app/models/trip.model';
 import { Timestamp } from '@angular/fire/firestore';
+import { MessageService } from 'src/app/services/message.service';
 
 
 @Component({
@@ -24,13 +25,14 @@ export class TripFormComponent implements OnInit {
     private router: Router,
     public tripService: TripService,
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private messageService: MessageService
   ) {
     this.tripId = this.activatedRoute.snapshot.params['id'];
     this.newTripForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(null, [Validators.required]),
-      startAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
+      startedAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
       endAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
       requirements: new FormArray(
         [new FormControl(null)],
@@ -81,43 +83,62 @@ export class TripFormComponent implements OnInit {
 
   onSubmit() {
 
-    console.log("inicio submit");
-
     let loginUser: any = this.authService.getCurrentActor();
+    let idUser = loginUser.id;
+
     let price = 0;
-    const ticket = this.newTicker(); // Generar el ticket solo al crear un nuevo viaje
-    const requirements = null;
+    const ticket = this.newTicker();
+    let stages: [];
 
     // Creamos una nueva instancia de Trip
     const newTrip = new Trip();
 
-    // Establecemos las propiedades de la nueva instancia de Trip según los datos del formulario
     newTrip.ticker = this.newTicker(); // Asumiendo que ticket es generado de alguna manera
     newTrip.title = this.newTripForm.value.title;
     newTrip.description = this.newTripForm.value.description;
-    newTrip.price = price;
-    newTrip.startedAt = Timestamp.fromDate(new Date());
-    newTrip.endAt = Timestamp.fromDate(new Date());
+    let startedAtDate = new Date(this.newTripForm.value.startedAt)
+    newTrip.startedAt =  Timestamp.fromMillis(startedAtDate.getTime());
+    let endAtDate = new Date(this.newTripForm.value.endAt)
+    newTrip.endAt = Timestamp.fromMillis(endAtDate.getTime());
     /*const photosValidation = this.newTripForm.value.photos.filter((p:any) => {
       return p !== null && p.trim() !== "";
     });*/
     newTrip.photos = this.newTripForm.value.photos;
-    console.log("onSubmit-this.newTripForm.value.requirements: ", this.newTripForm.value.requirements);
     newTrip.requirements = this.newTripForm.value.requirements; 
 
+    //console.log(newTrip)
+    //console.log(this.newTripForm.value.stages)
 
-    this.tripService.createTrip(newTrip).then((_res) => {
-      let msg = $localize`Trip created successfully`
-      let msg2 = $localize`Success`
+    price = this.newTripForm.value.stages.reduce((total: number, stage: any) => {
+      // Asegúrate de que stage.price sea un número válido antes de sumarlo
+      const price = parseFloat(stage.price);
+      if (!isNaN(price)) {
+          return total + price;
+      } else {
+          return total;
+      }
+    }, 0);
+    newTrip.price = price;
+    stages = this.newTripForm.value.stages;
+
+    //console.log(newTrip.startedAt);
+
+    
+    
+    this.tripService.createTrip(newTrip, stages, idUser).then((_res) => {
+      let message = $localize`Trip created successfully`
+      this.messageService.notifyMessage(message, "alert alert-success")
       //this.toastService.success(msg, msg2);
       this.router.navigate(['/']);
       console.log('OnSubmit-trip created');
     })
-      .catch((error) => {
-        let msg = $localize`Error on create trip`
-        //this.toastService.error(msg, 'Error');
-        console.log(error);
-      });
+    .catch((error) => {
+      let msg = $localize`Error on create trip`
+      //this.toastService.error(msg, 'Error');
+      console.log(error);
+    });
+    
+      
   }
 
   get requirements() {

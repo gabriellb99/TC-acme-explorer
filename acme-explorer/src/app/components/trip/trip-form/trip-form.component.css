@@ -1,0 +1,18 @@
+.box-stage {
+    display: flex;
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+    padding: 15px;
+    margin-bottom: 10px; /* Espacio entre los elementos */
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    position: relative; /* Importante para el posicionamiento absoluto del botón */
+}
+
+.box-stage-content {
+    flex-grow: 1; /* El contenido del div se expandirá para ocupar el espacio disponible */
+}
+
+.delete-button {
+    align-self: flex-start; /* Alinea el botón en la esquina superior derecha */
+    margin-top: -5px; /* Ajusta la posición del botón */
+}

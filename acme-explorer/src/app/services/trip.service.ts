@@ -200,28 +200,37 @@ async searchTrips(searchValue: string): Promise<Trip[]> {
     return trips;
 }
 
-async createTrip(newTrip: Trip): Promise<void> {
+async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void> {
   try {
     // Añade un nuevo documento a la colección 'trips' con los datos proporcionados
-    await addDoc(collection(this.firestore, 'trips'), {
-      _ticker: newTrip.ticker,
-      _title: newTrip.title,
-      _description: newTrip.description,
-      _startedAt: newTrip.startedAt,
-      _endAt: newTrip.endAt,
-      _price: newTrip.price,
-      _cancelReason: '',
-      _requirements: null,
-      _photos: null,
-           
-
+    const tripRef = await addDoc(collection(this.firestore, 'trips'), {
+      ticker: newTrip.ticker,
+      title: newTrip.title,
+      description: newTrip.description,
+      startedAt: newTrip.startedAt,
+      endAt: newTrip.endAt,
+      price: newTrip.price,
+      cancelReason: '',
+      requirements: newTrip.requirements,
+      photos: newTrip.photos,
+      idUserManage: idUser,
+      deleted: false,
     });
     console.log('Trip created successfully');
+
+    // Añade una colección 'stages' dentro del documento de viaje recién creado
+    const stagesCollectionRef = collection(tripRef, 'stages');
+    // Añade las etapas a la colección 'stages'
+    stages.forEach(async (stage: any) => {
+      await addDoc(stagesCollectionRef, stage);
+    });
+    console.log('Stages added successfully');
   } catch (error) {
     console.error('Error creating trip:', error);
     throw error;
   }
 }
+
 
 async updateTrip(tripId: string, updatedTrip: Partial<Trip>): Promise<void> {
   try {

@@ -4,25 +4,19 @@
         <div class="form-group">
             <label i18n for="title" i18n>Title:</label>
             <input type="text" class="form-control" formControlName="title" id="title" placeholder="">
-            <span i18n *ngIf="newTripForm.get('title')?.hasError('required') && newTripForm.get('title')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
         </div>
         <div class="form-group">
             <label i18n for="description" i18n>Description:</label>
             <input type="text" class="form-control" formControlName="description" id="description" placeholder="">
-            <span i18n *ngIf="newTripForm.get('description')?.hasError('required') && newTripForm.get('description')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
-                <label i18n for="startedAt" i18n>Started At</label>
+                <label i18n for="startedAt" i18n>Started At:</label>
                 <input type="date" class="form-control" formControlName="startedAt" id="startedAt" placeholder="">
-                <span i18n *ngIf="newTripForm.get('startedAt')?.hasError('required') && newTripForm.get('startedAt')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
-                <span i18n *ngIf="newTripForm.get('startedAt')?.getError('startedAt') && newTripForm.get('startedAt')?.touched" class="text-danger errorLabel"><strong>Cannot be earlier than the current date</strong></span>
             </div>
             <div class="form-group col-md-6">
-                <label i18n for="endAt" i18n>End At</label>
+                <label i18n for="endAt" i18n>End At:</label>
                 <input type="date" class="form-control" formControlName="endAt" id="endAt" placeholder="">
-                <span i18n *ngIf="newTripForm.get('endAt')?.hasError('required') && newTripForm.get('endAt')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
-                <span i18n *ngIf="newTripForm.get('endAt')?.getError('endAt') && newTripForm.get('endAt')?.touched" class="text-danger errorLabel"><strong>* Required</strong></span>
             </div>
         </div>
         <h4 i18n>Requirements</h4>
@@ -57,22 +51,26 @@
         </div>
         <h4 i18n>Stages</h4>
         <!--Stages-->
-        <div formArrayName="stages" class="satge-container">
-            <div class=" stage-bg form-floating mb-2" *ngFor="let stage of stages.controls; index as i ">
-                <div class="p-2" formGroupName="{{i}}">
-                    <input type="text" class="form-control mb-2 p-3" placeholder=" " formControlName="title">
-                    <span i18n class="text-danger errorLabel">The <strong>Title</strong> is required</span>
-                    <input type="text" class="form-control mb-2 p-3" placeholder=" " formControlName="description">
-                    <span i18n class="text-danger errorLabel">The <strong>Description</strong> is required</span>
-                    <input type="number" class="form-control mb-2 p-3" placeholder=" " formControlName="price">
-                    <span i18n class="text-danger errorLabel">Please enter a positive <strong>Price</strong></span>
+        <div formArrayName="stages" class="stage-container">
+            <div class="form-group" *ngFor="let stage of stages.controls; index as i ">
+                <div class="box-stage" formGroupName="{{i}}">
+                    <div class="box-stage-content">
+                        <label i18n for="title" i18n>Title:</label>
+                        <input type="text" class="form-control" placeholder="" formControlName="title" required>
+                        <label i18n for="description" i18n>Description:</label>
+                        <input type="text" class="form-control" placeholder="" formControlName="description" required>
+                        <label i18n for="price" i18n>Price:</label>
+                        <input type="number" class="form-control" placeholder="" formControlName="price" required>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary delete-button" (click)="removeStage(i)">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
-                <div>
-                    <button type="button" class="btn-delete-stage" (click)="removeStage(i)"><img src="../../../../assets//images/trash.svg" alt="">Delete Stage</button>
-                    <button type="button" class="btn-delete-stage" (click)="addStage()" i18n>Add Stage</button>
-                </div>
-            </div>
+            </div>  
+            <button type="button" class="btn-delete-stage" (click)="addStage()" i18n>Add Stage</button>
+                      
         </div>
+        
         <div class="d-grid gap-2 mt-3">
             <button type="submit" class="btn btn-primary btn-lg" i18n>Save</button>
         </div>
