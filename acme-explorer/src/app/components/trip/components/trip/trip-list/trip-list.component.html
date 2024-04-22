@@ -12,16 +12,17 @@
         <div class="card-header">
             <h4 class="card-title text-center">{{trip.title}}</h4>
         </div>
-    <div class="card-body" [ngClass]="{'green-background': isTripDateGreaterThan10Days(trip.startedAt)}" role="region" aria-label="Información del viaje">
-        <span class="badge bg-primary">{{trip.price}}</span>
-        <div class="container-fluid text-center" role="region" aria-label="Galería de fotos">
-            <ngb-carousel aria-label="Imágenes del viaje">
-                <ng-template ngbSlide *ngFor="let image of trip.photos">
-                    <img [src]="image" class="d-block card-img-top" alt="...">
-                </ng-template>
-            </ngb-carousel>
+        <div class="card-body" [ngClass]="{'green-background': isTripDateGreaterThan10Days(trip.startedAt)}" role="region" aria-label="Información del viaje">
+            <span class="badge bg-primary">{{trip.price}}</span>
+            <div class="container-fluid text-center" role="region" aria-label="Galería de fotos">
+                <ngb-carousel>
+                    <ng-template ngbSlide *ngFor="let image of trip.photos">
+                        <img [src]="image" class="d-block card-img-top" alt="...">
+                    </ng-template>
+                </ngb-carousel>
+            </div>
         </div>
-    </div>
+        
         
         <details>
             <summary>{{trip.description}}
