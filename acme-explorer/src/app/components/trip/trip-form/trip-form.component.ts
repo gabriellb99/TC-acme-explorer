@@ -18,6 +18,7 @@ export class TripFormComponent implements OnInit {
   newTripForm: FormGroup;
   randoms: number[] = [1, 2, 3];
   tripId!: any;
+  tripData: Trip | null = null;
   
   constructor(
     //public toastService: ToastrService,
@@ -29,6 +30,9 @@ export class TripFormComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.tripId = this.activatedRoute.snapshot.params['id'];
+    if (this.tripId) {
+      this.loadTripData(this.tripId); // Cargar datos del trip si hay un ID proporcionado
+    }
     this.newTripForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(null, [Validators.required]),
@@ -57,6 +61,31 @@ export class TripFormComponent implements OnInit {
       ),
     });
     
+  }
+  loadTripData(tripId: any) {
+    this.tripService.getTripById(tripId).subscribe((trip: Trip | null) => {
+      if (trip !== null) {
+        this.tripData = trip;
+        this.fillFormWithData(trip); 
+      } else {
+        console.log('No se encontró ningún viaje con el ID proporcionado');
+      }
+    });
+  }
+
+  fillFormWithData(trip: Trip) {
+    this.newTripForm.patchValue({
+      title: trip.title,
+      description: trip.description,
+      startedAt: trip.startedAt.toDate(), 
+      endAt: trip.endAt.toDate(), 
+      requirements: trip.requirements,
+      cancelReason: trip.cancelReason,
+      ticker: trip.ticker,
+      photos: trip.photos,
+      price: trip.price,
+      stages: trip.stages
+    });
   }
 
 

@@ -15,11 +15,16 @@
         <div class="card-body" [ngClass]="{'green-background': isTripDateGreaterThan10Days(trip.startedAt)}" role="region" aria-label="Información del viaje">
             <span class="badge bg-primary">{{trip.price}}</span>
             <div class="container-fluid text-center" role="region" aria-label="Galería de fotos">
-                <ngb-carousel>
-                    <ng-template ngbSlide *ngFor="let image of trip.photos">
-                        <img [src]="image" class="d-block card-img-top" alt="...">
-                    </ng-template>
-                </ngb-carousel>
+                <div *ngIf="trip.photos.length > 0; else elseBlock">
+                    <ngb-carousel>
+                        <ng-template ngbSlide *ngFor="let image of trip.photos">
+                            <img [src]="image" class="d-block card-img-top" alt="...">
+                        </ng-template>
+                    </ngb-carousel>
+                </div>
+                <ng-template #elseBlock>
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/006/059/989/small/crossed-camera-icon-avoid-taking-photos-image-is-not-available-illustration-free-vector.jpg" class="d-block card-img-top" alt="image not found">
+                  </ng-template>
             </div>
         </div>
         

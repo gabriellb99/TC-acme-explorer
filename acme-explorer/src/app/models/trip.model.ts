@@ -60,6 +60,14 @@ export class Trip extends Entity{
     public set requirements(value) {
         this._requirements = value;
     }
+    private _stages!: string[];
+    
+    public get stages() {
+        return this._stages;
+    }
+    public set stages(value) {
+        this._stages = value;
+    }
     private _price!: number;
     
     public get price() {
