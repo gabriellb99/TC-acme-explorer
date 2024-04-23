@@ -34,6 +34,7 @@ import { MessageComponent } from './components/master/message/message.component'
 import { CommonModule } from '@angular/common';
 import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-table/sponsor-table.component';
 import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [

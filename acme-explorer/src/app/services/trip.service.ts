@@ -18,7 +18,8 @@ const httpOptions ={
 })
 export class TripService {
 
-  constructor(private firestore: Firestore, private http: HttpClient, private activatedRout: ActivatedRoute) {} 
+  constructor(private firestore: Firestore, 
+    private http: HttpClient, private activatedRout: ActivatedRoute) {} 
 
   async getAllAvailableTrips(): Promise<Trip[]> {
     const tripRef = collection(this.firestore, 'trips'); 

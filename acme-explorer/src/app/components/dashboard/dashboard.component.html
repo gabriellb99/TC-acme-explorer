@@ -1,1 +1,193 @@
-<!-- GENERAL INFORMATION-->
+<h3 i18n class="card-title">General Information</h3>
+
+<div class="card">
+  <div class="card-body">
+    <h4 i18n class="card-title">Statistics per manager</h4>
+
+    <div class="table-responsive" *ngFor='let dt of data'>
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th i18n class="text-dark font-medium fs-4">Title</th>
+            <th i18n class="text-dark font-medium fs-4">Avg</th>
+            <th i18n class="text-dark font-medium fs-4">Min</th>
+            <th i18n class="text-dark font-medium fs-4">Max</th>
+            <th i18n class="text-dark font-medium fs-4">Deviation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trip of dt.tripsPerManager">
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <h5 class="mb-0 font-medium">{{ trip.actor }}</h5>
+                </div>
+              </div>
+            </td>
+            <td class="fs-4">{{ trip.avg }}</td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ trip.min }}</h5>
+            </td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ trip.max }}</h5>
+            </td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ trip.deviation }}</h5>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      
+    </div>
+  </div>
+
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h4 i18n class="card-title">Statistics prices</h4>
+
+    <div class="table-responsive" *ngFor='let dt of data'>
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th i18n class="text-dark font-medium fs-4">Title</th>
+            <th i18n class="text-dark font-medium fs-4">Avg</th>
+            <th i18n class="text-dark font-medium fs-4">Min</th>
+            <th i18n class="text-dark font-medium fs-4">Max</th>
+            <th i18n class="text-dark font-medium fs-4">Deviation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <h5 class="mb-0 font-medium">{{ dt.tripPrices.title }}</h5>
+                </div>
+              </div>
+            </td>
+            <td class="fs-4">{{ dt.tripPrices.avg }}</td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ dt.tripPrices.min }}</h5>
+            </td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ dt.tripPrices.max }}</h5>
+            </td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ dt.tripPrices.deviation }}</h5>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      
+    </div>
+  </div>
+
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h4 i18n class="card-title">Statistics Applications Ratio</h4>
+
+    <div class="table-responsive" *ngFor='let dt of data'>
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th i18n class="text-dark font-medium fs-4">Status</th>
+            <th i18n class="text-dark font-medium fs-4">Count</th>          
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let app of dt.applicationsRatio">
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <h5 class="mb-0 font-medium">{{ app[0].status }}</h5>
+                </div>
+              </div>
+            </td>
+            <td class="fs-4">{{ app[0].count}}</td>
+            
+          </tr>
+
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+</div>
+
+<style>
+  @media (prefers-color-scheme: dark) {
+
+    /* Estilos para modo oscuro */
+    .card {
+      background-color: #2c2c2c;
+      color: #f0f0f0;
+      border: none;
+    }
+
+    .card-title,
+    .card-subtitle,
+    .feed-item h5,
+    .feed-icon,
+    .feed-icon i,
+    .table-responsive table th,
+    .table-responsive table td,
+    .btn.bg-light-secondary,
+    .btn.text-secondary,
+    .btn.bg-light-primary,
+    .btn.text-primary,
+    .btn.bg-light-danger,
+    .btn.text-danger {
+      color: #f0f0f0;
+    }
+
+    .card-subtitle,
+    .feed-item .text-muted,
+    .table-responsive table th,
+    .btn.bg-light-secondary,
+    .btn.text-secondary {
+      opacity: 0.7;
+    }
+
+    .feed-icon.rounded-circle,
+    .btn.rounded-circle {
+      border: 2px solid #f0f0f0;
+    }
+
+    .table-responsive table th,
+    .table-responsive table td {
+      border: none;
+    }
+
+    .feed-item,
+    .table-responsive table th,
+    .table-responsive table td {
+      border-top: 1px solid #ffffff;
+    }
+
+    .btn.rounded-circle {
+      background-color: #ffffff;
+    }
+
+    .btn.bg-light-primary,
+    .btn.text-primary {
+      color: #17a2b8;
+    }
+
+    .btn.bg-light-danger,
+    .btn.text-danger {
+      color: #dc3545;
+    }
+  }
+
+  .text-dark {
+    background-color: white;
+  }
+</style>
