@@ -15,13 +15,13 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class TripFormComponent implements OnInit {
 
-  newTripForm: FormGroup;
+  newTripForm!: FormGroup;
   randoms: number[] = [1, 2, 3];
   tripId!: any;
-  tripData: Trip | null = null;
+  editing: boolean = false;
+  public trip!: Trip;
   
   constructor(
-    //public toastService: ToastrService,
     private fb: FormBuilder,
     private router: Router,
     public tripService: TripService,
@@ -30,47 +30,68 @@ export class TripFormComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.tripId = this.activatedRoute.snapshot.params['id'];
-    if (this.tripId) {
-      this.loadTripData(this.tripId); // Cargar datos del trip si hay un ID proporcionado
-    }
-    this.newTripForm = new FormGroup({
+    if(this.tripId){
+      this.tripService.getTripById(this.tripId).subscribe(trip => {
+        if(trip){
+          this.tripService.getStagesByTripId(this.tripId).subscribe(stages => {
+            let start_date: Date = trip.startedAt.toDate();
+            let end_date: Date = trip.endAt.toDate();
+            this.newTripForm = this.fb.group({
+              title: new FormControl(trip.title, [Validators.required]),
+              description: new FormControl(trip.description, [Validators.required]),
+              startedAt: new FormControl(start_date.toISOString().slice(0, 10), [Validators.required, this.dateGreaterThanToday]),
+              endAt: new FormControl(end_date.toISOString().slice(0, 10), [Validators.required, this.dateGreaterThanToday]),
+              requirements: new FormArray(
+                trip.requirements.map(requirement => new FormControl(requirement)),
+                [Validators.required]
+              ),
+              cancelReason: new FormControl(trip.cancelReason),
+              photos: new FormArray(
+                trip.photos.map(photo => new FormControl(photo))
+              ),
+              stages: this.fb.array(
+                stages.map(stage => {
+                  return this.fb.group({
+                    title: new FormControl(stage.title, [Validators.required]),
+                    description: new FormControl(stage.description, [Validators.required]),
+                    price: new FormControl(stage.price, [Validators.required]),
+                  });
+                }),
+                [Validators.required]
+              ),
+            });
+          });
+        }else{
+          console.error('No se encontró ningún viaje con el ID proporcionado.');
+        }
+      });
+    }else{
+    this.newTripForm = this.fb.group({
       title: new FormControl('', [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
+      description: new FormControl('', [Validators.required]),
       startedAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
       endAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
       requirements: new FormArray(
         [new FormControl(null)],
         [Validators.required]
       ),
-      cancelReason: new FormControl(null),      
-      status: new FormControl(null),
-      ticker: new FormControl(null),
+      cancelReason: new FormControl(null),
       photos: new FormArray(
         [new FormControl(null)]
       ),
-      price: new FormControl(null, [Validators.required, this.priceGreaterThanCero]),
       stages: new FormArray(
         [
           new FormGroup({
-            title: new FormControl(null, [Validators.required]),
-            description: new FormControl(null, [Validators.required]),
-            price: new FormControl(null, [Validators.required]),
+            title: new FormControl('', [Validators.required]),
+            description: new FormControl('', [Validators.required]),
+            price: new FormControl('', [Validators.required]),
           }),
         ],
         [Validators.required]
       ),
     });
-    
   }
-  loadTripData(tripId: any) {
-    this.tripService.getTripById(tripId).subscribe((trip: Trip | null) => {
-      if (trip !== null) {
-        this.tripData = trip;
-        this.fillFormWithData(trip); 
-      } else {
-        console.log('No se encontró ningún viaje con el ID proporcionado');
-      }
-    });
+    
   }
 
   fillFormWithData(trip: Trip) {
@@ -129,9 +150,13 @@ export class TripFormComponent implements OnInit {
     newTrip.startedAt =  Timestamp.fromMillis(startedAtDate.getTime());
     let endAtDate = new Date(this.newTripForm.value.endAt)
     newTrip.endAt = Timestamp.fromMillis(endAtDate.getTime());
-    /*const photosValidation = this.newTripForm.value.photos.filter((p:any) => {
-      return p !== null && p.trim() !== "";
-    });*/
+    
+    if(endAtDate < startedAtDate){
+      let errorMessage = $localize`The end date must be after the start date.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+      return;
+    }
+
     newTrip.photos = this.newTripForm.value.photos;
     newTrip.requirements = this.newTripForm.value.requirements; 
 
@@ -159,7 +184,6 @@ export class TripFormComponent implements OnInit {
       this.messageService.notifyMessage(message, "alert alert-success")
       //this.toastService.success(msg, msg2);
       this.router.navigate(['/']);
-      console.log('OnSubmit-trip created');
     })
     .catch((error) => {
       let msg = $localize`Error on create trip`
@@ -223,7 +247,7 @@ export class TripFormComponent implements OnInit {
     stageArrray.removeAt(i);
   }
 
-  // Función de validación personalizada para verificar si la fecha es posterior al día de hoy
+  
   dateGreaterThanToday(control: AbstractControl): { [key: string]: any } | null {
     const selectedDate = new Date(control.value);
     const today = new Date();
