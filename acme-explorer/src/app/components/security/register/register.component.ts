@@ -22,6 +22,7 @@ export class RegisterComponent  implements FormValidation{
   public actor!: Actor;
   role: string = "explorer";
   isAdministrator: boolean = false;
+  passwordIsValid: boolean = true;
 
   constructor(private route: ActivatedRoute, private authService: AuthService,
     private fb: FormBuilder, private router: Router) { 
@@ -44,7 +45,7 @@ export class RegisterComponent  implements FormValidation{
             name: [actor.name, Validators.required],
             surname: [actor.surname, Validators.required],
             email: [actor.email, [Validators.required, Validators.email]],
-            password: [actor.password, [Validators.required, Validators.minLength(6)]],
+            password: [actor.password, [Validators.required]],
             phone: [actor.phone],
             address: [actor.address],
             role: [actor.role],
@@ -66,7 +67,7 @@ export class RegisterComponent  implements FormValidation{
       name: ['', Validators.required],
       surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
       phone: [''],
       address: [''],
       role: this.role,
@@ -76,6 +77,11 @@ export class RegisterComponent  implements FormValidation{
    
   async onRegister() {
     this.formSubmitted = true;
+    if (this.registrationForm.controls['password'].value.length< 6) {
+      this.passwordIsValid = false;
+      this.registrationForm.controls['password'].setErrors({ 'minlength': true });
+      return; 
+    }
     if(this.editing){
       await this.authService.updateActor(this.registrationForm.value, this.actorId);
       this.router.navigate(["/"]);
