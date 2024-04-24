@@ -48,8 +48,15 @@ export class Application extends Entity {
     }
     public set reasons(value) {
         this._reasons = value;
+    }    
+
+    private _trip!: string;
+    public get trip() {
+        return this._trip;
     }
-    
+    public set trip(value) {
+        this._trip = value;
+    }    
 
     constructor(){
         super()

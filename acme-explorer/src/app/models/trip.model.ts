@@ -77,6 +77,14 @@ export class Trip extends Entity{
         this._price = value;
     }
 
+    private _actor!: String;
+    public get actor() {
+        return this._actor;
+    }
+    public set actor(value) {
+        this._actor = value;
+    }
+    
     constructor(){
         super()
     }

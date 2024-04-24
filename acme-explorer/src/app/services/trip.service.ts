@@ -5,6 +5,7 @@ import { firstValueFrom, Observable, forkJoin } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { writeBatch } from 'firebase/firestore';
 
 
 const httpOptions ={
@@ -18,7 +19,8 @@ const httpOptions ={
 })
 export class TripService {
 
-  constructor(private firestore: Firestore, private http: HttpClient, private activatedRout: ActivatedRoute) {} 
+  constructor(private firestore: Firestore, 
+    private http: HttpClient, private activatedRout: ActivatedRoute) {} 
 
   async getAllAvailableTrips(): Promise<Trip[]> {
     const tripRef = collection(this.firestore, 'trips'); 
@@ -101,6 +103,7 @@ export class TripService {
           getDoc(docRef).then(doc => {
             if (doc.exists()) {
               const trip = this.getTrip(doc);
+              
               observer.next(trip);
             } else {
                 observer.next(null);
@@ -232,17 +235,50 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void>
 }
 
 
-async updateTrip(tripId: string, updatedTrip: Partial<Trip>): Promise<void> {
+async updateTrip(tripId: string, updatedTrip: Trip, stages: string[], idUser: string): Promise<void> {
   try {
+    // Referencia al documento del viaje existente
     const tripRef = doc(this.firestore, 'trips', tripId);
-    // Actualiza el documento del viaje con los nuevos datos proporcionados
-    await updateDoc(tripRef, updatedTrip);
+
+    // Actualiza los datos del viaje
+    await updateDoc(tripRef, {
+      ticker: updatedTrip.ticker,
+      title: updatedTrip.title,
+      description: updatedTrip.description,
+      startedAt: updatedTrip.startedAt,
+      endAt: updatedTrip.endAt,
+      price: updatedTrip.price,
+      requirements: updatedTrip.requirements,
+      photos: updatedTrip.photos,
+      idUserManage: idUser,
+    });
     console.log('Trip updated successfully');
+
+    // Referencia a la colección de etapas del viaje
+    const stagesCollectionRef = collection(tripRef, 'stages');
+
+    // Obtiene todas las etapas existentes
+    const snapshot = await getDocs(stagesCollectionRef);
+
+    // Elimina cada etapa existente
+    const batch = writeBatch(this.firestore);
+    snapshot.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit(); // Commit the batch
+    console.log('Existing stages deleted successfully');
+
+    // Añade las etapas a la colección 'stages'
+    stages.forEach(async (stage: any) => {
+      await addDoc(stagesCollectionRef, stage);
+    });
   } catch (error) {
     console.error('Error updating trip:', error);
     throw error;
   }
 }
+
+
 
 
 

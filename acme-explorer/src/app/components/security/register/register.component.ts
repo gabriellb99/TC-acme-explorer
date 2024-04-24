@@ -18,7 +18,7 @@ export class RegisterComponent  implements FormValidation{
   private formSubmitted = false;
   isFormValid = () => this.formSubmitted || this.registrationForm?.dirty;
   actorId: any;
-  editing: boolean = false
+  editing: boolean = false;
   public actor!: Actor;
   role: string = "explorer";
   isAdministrator: boolean = false;
