@@ -40,7 +40,7 @@ const routes: Routes = [
   data: {expectedRole: 'manager'}},
   {path: 'dt', component: TripTableComponent},
   {path: ':id/stages', component: StageComponent},
-  {path: ':id/edit', component: TripFormComponent},
+  {path: 'edit/:id', component: TripFormComponent},
   {path: ':id', component: TripDisplayComponent},
   {path: '', component: TripListComponent}
   

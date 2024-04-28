@@ -39,7 +39,7 @@
         </details>
         <div class="card-footer text-center row">
             <div class="col">
-                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER')" routerLink="/trips/{{trip.id}}/edit">
+                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER')" routerLink="/trips/edit/{{trip.id}}">
                     <i class="fa fa-pencil" aria-hidden="true" i18n>Edit</i>
                 </a>
             </div>
