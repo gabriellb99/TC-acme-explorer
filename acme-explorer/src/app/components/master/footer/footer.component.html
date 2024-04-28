@@ -36,18 +36,176 @@
             {{'Streamline your travel bookings with our intuitive app: book flights, hotels, and activities all in one place for a hassle-free travel experience.'}}
         </p>
         <div class="footer-icons">
-            <ul>
-                <li class="ms-3 fa-brands fa-twitter">
-                    <a href="https://twitter.com/acmeexplorer" aria-label="Visitar nuestro perfil de Twitter" style="color: #d3b926">Twitter</a>
-                </li>
-                <li class="ms-3 fa-brands fa-instagram">
-                    <a href="https://www.instagram.com/acmeexplorer" aria-label="Visitar nuestro perfil de Instagram" style="color: #d3b926">Instagram</a>
-                </li>
-                <li class="ms-3 fa-brands fa-facebook">
-                    <a href="https://www.facebook.com/acmeexplorer" aria-label="Visitar nuestra página de Facebook" style="color: #d3b926">Facebook</a>
-                </li>
-            </ul>
+            <a><li class="ms-3 fa-brands fa-twitter"></li></a>
+            <a><li class="ms-3 fa-brands fa-instagram"></li></a>
+            <a><li class="ms-3 fa-brands fa-facebook"></li></a>
         </div>
     </div>
     
 </footer>
+
+<style>
+    .footer-distributed {
+        background-color: #2c3e50;
+        color: #ffffff;
+        padding: 50px 0;
+        text-align: left;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .footer-left {
+        width: 30%;
+        min-width: 200px; /* Ancho mínimo */
+        display: inline-block;
+        vertical-align: top;
+        padding-left: 50px;
+        text-align: center; /* Alinear el texto al centro */
+    }
+
+    .footer-left h3 {
+        color: #ffffff;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .footer-left h3 span {
+        color: #fbb710;
+    }
+
+    .footer-links {
+        color: #ffffff;
+        margin: 10px 0 12px;
+    }
+
+    .footer-links a {
+        display: block; /* Cada enlace en una línea */
+        text-decoration: none;
+        color: #ffffff;
+        margin-bottom: 5px; /* Espacio entre enlaces */
+    }
+
+    .footer-company-name {
+        color: #ffffff;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .text-muted {
+        color: #ffffff;
+        font-size: 14px;
+        display: block;
+    }
+
+    .footer-center {
+        width: 30%;
+        min-width: 200px; /* Ancho mínimo */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center; /* Alinear el texto al centro */
+    }
+
+    .footer-center div {
+        margin-bottom: 20px; /* Espacio entre elementos */
+    }
+
+    .footer-center i {
+        font-size: 36px;
+        color: #fbb710;
+        margin-bottom: 5px; /* Espacio entre el icono y el texto */
+    }
+
+    .footer-center p {
+        color: #ffffff;
+        font-size: 14px;
+        margin: 0; /* Eliminar margen */
+    }
+
+    .footer-center p span {
+        display: block;
+        color: #ffffff;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .footer-right {
+        width: 30%;
+        min-width: 200px; /* Ancho mínimo */
+        display: inline-block;
+        vertical-align: top;
+        text-align: right;
+        padding-right: 50px;
+    }
+
+    .footer-right .footer-company-about {
+        margin-bottom: 20px; /* Espacio entre elementos */
+    }
+
+    .footer-right .footer-icons a {
+        margin-right: 10px; /* Espacio entre íconos */
+    }
+
+    .footer-right .footer-icons a:last-child {
+        margin-right: 0; /* Sin margen a la derecha para el último ícono */
+    }
+
+    .footer-right .footer-icons a i {
+        color: #ffffff;
+        font-size: 24px;
+    }
+
+    /* Estilos adicionales */
+    .footer-distributed p {
+        margin: 0; /* Elimina el margen predeterminado para los párrafos */
+    }
+
+    .footer-distributed .fa-map-marker,
+    .footer-distributed .fa-phone,
+    .footer-distributed .fa-envelope {
+        margin-right: 10px; /* Espacio entre el icono y el texto en la sección central */
+    }
+
+    .footer-distributed .fa-envelope {
+        margin-top: 10px; /* Ajuste de margen superior para el icono de correo electrónico */
+    }
+
+    /* Estilo responsive */
+    @media screen and (max-width: 768px) {
+        .footer-distributed {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-section {
+            width: 100%;
+            text-align: center;
+        }
+
+        .footer-right {
+            padding-right: 0;
+            text-align: center;
+        }
+
+        .footer-center div {
+            display: block; /* Cambiar a bloque para ocupar toda la anchura */
+        }
+
+        .footer-center p {
+            display: block; /* Cambiar a bloque para ocupar toda la anchura */
+            margin: 0; /* Eliminar el margen */
+        }
+
+        .footer-left,
+        .footer-center,
+        .footer-right {
+            width: 100%; /* Ancho al 100% para ocupar toda la línea */
+            padding-left: 0; /* Eliminar el padding izquierdo */
+            padding-right: 0; /* Eliminar el padding derecho */
+            text-align: center; /* Alinear el texto al centro */
+        }
+    }
+</style>
