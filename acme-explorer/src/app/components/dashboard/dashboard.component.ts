@@ -7,12 +7,6 @@ interface GeneralInformationData {
   applicationsPerTrip: any;
   tripPrices: any;
   applicationsRatio: any;
-/*  deviation: number;
-  avg: number;
-  title: String;
-  min: number;
-  max: number;
-  */
   icon: String;
   bgcolor: String;
   btcolor: String
@@ -39,10 +33,8 @@ export class DashboardComponent implements OnInit {
         const generalInformationData: GeneralInformationData = value[0]; 
           
         this.data.push(generalInformationData);
+        console.log("ngOnInit:", this.data);
       });
-
-      console.log("ngOnInit:", this.data);
-            
     }  
   
     checkRole(roles: string): boolean {
