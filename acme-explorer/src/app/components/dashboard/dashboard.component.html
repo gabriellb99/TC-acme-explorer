@@ -35,14 +35,10 @@
               <h5 class="mb-0 fw-normal">{{ trip.deviation }}</h5>
             </td>
           </tr>
-
         </tbody>
       </table>
-
-      
     </div>
   </div>
-
 </div>
 
 <div class="card">
@@ -80,14 +76,10 @@
               <h5 class="mb-0 fw-normal">{{ dt.tripPrices.deviation }}</h5>
             </td>
           </tr>
-
         </tbody>
       </table>
-
-      
     </div>
   </div>
-
 </div>
 
 <div class="card">
@@ -99,7 +91,7 @@
         <thead>
           <tr>
             <th i18n class="text-dark font-medium fs-4">Status</th>
-            <th i18n class="text-dark font-medium fs-4">Count</th>          
+            <th i18n class="text-dark font-medium fs-4">Count</th>
           </tr>
         </thead>
         <tbody>
@@ -112,12 +104,50 @@
               </div>
             </td>
             <td class="fs-4">{{ app.count}}</td>
-            
           </tr>
-
         </tbody>
       </table>
-      
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h4 i18n class="card-title">Statistics Applications Per Trip</h4>
+
+    <div class="table-responsive" *ngFor='let dt of data'>
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th i18n class="text-dark font-medium fs-4">Title</th>
+            <th i18n class="text-dark font-medium fs-4">Avg</th>
+            <th i18n class="text-dark font-medium fs-4">Min</th>
+            <th i18n class="text-dark font-medium fs-4">Max</th>
+            <th i18n class="text-dark font-medium fs-4">Deviation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trip of dt.applicationsPerTrip">
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <h5 class="mb-0 font-medium">{{ trip.tripID }}</h5>
+                </div>
+              </div>
+            </td>
+            <td class="fs-4">{{ trip.avg }}</td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ trip.min }}</h5>
+            </td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ trip.max }}</h5>
+            </td>
+            <td>
+              <h5 class="mb-0 fw-normal">{{ trip.deviation }}</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
