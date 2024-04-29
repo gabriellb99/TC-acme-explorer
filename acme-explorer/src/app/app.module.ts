@@ -35,6 +35,7 @@ import { CommonModule } from '@angular/common';
 import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-table/sponsor-table.component';
 import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { ApplyCommentComponent } from './components/trip/apply-comment/apply-comment.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     TripTableComponent,
     MessageComponent,
     SponsorTableComponent,
-    TripFormComponent
+    TripFormComponent,
+    ApplyCommentComponent
   ],
   imports: [
     NgbCarouselModule,

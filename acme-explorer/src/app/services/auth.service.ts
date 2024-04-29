@@ -4,7 +4,7 @@ import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Actor } from '../models/actor.model';
 import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
-import { Firestore, collection, doc, getDoc, getDocs, query, where, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, getDocs, query, where, updateDoc, addDoc } from '@angular/fire/firestore';
 import { MessageService } from 'src/app/services/message.service';
 
 const httpOptions = {
@@ -32,6 +32,28 @@ export class AuthService {
         reject(error);
       })
     })
+  }
+
+  async createActor(actor: Actor) {
+    console.log(actor)
+    const actorData = {
+      email: actor.email,
+      address: actor.address,
+      name: actor.name,
+      phone: actor.phone,
+      role: actor.role,
+      surname: actor.surname,
+      validate: actor.validate,
+      version: 1
+    };
+    await addDoc(collection(this.firestore, "actors"),actorData).then(async (docRef) => {
+      console.log('Documento creado con ID:', docRef.id);
+      //iniciamos sesion
+      await this.login(actor.email, actor.password);
+    })
+    .catch((error) => {
+      console.error('Error al crear documento:', error);
+    });
   }
 
   getRoles(): string[] {

@@ -21,7 +21,7 @@ export class Application extends Entity {
     public get applicationStatus(): string {
         return this._applicationStatus;
     }
-    public set applictionStatus(value: string) {
+    public set applicationStatus(value: string) {
         this._applicationStatus = value;
     }
 
@@ -57,6 +57,14 @@ export class Application extends Entity {
     public set trip(value) {
         this._trip = value;
     }    
+
+    private _actorID!: string;
+    public get actorId() {
+        return this._actorID;
+    }
+    public set actorId(value) {
+        this._actorID = value;
+    } 
 
     constructor(){
         super()

@@ -88,8 +88,10 @@ export class RegisterComponent  implements FormValidation{
     }else{
       try {
         const response = await this.authService.signUp(this.registrationForm.value);
+        const response2 = await this.authService.createActor(this.registrationForm.value);
         this.router.navigate(["/"]);
         console.log(response);
+        console.log(response2);
       } catch (error) {
         console.error(error);
       }

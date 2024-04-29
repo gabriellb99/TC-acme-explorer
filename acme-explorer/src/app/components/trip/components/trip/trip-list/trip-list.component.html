@@ -44,6 +44,11 @@
                 </a>
             </div>
             <div class="col">
+                <a *ngIf="checkRole('EXPLORER')">
+                    <button i18n class="btn btn-primary me-2" (click)="openPopup(trip.id)">Apply</button>
+                </a>
+            </div>
+            <div class="col">
                 <a routerLink="/trips/{{trip.id}}" >
                     <i class="fa fa-search-plus" aria-label="Details of the trip" aria-hidden="true" i18n style="color: #00047A;"></i>
                     <span class="visually-hidden">View trip details</span>

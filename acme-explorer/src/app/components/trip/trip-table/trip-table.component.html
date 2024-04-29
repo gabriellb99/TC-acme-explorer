@@ -79,19 +79,25 @@
         </ngx-datatable-column>
     <!--hay que poner el if pero cuando se arregle lo de que se mantenga el rol en la sesión
     *ngIf="checkRole('MANAGER')"-->
-        <ngx-datatable-column *ngIf="checkRole('MANAGER')"  i18n-name name="Delete">
+        <ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')"  i18n-name name="Delete">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                <button [disabled] = "row.cancelReason" >
+                <button [disabled] = "row.cancelReason" (click)="removeTrip(row.id)">
                     <i class="fa-solid fa-ban"></i>
                 </button>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column *ngIf="checkRole('MANAGER')" i18n-name name="Update">
+        <ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')" i18n-name name="Update">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                <button [disabled] = "row.cancelReason" >
+                <button [disabled] = "row.cancelReason" routerLink="/trips/edit/{{row.id}}">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
             </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column *ngIf="checkRole('EXPLORER')"  i18n-name name="Apply">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <button i18n class="btn btn-primary me-2" (click)="openPopup(row.id)">Apply</button>
+            </ng-template>
+        </ngx-datatable-column>
     </ngx-datatable>
+    
 </div>

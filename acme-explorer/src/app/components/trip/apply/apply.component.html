@@ -11,25 +11,130 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-4" *ngFor="let application of applications">
-                <div class="card mb-3">
-                  <div class="card-header">{{ application.comments }}</div>
-                  <div class="card-body" style="background-color: #eed6d8">
-                    <h5 class="card-title">
-                      <ng-container i18n>Created:</ng-container>
-                      {{ transformDate(application.createdAt) }}
-                    </h5>
-                      <p class="card-text">Actor:nombre y apellidos </p>
-                    <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
-                    <p class="card-text">Ticker: {{ application.ticker }}</p>
-                    <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                <ng-container *ngIf="application.applicationStatus === 'pending'">
+                  <div class="card mb-3">
+                    <div class="card-header">{{ application.comments }}</div>
+                    <div class="card-body" style="background-color: #eed6d8">
+                      <h5 class="card-title">
+                        <ng-container i18n>Created:</ng-container>
+                        {{ transformDate(application.createdAt) }}
+                      </h5>
+                        <p class="card-text">Actor:nombre y apellidos </p>
+                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
+                      <p class="card-text">Ticker: {{ application.ticker }}</p>
+                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    </div>
+                    <div>
+                      <a *ngIf="userRole === 'EXPLORER'">
+                        <button i18n class="btn btn-primary me-2" (click)="cancel(application.id)">Cancel</button>
+                      </a>
+                      <a *ngIf="userRole === 'MANAGER'">
+                        <button i18n class="btn btn-primary me-2" (click)="accept(application.id)">Accept</button>
+                        <button i18n class="btn btn-primary me-2" (click)="reject(application.id)">Reject</button>
+                      </a>
+                    </div>
                   </div>
-                </div>
+                </ng-container>
               </div>
             </div>
           </div>
         </ng-template>
       </ngb-panel>
-  
+
+      <ngb-panel id="due">
+        <ng-template ngbPanelTitle>
+          <span i18n>Due </span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4" *ngFor="let application of applications">
+                <ng-container *ngIf="application.applicationStatus === 'due'">
+                  <div class="card mb-3">
+                    <div class="card-header">{{ application.comments }}</div>
+                    <div class="card-body" style="background-color: #eed6d8">
+                      <h5 class="card-title">
+                        <ng-container i18n>Created:</ng-container>
+                        {{ transformDate(application.createdAt) }}
+                      </h5>
+                        <p class="card-text">Actor:nombre y apellidos </p>
+                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
+                      <p class="card-text">Ticker: {{ application.ticker }}</p>
+                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    </div>
+                    <div>
+                      <a *ngIf="userRole === 'EXPLORER'">
+                        <button i18n class="btn btn-primary me-2" (click)="cancel(application.id)">Cancel</button>
+                        <button i18n class="btn btn-primary me-2" (click)="pay(application.id)">Pay</button>
+                      </a>
+                    </div>
+                  </div>
+                 
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="accepted">
+        <ng-template ngbPanelTitle>
+          <span i18n>Accepted </span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4" *ngFor="let application of applications">
+                <ng-container *ngIf="application.applicationStatus === 'accepted'">
+                  <div class="card mb-3">
+                    <div class="card-header">{{ application.comments }}</div>
+                    <div class="card-body" style="background-color: #eed6d8">
+                      <h5 class="card-title">
+                        <ng-container i18n>Created:</ng-container>
+                        {{ transformDate(application.createdAt) }}
+                      </h5>
+                        <p class="card-text">Actor:nombre y apellidos </p>
+                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
+                      <p class="card-text">Ticker: {{ application.ticker }}</p>
+                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="rejected">
+        <ng-template ngbPanelTitle>
+          <span i18n>Rejected</span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4" *ngFor="let application of applications">
+                <ng-container *ngIf="application.applicationStatus === 'rejected'">
+                  <div class="card mb-3">
+                    <div class="card-header">{{ application.comments }}</div>
+                    <div class="card-body" style="background-color: #eed6d8">
+                      <h5 class="card-title">
+                        <ng-container i18n>Created:</ng-container>
+                        {{ transformDate(application.createdAt) }}
+                      </h5>
+                        <p class="card-text">Actor:nombre y apellidos </p>
+                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
+                      <p class="card-text">Ticker: {{ application.ticker }}</p>
+                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    </div>
+                  </div>
+                </ng-container>
+                
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
       
      
     </ngb-accordion>

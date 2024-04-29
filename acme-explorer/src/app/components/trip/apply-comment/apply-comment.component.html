@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <ng-container *ngIf="mode === 'reject'; else addCommentTitle">
+    <h4 class="modal-title">Add a reject reason</h4>
+  </ng-container>
+  <ng-template #addCommentTitle>
+    <h4 class="modal-title">Add a comment to application</h4>
+  </ng-template>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="mb-3">
+      <textarea class="form-control" id="comment" [(ngModel)]="comment" name="comment" [required]="mode === 'rejected'"></textarea>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cancel()">Close</button>
+  <ng-container *ngIf="mode === 'reject'; else saveButton">
+    <button type="button" class="btn btn-danger" (click)="rejectApplication()">Reject</button>
+  </ng-container>
+  <ng-template #saveButton>
+    <button type="button" class="btn btn-primary" (click)="saveApplication()">Save</button>
+  </ng-template>
+</div>

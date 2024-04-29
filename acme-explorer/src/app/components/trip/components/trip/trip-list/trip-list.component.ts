@@ -8,6 +8,9 @@ import { Actor } from 'src/app/models/actor.model';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service'; // Importar el servicio de búsqueda
 import { Timestamp } from 'firebase/firestore';
+import { MessageService } from 'src/app/services/message.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyCommentComponent } from '../../../apply-comment/apply-comment.component';
 
 @Component({
   selector: 'app-trip-list',
@@ -23,7 +26,7 @@ export class TripListComponent implements OnInit, OnDestroy {
   searchValue: string = ''; // Definir tipo para el parámetro searchValue
   protected advstatus: boolean = true; // Definición de advstatus
 
-  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private searchService: SearchService) { }
+  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private searchService: SearchService,private messageService: MessageService,private modalService: NgbModal) { }
 
   removeTrip(index: number){
     this.trips[index].cancelReason = "cancelled";
@@ -63,23 +66,27 @@ export class TripListComponent implements OnInit, OnDestroy {
 ngOnInit(): void {
   // Obtener el actor actual
   this.currentActor = this.authService.getCurrentActor();
+  let idUser: string | null = null;
+  if(this.currentActor && this.currentActor.role.toLowerCase() === "manager"){
+    idUser = this.currentActor.id;
+  }
 
   // Obtener todos los viajes disponibles al inicio
   this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
     // Si hay un valor de búsqueda, realizar la búsqueda
     // De lo contrario, obtener todos los viajes disponibles
     if (searchValue.length > 0) {
-      return this.searchTrips(searchValue);
+      return this.searchTrips(searchValue,idUser);
     } else {
-      return this.getAllTrips();
+      return this.getAllTrips(idUser);
     }
   });
-  return this.getAllTrips();
+  return this.getAllTrips(idUser);
 }
 
 // Método para obtener todos los viajes disponibles
-getAllTrips(): void {
-  this.tripService.getAllAvailableTrips()
+getAllTrips(idUser: String | null = null): void {
+  this.tripService.getAllAvailableTrips(idUser)
     .then((trips: Trip[]) => {
       this.trips = trips;
       // Manejar los datos de los viajes aquí
@@ -112,9 +119,9 @@ getAllTrips(): void {
 
   
   // Método para realizar la búsqueda de trips
-  searchTrips(searchValue: string): void {
+  searchTrips(searchValue: string, idUser: string | null = null): void {
     // Llamar al método searchTrips del servicio de trips para buscar trips
-    this.tripService.searchTrips(searchValue).then(trips => {
+    this.tripService.searchTrips(searchValue,idUser).then(trips => {
       this.trips = trips;
     }).catch(error => {
       console.error("Error al buscar trips:", error);
@@ -137,5 +144,24 @@ getAllTrips(): void {
     // Verificar si la diferencia es mayor que 10 días
     return differenceInDays < 7;
   }
+
+
+    openPopup(index: string){
+      console.log("entra", index);
+      const modalRef = this.modalService.open(ApplyCommentComponent);
+      modalRef.componentInstance.tripId = index;
+      modalRef.result.then((result) => {
+        if (result === 'save') {
+          console.log("aceptar");
+          let message = "Item successfully applied";
+          this.messageService.notifyMessage(message, "alert alert-success")
+        } 
+      }).catch((error) => {
+        // Manejar errores aquí, si es necesario
+        console.log('Error:', error);
+      });
+    
+    }
+  
 
 }

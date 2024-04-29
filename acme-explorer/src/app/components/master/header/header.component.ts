@@ -75,6 +75,7 @@ export class HeaderComponent implements OnInit {
       this.currentActor = undefined;
       this.logoutAnimationState = 'open';
       console.log("Logging out");
+      this.router.navigateByUrl(this.returnUrl);
     } catch (error) {
       console.error(error);
     }

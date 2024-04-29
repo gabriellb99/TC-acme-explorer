@@ -22,10 +22,15 @@ export class TripService {
   constructor(private firestore: Firestore, 
     private http: HttpClient, private activatedRout: ActivatedRoute) {} 
 
-  async getAllAvailableTrips(): Promise<Trip[]> {
+  async getAllAvailableTrips(userId: String | null = null): Promise<Trip[]> {
     const tripRef = collection(this.firestore, 'trips'); 
     var now = new Date(new Date().toUTCString());
-    const q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now));
+    let q;
+    if(userId){
+      q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now),where("actor","==",userId));
+    }else{
+      q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now));
+    }
     //console.log(q);
 
     const querySnapshot = await getDocs(q);
@@ -36,48 +41,28 @@ export class TripService {
       let trip = this.getTrip(doc);
       trips.push(trip);
     });
-  
+    console.log(trips);
     return trips;
   }
 
-/*
-  getAllTripsActor(actorId: string): Observable<Trip[] | null> {
-    return new Observable<Trip[] | null>(observer => {
-      try {
-          const actorRef = collection(this.firestore, 'actors');
-          const docRef = doc(actorRef, actorId);
-          getDoc(docRef).then(doc => {
-            if (doc.exists()) {
-              const actorTrips: Trip[] = [];
-              const actorTripIds = doc.data()['myTrips'] || [];
-    
-              if (actorTripIds.length > 0) {
-                const tripObservables = actorTripIds.map((tripId: string) => this.getTripById(tripId));
-                forkJoin(tripObservables).subscribe((trips: Trip) => {
-                  actorTrips.push(...trips.filter((trip: any) => !!trip)); // Filtrar los trips nulos
-                  observer.next(actorTrips);
-                  observer.complete();
-                }, (err: any) => {
-                  observer.error(err);
-                });
-              } else {
-                observer.next(null);
-                observer.complete();
-              }
-            } else {
-              observer.next(null);
-              observer.complete();
-            }
-          }).catch(err => {
-            observer.error(err);
-          });
-        } catch (error) {
-          console.error('Error al obtener los viajes de un actor:', error);
-          observer.error(error);
-        }
-      });
-}
-*/
+  async getTripIdsByManagerId(userId: String | null = null): Promise<String[]> {
+    const tripRef = collection(this.firestore, 'trips'); 
+    var now = new Date(new Date().toUTCString());
+    let q;
+    q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now),where("actor","==",userId));
+
+    const querySnapshot = await getDocs(q);
+  
+    const tripsId: String[] = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      let tripId = data["id"];
+      tripsId.push(tripId);
+    });
+    console.log(tripsId);
+    return tripsId;
+  }
+
 
   public getTrip(doc: any): Trip {
     const data = doc.data();
@@ -150,7 +135,7 @@ export class TripService {
     });
   }
 
-async searchTrips(searchValue: string): Promise<Trip[]> {
+async searchTrips(searchValue: string,userId: string | null = null): Promise<Trip[]> {
 
     const tripRef = collection(this.firestore, 'trips');
 
@@ -170,6 +155,13 @@ async searchTrips(searchValue: string): Promise<Trip[]> {
       where("ticker", ">=", searchValue),
       where("ticker", "<=", searchValue + "\uf8ff")
     );
+
+    if(userId){
+      const userQuery = query(tripRef,
+        where("actor", "==", userId)
+      );
+    }
+  
 
     const [titleSnapshot, descriptionSnapshot, tickerSnapshot] = await Promise.all([
       getDocs(titleQuery),
@@ -216,7 +208,7 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void>
       cancelReason: '',
       requirements: newTrip.requirements,
       photos: newTrip.photos,
-      idUserManage: idUser,
+      actor: idUser,
       deleted: false,
     });
     console.log('Trip created successfully');
