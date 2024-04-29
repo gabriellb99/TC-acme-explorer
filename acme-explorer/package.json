@@ -30,14 +30,14 @@
     "bootstrap": "^5.2.3",
     "firebase": "^10.8.1",
     "rxjs": "~7.5.0",
+    "simple-statistics": "^7.8.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4",
     "@asymmetrik/ngx-leaflet": "^14.0.1",
     "leaflet": "^1.9.4",
     "leaflet-control-geocoder": "^2.4.0",
     "ngx-cookie-service": "^14.0.1",
-    "ngx-paypal": "^10.0.0",
-    "simple-statistics": "^7.8.3"
+    "ngx-paypal": "^10.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.10",

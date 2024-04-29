@@ -269,9 +269,4 @@ async updateTrip(tripId: string, updatedTrip: Trip, stages: string[], idUser: st
     throw error;
   }
 }
-
-
-
-
-
 }

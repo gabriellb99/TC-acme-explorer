@@ -8,13 +8,12 @@
         </button>    
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown" *ngIf="activeRole !== 'anonymous'">
+                <li class="nav-item dropdown">
                     <a i18n class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Trips
                     </a>
                     <ul class="dropdown-menu">
                         <li><a i18n class="dropdown-item" routerLink="/dashboard">Dashboard</a></li>
-                        <li><a i18n class="dropdown-item" routerLink="/stages">Stages</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/applies">Applies</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/payments">Payments</a></li>
                         <li><a i18n class="dropdown-item" routerLink="/sponsorships">Sponsorships</a></li>
@@ -67,6 +66,10 @@
                     </a>
                 </li>
             </ul>
+            <a class="nav-link activ" *ngIf="activeRole === 'administrator' && currentActor" aria-current="page" routerLink="/register" style="margin-right: 2%;">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                <ng-container i18n> Register</ng-container>
+            </a>
             <div class="dropdown text-end ml-5" *ngIf="currentActor">
                 <a href="#" class="d-block link-dark text-decoration-nonedropdown-toggle show" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/mdo.png" alt="mdo"width="32" height="32" class="rounded-circle">

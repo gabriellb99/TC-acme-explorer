@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class DashboardService {
 
-  constructor(private firestore: Firestore, private authservice: AuthService) { }
+  constructor(private firestore: Firestore, private authService: AuthService) { }
 /*
   generalInformation(): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
@@ -39,7 +39,7 @@ export class DashboardService {
   }
 */
 
-generalInformation(): Promise<any[]> {
+async generalInformation(): Promise<any[]> {
   return new Promise<any[]>((resolve, reject) => {
     const tripsCollection = collection(this.firestore, 'trips');
 
@@ -70,34 +70,40 @@ generalInformation(): Promise<any[]> {
   });
 }
 
-  private getTripsPerManager(trips: any[]): any[] {
-    const tripsPerManager: any[] = [];
-    const managerStats: { [key: string]: number[] } = {};
+private async getTripsPerManager(trips: any[]): Promise<any[]> {
+  const tripsPerManager: any[] = [];
+  const managerStats: { [key: string]: number[] } = {};
 
-    trips.forEach(trip => {
-      const manager = trip.actor;
+  for (const trip of trips) {
+    try {
+      const dataManager = await this.authService.getActorById(trip.actor);
+      const manager = dataManager?.name + " " + dataManager?.surname;
       if (manager in managerStats) {
         managerStats[manager].push(trip.price);
       } else {
         managerStats[manager] = [trip.price];
       }
-    });
-
-    for (const manager in managerStats) {
-      const tripsCount = managerStats[manager];
-      const stats = {
-        title: 'Trips per Manager',
-        actor: manager,
-        avg: mean(tripsCount),
-        min: min(tripsCount),
-        max: max(tripsCount),
-        deviation: standardDeviation(tripsCount)
-      };
-      tripsPerManager.push(stats);
+    } catch (error) {
+      console.error('Error al obtener el actor:', error);
     }
-
-    return tripsPerManager;
   }
+
+  for (const manager in managerStats) {
+    const tripsCount = managerStats[manager];
+    const stats = {
+      title: 'Trips per Manager',
+      actor: manager,
+      avg: mean(tripsCount),
+      min: min(tripsCount),
+      max: max(tripsCount),
+      deviation: standardDeviation(tripsCount)
+    };
+    tripsPerManager.push(stats);
+  }
+  console.log(tripsPerManager);
+  return tripsPerManager;
+}
+
 
   private calculateStats(title: string, data: number[]): any {
     return {

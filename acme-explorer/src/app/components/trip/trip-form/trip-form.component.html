@@ -1,4 +1,4 @@
-<form class="form-container" [formGroup]="newTripForm" (ngSubmit)="onSubmit()">
+<form *ngIf="newTripForm" class="form-container" [formGroup]="newTripForm" (ngSubmit)="onSubmit()">
     <section class="form-inputs">
         <h2 i18n>Trip</h2>
         <div class="form-group">

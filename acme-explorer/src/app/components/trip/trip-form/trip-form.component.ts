@@ -30,6 +30,7 @@ export class TripFormComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.tripId = this.activatedRoute.snapshot.params['id'];
+    this.tripId = this.activatedRoute.snapshot.params['id'];
     if(this.tripId){
       this.tripService.getTripById(this.tripId).subscribe(trip => {
         if(trip){
@@ -66,47 +67,32 @@ export class TripFormComponent implements OnInit {
         }
       });
     }else{
-    this.newTripForm = this.fb.group({
-      title: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      startedAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
-      endAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
-      requirements: new FormArray(
-        [new FormControl(null)],
-        [Validators.required]
-      ),
-      cancelReason: new FormControl(null),
-      photos: new FormArray(
-        [new FormControl(null)]
-      ),
-      stages: new FormArray(
-        [
-          new FormGroup({
-            title: new FormControl('', [Validators.required]),
-            description: new FormControl('', [Validators.required]),
-            price: new FormControl('', [Validators.required]),
-          }),
-        ],
-        [Validators.required]
-      ),
-    });
-  }
+      this.newTripForm = this.fb.group({
+        title: new FormControl('', [Validators.required]),
+        description: new FormControl('', [Validators.required]),
+        startedAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
+        endAt: new FormControl(null, [Validators.required, this.dateGreaterThanToday]),
+        requirements: new FormArray(
+          [new FormControl(null)],
+          [Validators.required]
+        ),
+        cancelReason: new FormControl(null),
+        photos: new FormArray(
+          [new FormControl(null)]
+        ),
+        stages: new FormArray(
+          [
+            new FormGroup({
+              title: new FormControl('', [Validators.required]),
+              description: new FormControl('', [Validators.required]),
+              price: new FormControl('', [Validators.required]),
+            }),
+          ],
+          [Validators.required]
+        ),
+      });
+    }
     
-  }
-
-  fillFormWithData(trip: Trip) {
-    this.newTripForm.patchValue({
-      title: trip.title,
-      description: trip.description,
-      startedAt: trip.startedAt.toDate(), 
-      endAt: trip.endAt.toDate(), 
-      requirements: trip.requirements,
-      cancelReason: trip.cancelReason,
-      ticker: trip.ticker,
-      photos: trip.photos,
-      price: trip.price,
-      stages: trip.stages
-    });
   }
 
 

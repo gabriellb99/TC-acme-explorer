@@ -35,13 +35,13 @@ export class AuthService {
   }
 
   async createActor(actor: Actor) {
-    console.log(actor)
     const actorData = {
       email: actor.email,
       address: actor.address,
       name: actor.name,
       phone: actor.phone,
       role: actor.role,
+      password: actor.password,
       surname: actor.surname,
       validate: actor.validate,
       version: 1
@@ -60,30 +60,30 @@ export class AuthService {
     return ['Anonymous', 'Manager', 'Administrator', 'Explorer', 'Sponsor']
   }
 
-  getActorById(actorId: string): Observable<Actor | null> {  
-    return new Observable<Actor | null>(observer => {
+  async getActorById(actorId: string): Promise<Actor | null> {
+    return new Promise<Actor | null>((resolve, reject) => {
       try {
-          const actorRef = collection(this.firestore, 'actors');
-          const docRef = doc(actorRef, actorId);
-          getDoc(docRef).then(doc => {
+        const actorRef = collection(this.firestore, 'actors');
+        const docRef = doc(actorRef, actorId);
+        getDoc(docRef)
+          .then(doc => {
             if (doc.exists()) {
               const actor = this.getActorTotal(doc);
-              observer.next(actor);
+              resolve(actor);
             } else {
-                observer.next(null);
+              resolve(null);
             }
-            observer.complete();
-          }).catch((err) => {
-            observer.error(err);
+          })
+          .catch(err => {
+            reject(err);
           });
-          
       } catch (error) {
-          console.error('Error al obtener el actor por ID:', error);
-          observer.error(error);
+        console.error('Error al obtener el actor por ID:', error);
+        reject(error);
       }
     });
-  
   }
+  
 
   public getActor(doc: any): Actor {
     const data = doc.data();
@@ -144,20 +144,20 @@ export class AuthService {
 
   setCurrentActor(actor?: Actor){
     if(actor){
-      localStorage.setItem('currentActor', JSON.stringify({
+      sessionStorage.setItem('currentActor', JSON.stringify({
         id: actor.id,
         name: actor.name,
         surname: actor.surname,
         role: actor.role
       }))
     } else {
-      localStorage.removeItem('currentActor');
+      sessionStorage.removeItem('currentActor');
     }
   }
 
   getCurrentActor(): Actor{
     let result = null;
-    const currentActor = localStorage.getItem('currentActor');
+    const currentActor = sessionStorage.getItem('currentActor');
     if(currentActor){
       result = JSON.parse(currentActor);
       this.currentActor = result;

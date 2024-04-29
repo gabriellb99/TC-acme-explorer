@@ -36,29 +36,30 @@ export class RegisterComponent  implements FormValidation{
       }
 
       this.actorId = route.snapshot.params['id'];
-    if (this.actorId) {
-      this.authService.getActorById(this.actorId).subscribe(actor => {
-        if(actor){
-          this.editing = true;
-          this.actor = actor;
-          this.registrationForm = this.fb.group({
-            name: [actor.name, Validators.required],
-            surname: [actor.surname, Validators.required],
-            email: [actor.email, [Validators.required, Validators.email]],
-            password: [actor.password, [Validators.required]],
-            phone: [actor.phone],
-            address: [actor.address],
-            role: [actor.role],
-            validate: true
-          });
-          console.log('Displaying actor:' + actor);
-        }else{
-          console.error('No se encontró ningún actor con el ID proporcionado.');
-        }
-      })
-    }else{
-      this.createForm();
-    }
+    (async () => {
+        if (this.actorId) {
+          const actor = await this.authService.getActorById(this.actorId);
+          if(actor){
+            this.editing = true;
+            this.actor = actor;
+            this.registrationForm = this.fb.group({
+              name: [actor.name, Validators.required],
+              surname: [actor.surname, Validators.required],
+              email: [actor.email, [Validators.required, Validators.email]],
+              password: [actor.password, [Validators.required]],
+              phone: [actor.phone],
+              address: [actor.address],
+              role: [actor.role],
+              validate: true
+            });
+            console.log('Displaying actor:' + actor);
+          }else{
+            console.error('No se encontró ningún actor con el ID proporcionado.');
+          }
+      }else{
+        this.createForm();
+      }
+    });
   }
 
 

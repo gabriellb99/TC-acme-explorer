@@ -27,15 +27,17 @@ export class DashboardComponent implements OnInit {
       this.data = [];   
     }
 
-    ngOnInit(): void {
-
-      this.dashboardService.generalInformation().then((value: any[]) => {
+    async ngOnInit(): Promise<void> {
+      try {
+        const value: any[] = await this.dashboardService.generalInformation();
         const generalInformationData: GeneralInformationData = value[0]; 
           
         this.data.push(generalInformationData);
         console.log("ngOnInit:", this.data);
-      });
-    }  
+      } catch (error) {
+        console.error('Error en ngOnInit:', error);
+      }
+    } 
   
     checkRole(roles: string): boolean {
       return this.authService.checkRole(roles);

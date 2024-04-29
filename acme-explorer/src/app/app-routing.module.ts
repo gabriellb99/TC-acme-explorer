@@ -30,7 +30,7 @@ const routes: Routes = [
   path: 'register',
   children: [
     {path: ':id', component: RegisterComponent},
-    {path: '', component: RegisterComponent, canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous'},
+    {path: '', component: RegisterComponent, canActivate: [ActorRoleGuard], data: {expectedRole: 'anonymous,administrator'},
     canDeactivate: [LeaveFormGuard]},
   ]
 },
