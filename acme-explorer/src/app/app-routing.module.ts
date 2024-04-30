@@ -15,6 +15,7 @@ import { TripTableComponent } from './components/trip/trip-table/trip-table.comp
 import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-table/sponsor-table.component';
 import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
 import { LeaveFormGuard } from './guards/leave-form.guard';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 
 const routes: Routes = [
@@ -45,7 +46,11 @@ const routes: Routes = [
   {path: '', component: TripListComponent}
   
 ]},
-
+{
+  path: 'checkout', component: CheckoutComponent,
+  canActivate: [ActorRoleGuard],
+  data: { expectedRole: 'explorer' }
+},
 {path: 'stages', component: StageComponent},
 {path: 'applies', component: ApplyComponent},
 {path: 'payments', component: PaymentComponent},

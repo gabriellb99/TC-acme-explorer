@@ -2,21 +2,8 @@ import { Entity } from "./entity.model";
 import { Timestamp } from "@angular/fire/firestore";
 
 export class Application extends Entity {
-    private _ticker!: string;
-    public get ticker(): string {
-        return this._ticker;
-    }
-    public set ticker(value: string) {
-        this._ticker = value;
-    }
-    private _title!: string;
-    public get title(): string {
-        return this._title;
-    }
-    public set title(value: string) {
-        this._title = value;
-    }
-    
+
+  
     private _applicationStatus!: string;
     public get applicationStatus(): string {
         return this._applicationStatus;
@@ -66,6 +53,36 @@ export class Application extends Entity {
         this._actorID = value;
     } 
 
+    private _actorDescription!: string;
+    public get actorDescription() {
+        return this._actorDescription;
+    }
+    public set actorDescription(value) {
+        this._actorDescription = value;
+    } 
+
+    private _tripTitle!: string;
+    public get tripTitle() {
+        return this._tripTitle;
+    }
+    public set tripTitle(value) {
+        this._tripTitle = value;
+    } 
+
+    private _startTripDate!: Timestamp;
+    public get startTripDate() {
+        return this._startTripDate;
+    }
+    public set startTripDate(value) {
+        this._startTripDate = value;
+    } 
+    private _tripPrice!: number;
+    public get tripPrice() {
+        return this._tripPrice;
+    }
+    public set tripPrice(value) {
+        this._tripPrice = value;
+    } 
     constructor(){
         super()
     }

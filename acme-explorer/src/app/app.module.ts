@@ -36,6 +36,9 @@ import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-tabl
 import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ApplyCommentComponent } from './components/trip/apply-comment/apply-comment.component';
+import { YesNoQuestionComponent } from './components/shared/yesNoQuestion/yesNoQuestion.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,9 @@ import { ApplyCommentComponent } from './components/trip/apply-comment/apply-com
     MessageComponent,
     SponsorTableComponent,
     TripFormComponent,
-    ApplyCommentComponent
+    ApplyCommentComponent,
+    YesNoQuestionComponent,
+    CheckoutComponent
   ],
   imports: [
     NgbCarouselModule,
@@ -71,6 +76,7 @@ import { ApplyCommentComponent } from './components/trip/apply-comment/apply-com
     HttpClientModule,
     BrowserAnimationsModule,
     CommonModule,
+    NgxPayPalModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())

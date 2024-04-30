@@ -13,16 +13,15 @@
               <div class="col-md-4" *ngFor="let application of applications">
                 <ng-container *ngIf="application.applicationStatus === 'pending'">
                   <div class="card mb-3">
-                    <div class="card-header">{{ application.comments }}</div>
-                    <div class="card-body" style="background-color: #eed6d8">
-                      <h5 class="card-title">
-                        <ng-container i18n>Created:</ng-container>
-                        {{ transformDate(application.createdAt) }}
-                      </h5>
-                        <p class="card-text">Actor:nombre y apellidos </p>
-                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
-                      <p class="card-text">Ticker: {{ application.ticker }}</p>
-                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    <div class="card-header text-center bold-text">{{ application.tripTitle }}</div>
+                    <div class="card-body" style="background-color: #9ad5da">
+                      <p class="card-text"><strong><ng-container i18n>Start trip date:</ng-container></strong>  {{ transformDate(application.startTripDate) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application date:</ng-container></strong> {{ transformDate(application.createdAt) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Applicant:</ng-container></strong> {{ application.actorDescription }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application comments:</ng-container></strong> {{ application.comments }}</p>
+                      <h5 class="card-title text-center display-4 bold-text">
+                        {{ application.tripPrice }} €
+                      </h5>                        
                     </div>
                     <div>
                       <a *ngIf="userRole === 'EXPLORER'">
@@ -51,22 +50,23 @@
               <div class="col-md-4" *ngFor="let application of applications">
                 <ng-container *ngIf="application.applicationStatus === 'due'">
                   <div class="card mb-3">
-                    <div class="card-header">{{ application.comments }}</div>
-                    <div class="card-body" style="background-color: #eed6d8">
-                      <h5 class="card-title">
-                        <ng-container i18n>Created:</ng-container>
-                        {{ transformDate(application.createdAt) }}
-                      </h5>
-                        <p class="card-text">Actor:nombre y apellidos </p>
-                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
-                      <p class="card-text">Ticker: {{ application.ticker }}</p>
-                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    <div class="card-header text-center bold-text">{{ application.tripTitle }}</div>
+                    <div class="card-body" style="background-color: #d3dd75">
+                      <p class="card-text"><strong><ng-container i18n>Start trip date:</ng-container></strong>  {{ transformDate(application.startTripDate) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application date:</ng-container></strong> {{ transformDate(application.createdAt) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Applicant:</ng-container></strong> {{ application.actorDescription }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application comments:</ng-container></strong> {{ application.comments }}</p>
+                      <h5 class="card-title text-center display-4 bold-text">
+                        {{ application.tripPrice }} €
+                      </h5>                        
                     </div>
                     <div>
                       <a *ngIf="userRole === 'EXPLORER'">
                         <button i18n class="btn btn-primary me-2" (click)="cancel(application.id)">Cancel</button>
-                        <button i18n class="btn btn-primary me-2" (click)="pay(application.id)">Pay</button>
                       </a>
+                      <a [routerLink]="['/checkout']" [queryParams]="{ applicationId: application.id }">
+                        <button i18n class="btn btn-primary me-2">Pay</button>
+                      </a>                      
                     </div>
                   </div>
                  
@@ -87,16 +87,15 @@
               <div class="col-md-4" *ngFor="let application of applications">
                 <ng-container *ngIf="application.applicationStatus === 'accepted'">
                   <div class="card mb-3">
-                    <div class="card-header">{{ application.comments }}</div>
-                    <div class="card-body" style="background-color: #eed6d8">
-                      <h5 class="card-title">
-                        <ng-container i18n>Created:</ng-container>
-                        {{ transformDate(application.createdAt) }}
-                      </h5>
-                        <p class="card-text">Actor:nombre y apellidos </p>
-                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
-                      <p class="card-text">Ticker: {{ application.ticker }}</p>
-                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    <div class="card-header text-center bold-text">{{ application.tripTitle }}</div>
+                    <div class="card-body" style="background-color: #72d47f">
+                      <p class="card-text"><strong><ng-container i18n>Start trip date:</ng-container></strong>  {{ transformDate(application.startTripDate) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application date:</ng-container></strong> {{ transformDate(application.createdAt) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Applicant:</ng-container></strong> {{ application.actorDescription }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application comments:</ng-container></strong> {{ application.comments }}</p>
+                      <h5 class="card-title text-center display-4 bold-text">
+                        {{ application.tripPrice }} €
+                      </h5>                        
                     </div>
                   </div>
                 </ng-container>
@@ -116,16 +115,16 @@
               <div class="col-md-4" *ngFor="let application of applications">
                 <ng-container *ngIf="application.applicationStatus === 'rejected'">
                   <div class="card mb-3">
-                    <div class="card-header">{{ application.comments }}</div>
-                    <div class="card-body" style="background-color: #eed6d8">
-                      <h5 class="card-title">
-                        <ng-container i18n>Created:</ng-container>
-                        {{ transformDate(application.createdAt) }}
-                      </h5>
-                        <p class="card-text">Actor:nombre y apellidos </p>
-                      <p class="card-text"><ng-container i18n>Trip:</ng-container> {{ application.title }}</p>
-                      <p class="card-text">Ticker: {{ application.ticker }}</p>
-                      <p class="card-text"><ng-container i18n>Reason:</ng-container> {{ application.reasons }}</p>
+                    <div class="card-header text-center bold-text">{{ application.tripTitle }}</div>
+                    <div class="card-body" style="background-color: #c0527c">
+                      <p class="card-text"><strong><ng-container i18n>Start trip date:</ng-container></strong>  {{ transformDate(application.startTripDate) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application date:</ng-container></strong> {{ transformDate(application.createdAt) }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Applicant:</ng-container></strong> {{ application.actorDescription }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Application comments:</ng-container></strong> {{ application.comments }}</p>
+                      <p class="card-text"><strong><ng-container i18n>Reject reasons:</ng-container></strong> {{ application.reasons }}</p>
+                      <h5 class="card-title text-center display-4 bold-text">
+                        {{ application.tripPrice }} €
+                      </h5>                        
                     </div>
                   </div>
                 </ng-container>

@@ -7,6 +7,9 @@ import { Timestamp } from 'firebase/firestore';
 import { Actor } from 'src/app/models/actor.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyCommentComponent } from '../apply-comment/apply-comment.component';
+import { YesNoQuestionComponent } from '../../shared/yesNoQuestion/yesNoQuestion.component';
+import { TripService } from 'src/app/services/trip.service';
+import { Trip } from 'src/app/models/trip.model';
 
 @Component({
   selector: 'app-apply',
@@ -19,7 +22,7 @@ export class ApplyComponent implements OnInit {
   userId!: string;
   userRole!: string;
 
-  constructor(private authService: AuthService, private applyService: ApplyService, private router: Router,private modalService: NgbModal) { 
+  constructor(private authService: AuthService, private applyService: ApplyService, private router: Router,private modalService: NgbModal,private tripService: TripService) { 
     const currentActor = this.authService.getCurrentActor();
     if(currentActor){
       this.userId = currentActor.id;
@@ -30,6 +33,7 @@ export class ApplyComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.getApplicationsByRole();
+    console.log(this.applications);
     
   }
 
@@ -46,6 +50,7 @@ export class ApplyComponent implements OnInit {
   }
 
   async getApplicationsByRole(): Promise<void> {
+    console.log("buscando application");
     if(this.userRole.toLowerCase() === "manager"){
       return await this.getAllManagerApplications();
     }else if(this.userRole.toLowerCase() === "explorer"){
@@ -56,22 +61,119 @@ export class ApplyComponent implements OnInit {
   }
 
   async getAllApplications(): Promise<void> {
-    this.applications = await this.applyService.getAllApplications(); 
-        console.log("service-getAllApplications:" , this.applications.length);    
+    const applications = await this.applyService.getAllApplications(); 
+    for (const application of applications) {
+      this.tripService.getTripById(application.trip).subscribe(
+        (trip: Trip | null) => {
+          if (trip) {
+            application.startTripDate = trip.startedAt;
+            application.tripPrice = trip.price;
+            application.tripTitle = trip.title;
+          } else {
+            console.warn('Trip not found for application:', application.id);
+          }
+        },
+        error => {
+          console.error('Error fetching trip:', error);
+        }
+      );
+      this.authService.getActorById(application.actorId).then(
+        (actor: Actor | null) => {
+          if (actor) {
+            let actorDescription = actor.name + ' ' + actor.surname;
+            application.actorDescription = actorDescription;
+          } else {
+            console.warn('Actor not found for application:', application.id);
+          }
+        },
+        error => {
+          console.error('Error fetching actor:', error);
+        }
+      );
+    }
+    this.applications = applications; 
   }
 
   async getAllManagerApplications(): Promise<void> {
-    this.applications = await this.applyService.getAllManagerApplications(this.userId); 
-        console.log("service-getAllApplications:" , this.applications);    
+    const applications = await this.applyService.getAllManagerApplications(this.userId); 
+    for (const application of applications) {
+      this.tripService.getTripById(application.trip).subscribe(
+        (trip: Trip | null) => {
+          if (trip) {
+            application.startTripDate = trip.startedAt;
+            application.tripPrice = trip.price;
+            application.tripTitle = trip.title;
+          } else {
+            console.warn('Trip not found for application:', application.id);
+          }
+        },
+        error => {
+          console.error('Error fetching trip:', error);
+        }
+      );
+      this.authService.getActorById(application.actorId).then(
+        (actor: Actor | null) => {
+          if (actor) {
+            let actorDescription = actor.name + ' ' + actor.surname;
+            application.actorDescription = actorDescription;
+          } else {
+            console.warn('Actor not found for application:', application.id);
+          }
+        },
+        error => {
+          console.error('Error fetching actor:', error);
+        }
+      );
+    }
+    this.applications = applications;
   }
 
   async getAllExplorerApplications(): Promise<void> {
-    this.applications = await this.applyService.getAllExplorerApplications(this.userId); 
-        console.log("service-getAllApplications:" , this.applications);    
+    const applications = await this.applyService.getAllExplorerApplications(this.userId); 
+    for (const application of applications) {
+      this.tripService.getTripById(application.trip).subscribe(
+        (trip: Trip | null) => {
+          if (trip) {
+            application.startTripDate = trip.startedAt;
+            application.tripPrice = trip.price;
+            application.tripTitle = trip.title;
+          } else {
+            console.warn('Trip not found for application:', application.id);
+          }
+        },
+        error => {
+          console.error('Error fetching trip:', error);
+        }
+      );
+      this.authService.getActorById(application.actorId).then(
+        (actor: Actor | null) => {
+          if (actor) {
+            let actorDescription = actor.name + ' ' + actor.surname;
+            application.actorDescription = actorDescription;
+          } else {
+            console.warn('Actor not found for application:', application.id);
+          }
+        },
+        error => {
+          console.error('Error fetching actor:', error);
+        }
+      );
+    }
+    this.applications = applications;
   }
 
   cancel(applicationId : string) : void {
-
+    const modalRef = this.modalService.open(YesNoQuestionComponent);
+    modalRef.componentInstance.title = 'Cancel application';
+    modalRef.componentInstance.message = 'Are you sure you want to cancel this application?';
+    modalRef.result.then(async (result) => {
+      console.log(result);
+      if (result === 'confirm') {
+        await this.applyService.deleteApplication(applicationId);
+        await this.getApplicationsByRole();
+      }
+    });
+  
   }
 
   async accept(applicationId : string) : Promise<void> {
@@ -97,9 +199,6 @@ export class ApplyComponent implements OnInit {
       });
   }
 
-  pay(applicationId : string) : void {
-    
-  }
 
 }
 
