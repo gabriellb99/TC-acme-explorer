@@ -41,7 +41,6 @@ export class AuthService {
       name: actor.name,
       phone: actor.phone,
       role: actor.role,
-      password: actor.password,
       surname: actor.surname,
       validate: actor.validate,
       version: 1
@@ -68,7 +67,7 @@ export class AuthService {
         getDoc(docRef)
           .then(doc => {
             if (doc.exists()) {
-              const actor = this.getActorTotal(doc);
+              const actor = this.getActor(doc);
               resolve(actor);
             } else {
               resolve(null);
@@ -99,20 +98,6 @@ export class AuthService {
     return actor;
   }
 
-  public getActorTotal(doc: any): Actor {
-    const data = doc.data();
-    let actor = new Actor();
-    actor.name = data['name'];
-    actor.surname = data['surname'];
-    actor.email = data['email'];
-    actor.phone = data['phone'];
-    actor.address = data['address'];
-    actor.role = data['role'];
-    actor.validate = data['validate'];
-    actor.password = data['password'];
-    actor.id = doc.id;
-    return actor;
-  }
 
   async login(email: string, password: string): Promise<any> {
     return new Promise<any>((resolve,reject) => {

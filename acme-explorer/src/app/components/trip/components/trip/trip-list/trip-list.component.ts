@@ -162,6 +162,17 @@ getAllTrips(idUser: String | null = null): void {
       });
     
     }
+
+    transformDate(timestamp: any): string {
+      let segundos = timestamp.seconds;
+      let date = new Date(segundos * 1000);
+      const locale = localStorage.getItem('locale');
+      if (locale == 'es'){
+        return date.toLocaleDateString('es-ES');
+      }else{
+        return date.toLocaleDateString('en-US');
+      }
+    }
   
 
 }

@@ -30,12 +30,15 @@
         
         
         <details>
+            <p class="card-text ml-2"><strong i18n>Ticker: </strong><br>{{ trip.ticker }}</p>
             <summary>{{trip.description}}
                 <span class="badge bg-light text-dark" (click)="advstatus=true">
                     (...)
                 </span>
             </summary>
             <p class="card-text">{{trip.description | slice:50}}</p>
+            <p class="card-text ml-2"><strong i18n>Start Date: </strong><br>{{ transformDate(trip.startedAt) }}</p>
+            <p class="card-text ml-2"><strong i18n>End Date: </strong><br>{{ transformDate(trip.endAt) }}</p>
         </details>
         <div class="card-footer text-center row">
             <div class="col">

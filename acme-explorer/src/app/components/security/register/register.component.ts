@@ -5,16 +5,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormValidation } from 'src/app/models/form-validation';
 import { Actor } from 'src/app/models/actor.model';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent  implements FormValidation{
+export class RegisterComponent implements FormValidation, OnInit {
 
   registrationForm!: FormGroup;
-  roleList: string [];
+  roleList: string[] = [];
   private formSubmitted = false;
   isFormValid = () => this.formSubmitted || this.registrationForm?.dirty;
   actorId: any;
@@ -25,45 +24,48 @@ export class RegisterComponent  implements FormValidation{
   passwordIsValid: boolean = true;
 
   constructor(private route: ActivatedRoute, private authService: AuthService,
-    private fb: FormBuilder, private router: Router) { 
-      this.roleList = this.authService.getRoles();
-      
-      if (authService.getUser()?._role === "administrator") {
-        this.role = "manager";
-      }
-      else {
-        this.role = "explorer";
-      }
+    private fb: FormBuilder, private router: Router) { }
 
-      this.actorId = route.snapshot.params['id'];
-    (async () => {
-        if (this.actorId) {
-          const actor = await this.authService.getActorById(this.actorId);
-          if(actor){
-            this.editing = true;
-            this.actor = actor;
-            this.registrationForm = this.fb.group({
-              name: [actor.name, Validators.required],
-              surname: [actor.surname, Validators.required],
-              email: [actor.email, [Validators.required, Validators.email]],
-              password: [actor.password, [Validators.required]],
-              phone: [actor.phone],
-              address: [actor.address],
-              role: [actor.role],
-              validate: true
-            });
-            console.log('Displaying actor:' + actor);
-          }else{
-            console.error('No se encontró ningún actor con el ID proporcionado.');
-          }
-      }else{
-        this.createForm();
-      }
-    });
+  ngOnInit() {
+    this.roleList = this.authService.getRoles();
+      
+    if (this.authService.getUser()?._role === "administrator") {
+      this.role = "manager";
+    }
+    else {
+      this.role = "explorer";
+    }
+
+    this.actorId = this.route.snapshot.params['id'];
+    if (this.actorId) {
+      this.loadActor();
+    } else {
+      this.createForm();
+    }
   }
 
+  async loadActor() {
+    const actor = await this.authService.getActorById(this.actorId);
+    if (actor) {
+      this.editing = true;
+      this.actor = actor;
+      this.registrationForm = this.fb.group({
+        name: [actor.name, Validators.required],
+        surname: [actor.surname, Validators.required],
+        email: [actor.email, [Validators.required, Validators.email]],
+        password: [actor.password, [Validators.required]],
+        phone: [actor.phone],
+        address: [actor.address],
+        role: [actor.role],
+        validate: true
+      });
+      console.log('Displaying actor:' + actor);
+    } else {
+      console.error('No se encontró ningún actor con el ID proporcionado.');
+    }
+  }
 
-  createForm(){
+  createForm() {
     this.registrationForm = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -75,18 +77,18 @@ export class RegisterComponent  implements FormValidation{
       validate: true
     });
   }
-   
+
   async onRegister() {
     this.formSubmitted = true;
-    if (this.registrationForm.controls['password'].value.length< 6) {
+    if (this.registrationForm.controls['password'].value.length < 6) {
       this.passwordIsValid = false;
       this.registrationForm.controls['password'].setErrors({ 'minlength': true });
       return; 
     }
-    if(this.editing){
+    if (this.editing) {
       await this.authService.updateActor(this.registrationForm.value, this.actorId);
       this.router.navigate(["/"]);
-    }else{
+    } else {
       try {
         const response = await this.authService.signUp(this.registrationForm.value);
         const response2 = await this.authService.createActor(this.registrationForm.value);
@@ -102,5 +104,4 @@ export class RegisterComponent  implements FormValidation{
   goBack() {
     this.router.navigate(['/']);
   }
-
 }
