@@ -53,7 +53,7 @@ export class RegisterComponent implements FormValidation, OnInit {
         name: [actor.name, Validators.required],
         surname: [actor.surname, Validators.required],
         email: [actor.email, [Validators.required, Validators.email]],
-        password: [actor.password, [Validators.required]],
+        //password: [actor.password, [Validators.required]],
         phone: [actor.phone],
         address: [actor.address],
         role: [actor.role],
@@ -80,10 +80,12 @@ export class RegisterComponent implements FormValidation, OnInit {
 
   async onRegister() {
     this.formSubmitted = true;
-    if (this.registrationForm.controls['password'].value.length < 6) {
-      this.passwordIsValid = false;
-      this.registrationForm.controls['password'].setErrors({ 'minlength': true });
-      return; 
+    if (!this.editing) {
+      if (this.registrationForm.controls['password'].value.length < 6) {
+        this.passwordIsValid = false;
+        this.registrationForm.controls['password'].setErrors({ 'minlength': true });
+        return; 
+      }
     }
     if (this.editing) {
       await this.authService.updateActor(this.registrationForm.value, this.actorId);
