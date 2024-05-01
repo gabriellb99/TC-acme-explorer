@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc } from '@angular/fire/firestore'; // Importa Firestore
+import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc
+  , DocumentData, DocumentSnapshot
+ } from '@angular/fire/firestore'; // Importa Firestore
 import { Trip } from '../models/trip.model';
 import { firstValueFrom, Observable, forkJoin } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
@@ -269,4 +271,21 @@ async updateTrip(tripId: string, updatedTrip: Trip, stages: string[], idUser: st
     throw error;
   }
 }
+
+
+async getTripTitle(tripID: string): Promise<string> {
+  try {
+    const docSnap = await getDoc(doc(this.firestore, `trips/${tripID}`));
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return data['title'];
+    } else {
+      throw new Error('No existe el documento');
+    }
+  } catch (error) {
+    console.error('Error al obtener el título del viaje:', error);
+    throw error;
+  }
+}
+
 }
