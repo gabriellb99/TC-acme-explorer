@@ -30,7 +30,6 @@ export class TripFormComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.tripId = this.activatedRoute.snapshot.params['id'];
-    this.tripId = this.activatedRoute.snapshot.params['id'];
     if(this.tripId){
       this.tripService.getTripById(this.tripId).subscribe(trip => {
         if(trip){
@@ -123,7 +122,6 @@ export class TripFormComponent implements OnInit {
     let idUser = loginUser.id;
 
     let price = 0;
-    const ticket = this.newTicker();
     let stages: [];
 
     // Creamos una nueva instancia de Trip
@@ -142,8 +140,12 @@ export class TripFormComponent implements OnInit {
       this.messageService.notifyMessage(errorMessage, "alert alert-danger");
       return;
     }
+    let photos = this.newTripForm.value.photos;
+    if(photos.length == 1 && photos[0] == null) {
+      photos = [];
+    }
 
-    newTrip.photos = this.newTripForm.value.photos;
+    newTrip.photos = photos;
     newTrip.requirements = this.newTripForm.value.requirements; 
 
     //console.log(newTrip)
@@ -179,6 +181,54 @@ export class TripFormComponent implements OnInit {
     
       
   }
+
+  async onEdit() {
+
+    let price = 0;
+    let stages: [];
+
+    const newTrip = new Trip();
+    newTrip.title = this.newTripForm.value.title;
+    newTrip.description = this.newTripForm.value.description;
+    let startedAtDate = new Date(this.newTripForm.value.startedAt)
+    newTrip.startedAt =  Timestamp.fromMillis(startedAtDate.getTime());
+    let endAtDate = new Date(this.newTripForm.value.endAt)
+    newTrip.endAt = Timestamp.fromMillis(endAtDate.getTime());
+    
+    if(endAtDate < startedAtDate){
+      let errorMessage = $localize`The end date must be after the start date.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+      return;
+    }
+
+    let photos = this.newTripForm.value.photos;
+    if(photos.length == 1 && photos[0] == null) {
+      photos = [];
+    }
+
+    newTrip.photos = photos;
+    newTrip.requirements = this.newTripForm.value.requirements; 
+
+    price = this.newTripForm.value.stages.reduce((total: number, stage: any) => {
+      const price = parseFloat(stage.price);
+      if (!isNaN(price)) {
+          return total + price;
+      } else {
+          return total;
+      }
+    }, 0);
+    newTrip.price = price;
+    stages = this.newTripForm.value.stages;
+   
+    
+    await this.tripService.updateTrip(this.tripId, newTrip, stages);
+      let message = $localize`Trip updated successfully`
+      this.messageService.notifyMessage(message, "alert alert-success")
+      this.router.navigate(['/']);
+    
+      
+  }
+
 
   get requirements() {
     this.newTripForm

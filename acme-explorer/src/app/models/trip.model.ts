@@ -3,6 +3,7 @@ import { Entity } from "./entity.model";
 export class Trip extends Entity{
 
     private _ticker!: string;
+  
     public get ticker(): string {
         return this._ticker;
     }
@@ -84,7 +85,14 @@ export class Trip extends Entity{
     public set actor(value) {
         this._actor = value;
     }
-    
+
+    private _hasAcceptedApplications!: boolean;
+    public get hasAcceptedApplications() {
+        return this._hasAcceptedApplications;
+    }
+    public set hasAcceptedApplications(value) {
+        this._hasAcceptedApplications = value;
+    }
     constructor(){
         super()
     }

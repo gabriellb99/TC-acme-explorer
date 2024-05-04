@@ -33,7 +33,6 @@ export class ApplyComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.getApplicationsByRole();
-    console.log(this.applications);
     
   }
 
@@ -69,7 +68,15 @@ export class ApplyComponent implements OnInit {
             application.startTripDate = trip.startedAt;
             application.tripPrice = trip.price;
             application.tripTitle = trip.title;
+            if(trip.cancelReason !== ""){
+              console.log("entra en deleted");
+              application.tripDeletedOrCancel = true;
+            }else{
+              application.tripDeletedOrCancel = false;
+            }
+           
           } else {
+            application.tripDeletedOrCancel = true;
             console.warn('Trip not found for application:', application.id);
           }
         },
@@ -103,9 +110,18 @@ export class ApplyComponent implements OnInit {
             application.startTripDate = trip.startedAt;
             application.tripPrice = trip.price;
             application.tripTitle = trip.title;
+            if(trip.cancelReason !== ""){
+              console.log("entra en deleted");
+              application.tripDeletedOrCancel = true;
+            }else{
+              application.tripDeletedOrCancel = false;
+            }
+           
           } else {
+            application.tripDeletedOrCancel = true;
             console.warn('Trip not found for application:', application.id);
           }
+         
         },
         error => {
           console.error('Error fetching trip:', error);
@@ -137,7 +153,15 @@ export class ApplyComponent implements OnInit {
             application.startTripDate = trip.startedAt;
             application.tripPrice = trip.price;
             application.tripTitle = trip.title;
+            if(trip.cancelReason !== ""){
+              console.log("entra en deleted");
+              application.tripDeletedOrCancel = true;
+            }else{
+              application.tripDeletedOrCancel = false;
+            }
+           
           } else {
+            application.tripDeletedOrCancel = true;
             console.warn('Trip not found for application:', application.id);
           }
         },

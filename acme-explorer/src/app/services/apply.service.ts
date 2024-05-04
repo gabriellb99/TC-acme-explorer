@@ -162,4 +162,17 @@ export class ApplyService {
     
   }
 
+  async getAllAcceptedApplicationsByTrip(tripId: string): Promise<Application[]> {
+    const applicationsRef = collection(this.firestore, 'applications');
+    const applicationQuery = query(applicationsRef, where('trip', "==", tripId),where('applicationStatus', "==", "accepted"));
+    const applicationDocs = await getDocs(applicationQuery);
+    let applications: Application[] = [];
+    if(applicationDocs.size > 0){
+      console.log('entra');
+      let applications = applicationDocs.docs.map(doc => this.getApplication(doc));
+    }
+       
+    return applications;
+  }
+
 }

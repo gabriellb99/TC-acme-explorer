@@ -12,6 +12,8 @@ import { SearchService } from 'src/app/services/search.service';
 import { ApplyService } from 'src/app/services/apply.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyCommentComponent } from '../apply-comment/apply-comment.component';
+import { YesNoQuestionComponent } from '../../shared/yesNoQuestion/yesNoQuestion.component';
+import { TripCommentComponent } from '../trip-comment/trip-comment.component';
 
 @Component({
   selector: 'app-trip-table',
@@ -21,6 +23,7 @@ import { ApplyCommentComponent } from '../apply-comment/apply-comment.component'
 export class TripTableComponent implements OnInit {
 
   trips!: Trip[];
+  idUser!: string;
   currentActor: Actor | undefined;
   sorts = [
     {
@@ -44,9 +47,8 @@ export class TripTableComponent implements OnInit {
   async ngOnInit(): Promise<void> {
      // Obtener el actor actual
   this.currentActor = this.authService.getCurrentActor();
-  let idUser: string | null = null;
   if(this.currentActor && this.currentActor.role.toLowerCase() === "manager"){
-    idUser = this.currentActor.id;
+    this.idUser = this.currentActor.id;
   }
 
   // Obtener todos los viajes disponibles al inicio
@@ -54,12 +56,12 @@ export class TripTableComponent implements OnInit {
     // Si hay un valor de búsqueda, realizar la búsqueda
     // De lo contrario, obtener todos los viajes disponibles
     if (searchValue.length > 0) {
-      return this.searchTrips(searchValue,idUser);
+      return this.searchTrips(searchValue,this.idUser);
     } else {
-      return this.getAllTrips(idUser);
+      return this.getAllTrips(this.idUser);
     }
   });
-  return this.getAllTrips(idUser);
+  return this.getAllTrips(this.idUser);
   }
 
   checkRole(roles: string): boolean {
@@ -79,10 +81,67 @@ export class TripTableComponent implements OnInit {
     console.log('Detail Toggled', event);
   }
 
-  removeTrip(index: string){
-    
-    let message = "Item successfully deleted";
-    this.messageService.notifyMessage(message, "alert alert-success")
+  async removeTrip(index: string, startedAt: Timestamp){
+    if (this.isTripDateGreaterEqThan10Days(startedAt) && !this.hasAcceptedApplications(index)) {
+      const modalRef = this.modalService.open(YesNoQuestionComponent);
+      modalRef.componentInstance.title = 'Remove trip';
+      modalRef.componentInstance.message = 'Are you sure you want to remove this trip?';
+      modalRef.result.then(async (result) => {
+        console.log(result);
+        if (result === 'confirm') {
+          await this.tripService.deleteTrip(index);
+          let message = "Trip successfully deleted";
+          this.messageService.notifyMessage(message, "alert alert-success")
+          await this.getAllTrips(this.idUser);
+        }
+      });
+      
+      
+    } else {
+      let message = "Trip can not be deleted";
+      this.messageService.notifyMessage(message, "alert alert-danger")
+    }
+  }
+
+  isTripDateGreaterEqThan10Days(tripDate: any): boolean {
+    const tripDateObject = tripDate.toDate();
+    const today = new Date();
+    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
+    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+    return differenceInDays >= 10;
+  }
+
+  isTripDateGreaterThan7Days(tripDate: any): boolean {
+    const tripDateObject = tripDate.toDate();
+    const today = new Date();
+    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
+    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+    return differenceInDays > 7;
+  }
+
+  async hasAcceptedApplications(tripId: string){
+    const applications = await this.applyService.getAllAcceptedApplicationsByTrip(tripId);
+    return applications.length > 0;
+  }
+
+  async openPopupCancel(index: string, startedAt: Timestamp){
+    let canBeCancelled = await this.hasAcceptedApplications(index);
+    if (this.isTripDateGreaterThan7Days(startedAt) && canBeCancelled){ 
+      const modalRef = this.modalService.open(TripCommentComponent);
+      modalRef.componentInstance.tripId = index;
+      modalRef.result.then(async (result) => {
+        if (result === 'save') {
+          await this.getAllTrips(this.idUser);
+          let message = "Trip successfully cancelled";
+          this.messageService.notifyMessage(message, "alert alert-success")
+        } 
+      }).catch((error) => {
+        console.log('Error:', error);
+      });
+    } else {
+      let message = "Trip can not be cancelled";
+      this.messageService.notifyMessage(message, "alert alert-danger")
+    }
   }
 
 
@@ -114,17 +173,6 @@ export class TripTableComponent implements OnInit {
    
   }
 
-  isTripDateGreaterThan10Days(tripDate: any): boolean {
-    const tripDateObject = tripDate.toDate();
-
-    const today = new Date();
-
-    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
-
-    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-
-    return differenceInDays < 10;
-  }
 
   getRowColor(row: any) {
     const tripDateObject = row.startedAt.toDate();

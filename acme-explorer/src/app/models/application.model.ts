@@ -83,6 +83,14 @@ export class Application extends Entity {
     public set tripPrice(value) {
         this._tripPrice = value;
     } 
+
+    private _tripDeletedOrCancel!: boolean;
+    public get tripDeletedOrCancel() {
+        return this._tripDeletedOrCancel;
+    }
+    public set tripDeletedOrCancel(value) {
+        this._tripDeletedOrCancel = value;
+    }
     constructor(){
         super()
     }

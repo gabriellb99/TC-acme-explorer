@@ -11,7 +11,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-4" *ngFor="let application of applications">
-                <ng-container *ngIf="application.applicationStatus === 'pending'">
+                <ng-container *ngIf="application.applicationStatus === 'pending' && !application.tripDeletedOrCancel">
                   <div class="card mb-3">
                     <div class="card-header text-center bold-text">{{ application.tripTitle }}</div>
                     <div class="card-body" style="background-color: #9ad5da">
@@ -48,7 +48,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-4" *ngFor="let application of applications">
-                <ng-container *ngIf="application.applicationStatus === 'due'">
+                <ng-container *ngIf="application.applicationStatus === 'due' && application.tripDeletedOrCancel == false">
                   <div class="card mb-3">
                     <div class="card-header text-center bold-text">{{ application.tripTitle }}</div>
                     <div class="card-body" style="background-color: #d3dd75">
@@ -64,7 +64,7 @@
                       <a *ngIf="userRole === 'EXPLORER'">
                         <button i18n class="btn btn-primary me-2" (click)="cancel(application.id)">Cancel</button>
                       </a>
-                      <a [routerLink]="['/checkout']" [queryParams]="{ applicationId: application.id }">
+                      <a *ngIf="userRole === 'EXPLORER'" [routerLink]="['/checkout']" [queryParams]="{ applicationId: application.id }">
                         <button i18n class="btn btn-primary me-2">Pay</button>
                       </a>                      
                     </div>

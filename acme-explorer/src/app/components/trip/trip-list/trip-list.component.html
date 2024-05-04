@@ -12,8 +12,9 @@
         <div class="card-header">
             <h4 class="card-title text-center">{{trip.title}}</h4>
         </div>
-        <div class="card-body" [ngClass]="{'green-background': isTripDateGreaterThan10Days(trip.startedAt)}" role="region" aria-label="Información del viaje">
+        <div class="card-body" [ngClass]="{'green-background': isTripDateLessThan7Days(trip.startedAt)}" role="region" aria-label="Información del viaje">
             <span class="badge bg-primary">{{trip.price}}</span>
+            <span *ngIf="trip.cancelReason !== ''" class="badge badge-cancelled">Cancelled</span>
             <div class="container-fluid text-center" role="region" aria-label="Galería de fotos">
                 <div *ngIf="trip.photos.length > 0; else elseBlock">
                     <ngb-carousel>
@@ -39,11 +40,22 @@
             <p class="card-text">{{trip.description | slice:50}}</p>
             <p class="card-text ml-2"><strong i18n>Start Date: </strong><br>{{ transformDate(trip.startedAt) }}</p>
             <p class="card-text ml-2"><strong i18n>End Date: </strong><br>{{ transformDate(trip.endAt) }}</p>
+            <p *ngIf="trip.cancelReason !== ''" class="card-text ml-2"><strong i18n>Cancel reason: </strong><br>{{ trip.cancelReason }}</p>
         </details>
         <div class="card-footer text-center row">
             <div class="col">
-                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER')" routerLink="/trips/edit/{{trip.id}}">
+                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER') && isTripDateGreaterEqThan10Days(trip.startedAt) && trip.cancelReason == ''" routerLink="/trips/edit/{{trip.id}}">
                     <i class="fa fa-pencil" aria-hidden="true" i18n>Edit</i>
+                </a>
+            </div>
+            <div class="col">
+                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER') && isTripDateGreaterThan7Days(trip.startedAt) && !trip.hasAcceptedApplications && trip.cancelReason == ''">
+                    <i class="fa fa-xmark" aria-hidden="true" i18n (click)="openPopupCancel(trip.id)">Cancel</i>
+                </a>
+            </div>
+            <div class="col">
+                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER') && isTripDateGreaterEqThan10Days(trip.startedAt) && !trip.hasAcceptedApplications && trip.cancelReason == ''">
+                    <i class="fa fa-trash" aria-hidden="true" i18n (click)="removeTrip(trip.id)">Delete</i>
                 </a>
             </div>
             <div class="col">
@@ -53,8 +65,7 @@
             </div>
             <div class="col">
                 <a routerLink="/trips/{{trip.id}}" >
-                    <i class="fa fa-search-plus" aria-label="Details of the trip" aria-hidden="true" i18n style="color: #00047A;"></i>
-                    <span class="visually-hidden">View trip details</span>
+                    <i class="fa fa-search-plus" aria-label="Details of the trip" aria-hidden="true" i18n style="color: #00047A;">Details</i>
                 </a>
             </div>
         </div>

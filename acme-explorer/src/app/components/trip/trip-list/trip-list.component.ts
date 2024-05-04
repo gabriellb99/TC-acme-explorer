@@ -3,14 +3,17 @@ import { Subscription } from 'rxjs';
 import { Trip } from 'src/app/models/trip.model';
 import { TripService } from 'src/app/services/trip.service';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from '../../../../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { Actor } from 'src/app/models/actor.model';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service'; // Importar el servicio de búsqueda
 import { Timestamp } from 'firebase/firestore';
 import { MessageService } from 'src/app/services/message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ApplyCommentComponent } from '../../../apply-comment/apply-comment.component';
+import { ApplyCommentComponent } from '../apply-comment/apply-comment.component';
+import { ApplyService } from 'src/app/services/apply.service';
+import { TripCommentComponent } from '../trip-comment/trip-comment.component';
+import { YesNoQuestionComponent } from '../../shared/yesNoQuestion/yesNoQuestion.component';
 
 @Component({
   selector: 'app-trip-list',
@@ -21,54 +24,20 @@ export class TripListComponent implements OnInit, OnDestroy {
 
   protected trips!: Trip[];
   protected trash = faTrash;
+  idUser!:string;
   protected currentActor: Actor | undefined;
   private searchSubscription: Subscription = new Subscription(); // Inicializar searchSubscription
   searchValue: string = ''; // Definir tipo para el parámetro searchValue
   protected advstatus: boolean = true; // Definición de advstatus
 
-  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private searchService: SearchService,private messageService: MessageService,private modalService: NgbModal) { }
+  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private searchService: SearchService,private messageService: MessageService,private modalService: NgbModal, private applyService:ApplyService) { }
 
-  removeTrip(index: number){
-    this.trips[index].cancelReason = "cancelled";
-  }
-/*
-  ngOnInit(): void {
-    // Suscribirse al observable searchValue$ del servicio de búsqueda
-    this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
-      // Realizar la búsqueda y actualizar la lista de trips
-      this.searchTrips(searchValue);
-    });
-
-    // Obtener todos los viajes disponibles al inicio
-    this.tripService.getAllAvailableTrips()
-    .then((trips: Trip[]) => {
-      this.trips = trips;
-      // Manejar los datos de los viajes aquí
-      console.log('getAllAvailableTrips:', trips);
-    })
-    .catch((error) => {
-      // Manejar errores aquí
-      console.error('Error fetching trips:', error);
-    });
-
-    // Suscribirse al observable searchValue$ del servicio de búsqueda
-    this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
-      // Realizar la búsqueda y actualizar la lista de trips
-      console.log('searchValue:', searchValue);
-      this.searchTrips(searchValue);
-    });
-
-    // Obtener el actor actual
-    this.currentActor = this.authService.getCurrentActor();
-  }
-*/
-
+ 
 ngOnInit(): void {
   // Obtener el actor actual
   this.currentActor = this.authService.getCurrentActor();
-  let idUser: string | null = null;
   if(this.currentActor && this.currentActor.role.toLowerCase() === "manager"){
-    idUser = this.currentActor.id;
+    this.idUser = this.currentActor.id;
   }
 
   // Obtener todos los viajes disponibles al inicio
@@ -76,19 +45,22 @@ ngOnInit(): void {
     // Si hay un valor de búsqueda, realizar la búsqueda
     // De lo contrario, obtener todos los viajes disponibles
     if (searchValue.length > 0) {
-      return this.searchTrips(searchValue,idUser);
+      return this.searchTrips(searchValue,this.idUser);
     } else {
-      return this.getAllTrips(idUser);
+      return this.getAllTrips(this.idUser);
     }
   });
-  return this.getAllTrips(idUser);
+  return this.getAllTrips(this.idUser);
 }
 
 // Método para obtener todos los viajes disponibles
 getAllTrips(idUser: String | null = null): void {
   this.tripService.getAllAvailableTrips(idUser)
-    .then((trips: Trip[]) => {
+    .then(async (trips: Trip[]) => {
       this.trips = trips;
+      for (const trip of this.trips) {
+        trip.hasAcceptedApplications = await this.hasAcceptedApplications(trip.id);
+      }
       // Manejar los datos de los viajes aquí
       console.log('getAllAvailableTrips:', trips);
     })
@@ -121,15 +93,18 @@ getAllTrips(idUser: String | null = null): void {
   // Método para realizar la búsqueda de trips
   searchTrips(searchValue: string, idUser: string | null = null): void {
     // Llamar al método searchTrips del servicio de trips para buscar trips
-    this.tripService.searchTrips(searchValue,idUser).then(trips => {
+    this.tripService.searchTrips(searchValue,idUser).then(async trips => {
       this.trips = trips;
+      for (const trip of this.trips) {
+        trip.hasAcceptedApplications = await this.hasAcceptedApplications(trip.id);
+      }
     }).catch(error => {
       console.error("Error al buscar trips:", error);
     });
   }
 
 
-  isTripDateGreaterThan10Days(tripDate: any): boolean {
+  isTripDateGreaterEqThan10Days(tripDate: any): boolean {
     const tripDateObject = tripDate.toDate();
 
     // Obtener la fecha actual
@@ -142,9 +117,31 @@ getAllTrips(idUser: String | null = null): void {
     const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
 
     // Verificar si la diferencia es mayor que 10 días
+    return differenceInDays >= 10;
+  }
+
+  isTripDateGreaterThan7Days(tripDate: any): boolean {
+    const tripDateObject = tripDate.toDate();
+    const today = new Date();
+    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
+    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+    return differenceInDays > 7;
+  }
+
+  isTripDateLessThan7Days(tripDate: any): boolean {
+    const tripDateObject = tripDate.toDate();
+    const today = new Date();
+    const differenceInMilliseconds = tripDateObject.getTime() - today.getTime();
+    const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
     return differenceInDays < 7;
   }
 
+  async hasAcceptedApplications(tripId: string){
+    const applications = await this.applyService.getAllAcceptedApplicationsByTrip(tripId);
+    const res = applications.length > 0;
+    console.log("tiene",res);
+    return res;
+  }
 
     openPopup(index: string){
       console.log("entra", index);
@@ -172,6 +169,38 @@ getAllTrips(idUser: String | null = null): void {
       }else{
         return date.toLocaleDateString('en-US');
       }
+    }
+
+
+    removeTrip(index: string){
+      console.log('removeTrip');
+      const modalRef = this.modalService.open(YesNoQuestionComponent);
+      modalRef.componentInstance.title = 'Remove trip';
+      modalRef.componentInstance.message = 'Are you sure you want to remove this trip?';
+      modalRef.result.then(async (result) => {
+        console.log(result);
+        if (result === 'confirm') {
+          await this.tripService.deleteTrip(index);
+          let message = "Trip successfully deleted";
+          this.messageService.notifyMessage(message, "alert alert-success")
+          await this.getAllTrips(this.idUser);
+        }
+      });
+    }
+
+    async openPopupCancel(index: string){
+      const modalRef = this.modalService.open(TripCommentComponent);
+      modalRef.componentInstance.tripId = index;
+      modalRef.result.then(async (result) => {
+        if (result === 'save') {
+          console.log('save list component');
+          await this.getAllTrips(this.idUser);
+          let message = "Trip successfully cancelled";
+          this.messageService.notifyMessage(message, "alert alert-success")
+        } 
+      }).catch((error) => {
+        console.log('Error:', error);
+      });
     }
   
 

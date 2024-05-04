@@ -26,3 +26,8 @@ details summary::marker {
 .green-background {
     background-color: #03BB85;
   }
+
+.badge-cancelled {
+background-color: red;
+color: white;
+}

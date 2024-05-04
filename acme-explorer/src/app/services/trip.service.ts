@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc
-  , DocumentData, DocumentSnapshot
- } from '@angular/fire/firestore'; // Importa Firestore
+import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc, writeBatch } from '@angular/fire/firestore';
 import { Trip } from '../models/trip.model';
 import { firstValueFrom, Observable, forkJoin } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { writeBatch } from 'firebase/firestore';
 
 
 const httpOptions ={
@@ -21,15 +18,14 @@ const httpOptions ={
 })
 export class TripService {
 
-  constructor(private firestore: Firestore, 
-    private http: HttpClient, private activatedRout: ActivatedRoute) {} 
+  constructor(private firestore: Firestore, private http: HttpClient, private activatedRout: ActivatedRoute) {} 
 
   async getAllAvailableTrips(userId: String | null = null): Promise<Trip[]> {
     const tripRef = collection(this.firestore, 'trips'); 
     var now = new Date(new Date().toUTCString());
     let q;
     if(userId){
-      q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now),where("actor","==",userId));
+      q = query(tripRef,where("startedAt", ">", now),where("actor","==",userId));
     }else{
       q = query(tripRef,where("cancelReason", "==", ""),where("startedAt", ">", now));
     }
@@ -199,7 +195,9 @@ async searchTrips(searchValue: string,userId: string | null = null): Promise<Tri
 
 async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void> {
   try {
-    // Añade un nuevo documento a la colección 'trips' con los datos proporcionados
+    if(!newTrip.photos || newTrip.photos.length == 0) {
+      newTrip.photos = [];
+    }
     const tripRef = await addDoc(collection(this.firestore, 'trips'), {
       ticker: newTrip.ticker,
       title: newTrip.title,
@@ -210,8 +208,7 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void>
       cancelReason: '',
       requirements: newTrip.requirements,
       photos: newTrip.photos,
-      actor: idUser,
-      deleted: false,
+      actor: idUser
     });
     console.log('Trip created successfully');
 
@@ -229,14 +226,16 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void>
 }
 
 
-async updateTrip(tripId: string, updatedTrip: Trip, stages: string[], idUser: string): Promise<void> {
+async updateTrip(tripId: string, updatedTrip: Trip, stages: string[]): Promise<void> {
   try {
-    // Referencia al documento del viaje existente
+    console.log('entra en modificar trip', tripId);
     const tripRef = doc(this.firestore, 'trips', tripId);
-
-    // Actualiza los datos del viaje
+    console.log(updatedTrip.photos);
+    if(!updatedTrip.photos || updatedTrip.photos.length == 0) {
+      updatedTrip.photos = [];
+      console.log('entra aqui');
+    }
     await updateDoc(tripRef, {
-      ticker: updatedTrip.ticker,
       title: updatedTrip.title,
       description: updatedTrip.description,
       startedAt: updatedTrip.startedAt,
@@ -244,7 +243,6 @@ async updateTrip(tripId: string, updatedTrip: Trip, stages: string[], idUser: st
       price: updatedTrip.price,
       requirements: updatedTrip.requirements,
       photos: updatedTrip.photos,
-      idUserManage: idUser,
     });
     console.log('Trip updated successfully');
 
@@ -253,7 +251,6 @@ async updateTrip(tripId: string, updatedTrip: Trip, stages: string[], idUser: st
 
     // Obtiene todas las etapas existentes
     const snapshot = await getDocs(stagesCollectionRef);
-
     // Elimina cada etapa existente
     const batch = writeBatch(this.firestore);
     snapshot.forEach(doc => {
@@ -284,6 +281,39 @@ async getTripTitle(tripID: string): Promise<string> {
     }
   } catch (error) {
     console.error('Error al obtener el título del viaje:', error);
+    throw error;
+  }
+}
+
+async cancelTrip(tripId: string, cancelReasonString: string) {
+  try {
+    console.log('entra en el servicio cancelar');
+    await updateDoc(doc(this.firestore, 'trips', tripId), { cancelReason:cancelReasonString });
+    console.log("trip actualizado exitosamente");
+  } catch (error) {
+    console.error("Error al actualizar trip:", error);
+    throw error;
+  }
+}
+
+async deleteTrip(tripId: string): Promise<void> {
+  const tripRef = doc(this.firestore, 'trips', tripId);
+  const stagesRef = collection(tripRef, 'stages');
+  console.log('obtiene coleccion de stages');
+  try {
+    const stageDocs = await getDocs(stagesRef);
+    console.log('antes del batch');
+    const batch = writeBatch(this.firestore);
+    console.log('despues del batch');
+    stageDocs.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
+    await deleteDoc(tripRef);
+
+    console.log('Trip and its stages deleted successfully');
+  } catch (error) {
+    console.error('Error deleting trip and its stages:', error);
     throw error;
   }
 }

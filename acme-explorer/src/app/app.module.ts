@@ -18,7 +18,7 @@ import { HeaderComponent } from './components/master/header/header.component';
 import { AuthService } from './services/auth.service';
 import { MasterPageComponent } from './components/master/master-page/master-page.component';
 import { FooterComponent } from './components/master/footer/footer.component';
-import { TripListComponent } from './components/trip/components/trip/trip-list/trip-list.component';
+import { TripListComponent } from './components/trip/trip-list/trip-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ApplyComponent } from './components/trip/apply/apply.component';
@@ -39,6 +39,7 @@ import { ApplyCommentComponent } from './components/trip/apply-comment/apply-com
 import { YesNoQuestionComponent } from './components/shared/yesNoQuestion/yesNoQuestion.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { TripCommentComponent } from './components/trip/trip-comment/trip-comment.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { NgxPayPalModule } from 'ngx-paypal';
     TripFormComponent,
     ApplyCommentComponent,
     YesNoQuestionComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    TripCommentComponent
   ],
   imports: [
     NgbCarouselModule,
