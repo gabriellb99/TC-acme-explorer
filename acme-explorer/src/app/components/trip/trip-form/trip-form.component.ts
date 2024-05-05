@@ -6,6 +6,7 @@ import { TripService } from 'src/app/services/trip.service';
 import { Trip } from 'src/app/models/trip.model';
 import { Timestamp } from '@angular/fire/firestore';
 import { MessageService } from 'src/app/services/message.service';
+import { FormValidation } from 'src/app/models/form-validation';
 
 
 @Component({
@@ -13,13 +14,14 @@ import { MessageService } from 'src/app/services/message.service';
   templateUrl: './trip-form.component.html',
   styleUrls: ['./trip-form.component.css']
 })
-export class TripFormComponent implements OnInit {
+export class TripFormComponent implements FormValidation, OnInit {
 
   newTripForm!: FormGroup;
   randoms: number[] = [1, 2, 3];
   tripId!: any;
   editing: boolean = false;
   public trip!: Trip;
+  private formSubmitted = false;
   
   constructor(
     private fb: FormBuilder,
@@ -93,6 +95,7 @@ export class TripFormComponent implements OnInit {
     }
     
   }
+  isFormValid = () => this.formSubmitted || this.newTripForm?.dirty;
 
 
 
@@ -117,7 +120,7 @@ export class TripFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.formSubmitted = true;
     let loginUser: any = this.authService.getCurrentActor();
     let idUser = loginUser.id;
 
@@ -162,23 +165,35 @@ export class TripFormComponent implements OnInit {
     }, 0);
     newTrip.price = price;
     stages = this.newTripForm.value.stages;
+    let stagesCorrect = true;
+    stages.forEach(async (stage: any) => {
+      if(stage.price < 0){
+        console.log("ERROR en stages");
+        stagesCorrect = false;
+      }
+    });
 
     //console.log(newTrip.startedAt);
 
+    if(stagesCorrect){
+      this.tripService.createTrip(newTrip, stages, idUser).then((_res) => {
+        let message = $localize`Trip created successfully`
+        this.messageService.notifyMessage(message, "alert alert-success")
+        //this.toastService.success(msg, msg2);
+        this.router.navigate(['/']);
+      })
+      .catch((error) => {
+        let msg = $localize`Error on create trip`
+        //this.toastService.error(msg, 'Error');
+        console.log(error);
+      });
+      
+    }else{
+      let errorMessage = $localize`stages can not have negative price.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+    }
     
-    
-    this.tripService.createTrip(newTrip, stages, idUser).then((_res) => {
-      let message = $localize`Trip created successfully`
-      this.messageService.notifyMessage(message, "alert alert-success")
-      //this.toastService.success(msg, msg2);
-      this.router.navigate(['/']);
-    })
-    .catch((error) => {
-      let msg = $localize`Error on create trip`
-      //this.toastService.error(msg, 'Error');
-      console.log(error);
-    });
-    
+   
       
   }
 

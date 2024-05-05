@@ -38,7 +38,7 @@ const routes: Routes = [
 
 {path: 'trips', children:[
   {path: 'new', component: TripFormComponent, canActivate: [ActorRoleGuard], 
-  data: {expectedRole: 'manager'}},
+  data: {expectedRole: 'manager'}, canDeactivate: [LeaveFormGuard]},
   {path: 'dt', component: TripTableComponent},
   {path: ':id/stages', component: StageComponent},
   {path: 'edit/:id', component: TripFormComponent},

@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { Application } from '../models/application.model';
 import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore'; // Importa Firestore
+import { TripService } from './trip.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json ' }),
@@ -21,7 +22,7 @@ export class ApplyService {
   private openPopupSubject = new Subject<string>();
   openPopup$ = this.openPopupSubject.asObservable();
 
-  constructor(private firestore: Firestore) {} 
+  constructor(private firestore: Firestore, private tripService: TripService) {} 
 
   async getAllApplications(): Promise<Application[]> {
     const applicationRef = collection(this.firestore, 'applications'); 
@@ -96,20 +97,44 @@ export class ApplyService {
   }
 
   public async createApplication(userId: string, tripId: string, comment: string){
-    const applicationData = {
-      actorID: userId,
-      applicationStatus: "pending",
-      comments: comment,
-      createdAt: new Date(),
-      reason: "",
-      trip: tripId
-    };
-    await addDoc(collection(this.firestore, "applications"),applicationData).then(async (docRef) => {
-      console.log('Documento creado con ID:', docRef.id);
-    })
-    .catch((error) => {
-      console.error('Error al crear documento:', error);
+    const tripStartDate: Date = await this.tripService.getTripStartDate(tripId); 
+    const userHasApplicationForThisTrip = await this.checkUserHasApplicationForTrip(userId,tripId);
+    if(userHasApplicationForThisTrip){
+      throw new Error('user has application for this trip')
+    }
+    const currentDate: Date = new Date();
+    console.log('se han creado las fechas');
+    if (tripStartDate.getTime() > currentDate.getTime() && !userHasApplicationForThisTrip) {
+      console.log('pasa aqui');
+      const applicationData = {
+        actorID: userId,
+        applicationStatus: "pending",
+        comments: comment,
+        createdAt: new Date(),
+        reason: "",
+        trip: tripId
+      };
+      await addDoc(collection(this.firestore, "applications"),applicationData).then(async (docRef) => {
+        console.log('Documento creado con ID:', docRef.id);
+      })
+      .catch((error) => {
+        console.error('Error al crear documento:', error);
+      });
+    }
+  
+  }
+  async checkUserHasApplicationForTrip(userId: string, tripId: string) {
+    const applicationRef = collection(this.firestore, 'applications'); 
+    let q = query(applicationRef,where("actorID","==",userId),where("tripID","==",tripId));
+    const querySnapshot = await getDocs(q);
+  
+    const applications: Application[] = [];
+    querySnapshot.forEach((doc) => {
+      let application = this.getApplication(doc);
+      applications.push(application);
     });
+    console.log(applications);
+    return applications.length > 0;
   }
 
   async acceptApplication(applicationId: string) {

@@ -30,16 +30,12 @@ describe('ApplicationsComponent', () => {
     applications = [];
 
     application1 = new Application();
-    application1.ticker = 'VI-123';
-    application1.title = 'Punta Cana';
-    application1.applictionStatus = 'pending';
+    application1.applicationStatus = 'pending';
 
     
 
     application2 = new Application();
-    application2.ticker = 'VI-123';
-    application2.title = 'Punta Cana';
-    application2.applictionStatus = 'pending';
+    application2.applicationStatus = 'pending';
 
     applications.push(...[application1, application2]);
     console.log(applications);

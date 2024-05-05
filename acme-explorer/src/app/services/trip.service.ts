@@ -17,8 +17,9 @@ const httpOptions ={
   providedIn: 'root'
 })
 export class TripService {
+ 
 
-  constructor(private firestore: Firestore, private http: HttpClient, private activatedRout: ActivatedRoute) {} 
+  constructor(private firestore: Firestore) {} 
 
   async getAllAvailableTrips(userId: String | null = null): Promise<Trip[]> {
     const tripRef = collection(this.firestore, 'trips'); 
@@ -195,6 +196,19 @@ async searchTrips(searchValue: string,userId: string | null = null): Promise<Tri
 
 async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void> {
   try {
+    console.log(stages);
+    if (newTrip.startedAt.toMillis() >= new Date().getTime()) {
+      throw new Error('Start date must be after current date');
+    }
+    if (newTrip.startedAt >= newTrip.endAt) {
+      throw new Error('Start date must be before end date');
+    }
+    stages.forEach(async (stage: any) => {
+      console.log(stage);
+      if(stage.price < 0){
+        throw new Error('price must be greater than 0');
+      }
+    });
     if(!newTrip.photos || newTrip.photos.length == 0) {
       newTrip.photos = [];
     }
@@ -228,6 +242,18 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void>
 
 async updateTrip(tripId: string, updatedTrip: Trip, stages: string[]): Promise<void> {
   try {
+    if (updatedTrip.startedAt.toMillis() >= new Date().getTime()) {
+      throw new Error('Start date must be after current date');
+    }
+    if (updatedTrip.startedAt >= updatedTrip.endAt) {
+      throw new Error('Start date must be before end date');
+    }
+    stages.forEach(async (stage: any) => {
+      console.log(stage);
+      if(stage.price < 0){
+        throw new Error('price must be greater than 0');
+      }
+    });
     console.log('entra en modificar trip', tripId);
     const tripRef = doc(this.firestore, 'trips', tripId);
     console.log(updatedTrip.photos);
@@ -314,6 +340,21 @@ async deleteTrip(tripId: string): Promise<void> {
     console.log('Trip and its stages deleted successfully');
   } catch (error) {
     console.error('Error deleting trip and its stages:', error);
+    throw error;
+  }
+}
+
+  async getTripStartDate(tripId: string): Promise<Date | PromiseLike<Date>> {
+  try {
+    const docSnap = await getDoc(doc(this.firestore, `trips/${tripId}`));
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return data['startedAt'];
+    } else {
+      throw new Error('No existe el documento');
+    }
+  } catch (error) {
+    console.error('Error al obtener la fecha del viaje:', error);
     throw error;
   }
 }
