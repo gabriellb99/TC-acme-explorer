@@ -27,7 +27,6 @@ describe('TripService', () => {
     failTrip.cancelReason= '',
     failTrip.requirements= [],
     failTrip.photos= [],
-    failTrip.actor= 'user123'
     
     correctTrip = new Trip();
     correctTrip.ticker = 'VI-123';
@@ -58,7 +57,6 @@ describe('TripService', () => {
   });
   
   it('should throw error when creating trip with startDate after endDate', async () => {
-    const stages: string[] = ['Stage 1', 'Stage 2'];
 
     try {
       await tripService.createTrip(failTrip, stages, 'user123');

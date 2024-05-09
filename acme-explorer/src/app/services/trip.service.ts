@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc, writeBatch } from '@angular/fire/firestore';
+import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc, writeBatch, limit, Timestamp } from '@angular/fire/firestore';
 import { Trip } from '../models/trip.model';
 import { firstValueFrom, Observable, forkJoin } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
@@ -60,6 +60,28 @@ export class TripService {
     });
     console.log(tripsId);
     return tripsId;
+  }
+
+  async getATripWithStartDatePassed(): Promise<string | null> {
+    const tripRef = collection(this.firestore, 'trips'); 
+    const now = new Date();
+    const q = query(
+        tripRef,
+        where("cancelReason", "==", ""),
+        where("startedAt", "<", now),
+        limit(1)            
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+        return null;
+    } else {
+        const doc = querySnapshot.docs[0];
+        const tripId = doc.id;
+        console.log("First trip ID with start date passed:", tripId);
+        return tripId;
+    }
   }
 
 
@@ -194,10 +216,10 @@ async searchTrips(searchValue: string,userId: string | null = null): Promise<Tri
     return trips;
 }
 
-async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void> {
+async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<string> {
   try {
     console.log(stages);
-    if (newTrip.startedAt.toMillis() >= new Date().getTime()) {
+    if (newTrip.startedAt.toMillis() <= new Date().getTime()) {
       throw new Error('Start date must be after current date');
     }
     if (newTrip.startedAt >= newTrip.endAt) {
@@ -233,6 +255,8 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<void>
       await addDoc(stagesCollectionRef, stage);
     });
     console.log('Stages added successfully');
+
+    return tripRef.id;
   } catch (error) {
     console.error('Error creating trip:', error);
     throw error;
@@ -349,7 +373,12 @@ async deleteTrip(tripId: string): Promise<void> {
     const docSnap = await getDoc(doc(this.firestore, `trips/${tripId}`));
     if (docSnap.exists()) {
       const data = docSnap.data();
-      return data['startedAt'];
+      if (data && data['startedAt'] instanceof Timestamp) {
+        const timestamp = data['startedAt'] as Timestamp;
+        return timestamp.toDate();
+      } else {
+        throw new Error('La fecha de inicio del viaje no está en el formato correcto');
+      }
     } else {
       throw new Error('No existe el documento');
     }

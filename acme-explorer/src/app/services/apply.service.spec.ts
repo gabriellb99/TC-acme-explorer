@@ -15,6 +15,8 @@ describe('ApplyService', () => {
   let failApplication: Application;
   let correctApplication: Application;
   let correctTrip : Trip;
+  let failTrip : Trip;
+  let stages: any;
 
   beforeEach(() => {
     correctTrip = new Trip();
@@ -28,6 +30,24 @@ describe('ApplyService', () => {
     correctTrip.cancelReason = '';
     correctTrip.photos = [];
 
+
+    failTrip = new Trip();
+
+    failTrip.ticker = 'T123',
+    failTrip.title= 'Test Trip',
+    failTrip.description= 'This is a test trip',
+    failTrip.startedAt= Timestamp.fromDate(new Date('2024-05-05')),
+    failTrip.endAt= Timestamp.fromDate(new Date('2024-05-15')),
+    failTrip.price= 100,
+    failTrip.cancelReason= '',
+    failTrip.requirements= [],
+    failTrip.photos= []
+
+
+    stages = [
+      { title: 'Stage 1', description: 'Description for Stage 1', price: 50 },
+      { title: 'Stage 2', description: 'Description for Stage 2', price: 75 }
+    ];
     
  
     TestBed.configureTestingModule({
@@ -48,18 +68,27 @@ describe('ApplyService', () => {
     const tripId = ''
 
     try {
-      await tripService.createTrip(failTrip, stages, 'user123');
-      fail('Expected error when creating trip with startDate after endDate');
+      //search an old trip
+      let tripFailId = await tripService.getATripWithStartDatePassed();
+      if(tripFailId){
+        await applyService.createApplication('user123',tripFailId,'');
+        fail('Expected error when creating application with  a trip with startDate after endDate');
+      }else{
+        fail('Trip that has started not found');
+      }
+      
     } catch (error: any) {
-      expect(error.message).toContain('Start date must be before end date');
+      expect(error.message).toContain('Can not apply for a trip that passed');
     }
   });
 
-  it('should create a correct trip', async () => {
+  it('should create an application with a correct trip', async () => {
     let errorOccurred = false;
     try {
-      await tripService.createTrip(correctTrip, stages, 'user123');
+      let tripId = await tripService.createTrip(correctTrip, stages, 'user123');
+      await applyService.createApplication('user123',tripId,'');
     } catch (error) {
+      console.log(error);
       errorOccurred = true;
     }
     expect(errorOccurred).toBeFalse();

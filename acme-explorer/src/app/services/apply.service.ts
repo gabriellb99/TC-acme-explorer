@@ -98,11 +98,16 @@ export class ApplyService {
 
   public async createApplication(userId: string, tripId: string, comment: string){
     const tripStartDate: Date = await this.tripService.getTripStartDate(tripId); 
+    console.log("trip start date: " + tripStartDate);
     const userHasApplicationForThisTrip = await this.checkUserHasApplicationForTrip(userId,tripId);
     if(userHasApplicationForThisTrip){
       throw new Error('user has application for this trip')
     }
     const currentDate: Date = new Date();
+    if(tripStartDate.getTime() < currentDate.getTime()){
+      console.log('entra en error');
+      throw new Error('Can not apply for a trip that passed')
+    }
     console.log('se han creado las fechas');
     if (tripStartDate.getTime() > currentDate.getTime() && !userHasApplicationForThisTrip) {
       console.log('pasa aqui');
