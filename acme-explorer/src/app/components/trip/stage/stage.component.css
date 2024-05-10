@@ -1,0 +1,32 @@
+/deep/ .datatable-header .header-cell {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  /deep/ .datatable-row-odd {
+    background-color: #f9f9f9 !important;
+  }
+  
+  /deep/ .datatable-row-even {
+    background-color: #ffffff !important;
+  }
+  
+  /deep/ .datatable-row:hover {
+    background-color: #f0f8ff !important;
+  }
+  
+  /deep/ .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 30px;
+    padding: 10px 30px;
+    font-size: 18px;
+  }
+  
+  /deep/ .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  

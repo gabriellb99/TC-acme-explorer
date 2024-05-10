@@ -1,34 +1,56 @@
-<div class="text-center">
-  <ngx-datatable
-    [rows]="stages"
-    [columnMode]="'force'"
-    class="bootstrap-theme"
-    [headerHeight]="40"
-    [footerHeight]="80"
-    [limit]="10"
-    [rowHeight]="'auto'"
-    [reorderable]="true"
-  >
-    <ngx-datatable-column name="Title">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
+<div class="container-fluid">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+      <ngx-datatable
+        [rows]="stages"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [limit]="10"
+        [rowHeight]="'auto'"
+        [reorderable]="true"
+        class="datatable"
+      >
+        <ngx-datatable-column name="Title" prop="title">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="header-cell">
+              {{ column.name }}
+            </div>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
 
-    <ngx-datatable-column name="Description">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
+        <ngx-datatable-column name="Description" prop="description">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="header-cell">
+              {{ column.name }}
+            </div>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
 
-    <ngx-datatable-column name="Price">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
-  </ngx-datatable>
+        <ngx-datatable-column name="Price" prop="price">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="header-cell">
+              {{ column.name }}
+            </div>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-8 text-center">
+      <button class="btn btn-primary" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+    </div>
+  </div>
 </div>
-<div class="text-center">
-    <button class="btn btn-primary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
-</div>
-  
