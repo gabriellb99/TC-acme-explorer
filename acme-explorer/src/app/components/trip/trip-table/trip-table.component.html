@@ -85,6 +85,13 @@
         </ngx-datatable-column>
     <!--hay que poner el if pero cuando se arregle lo de que se mantenga el rol en la sesión
     *ngIf="checkRole('MANAGER')"-->
+    <ngx-datatable-column  i18n-name name="Details">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button (click)="displayTrip(row.id)">
+                <i class="fa-solid fa-search"></i>
+            </button>
+        </ng-template>
+    </ngx-datatable-column>
         <ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')"  i18n-name name="Delete">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 <button [disabled] = "row.cancelReason" (click)="removeTrip(row.id, row.startedAt)">

@@ -214,4 +214,8 @@ export class TripTableComponent implements OnInit {
     });
   }
 
+  displayTrip(tripId: string) {
+    this.router.navigate(['/trips/', tripId]);
+  }
+
 }
