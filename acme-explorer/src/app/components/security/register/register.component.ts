@@ -4,6 +4,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormValidation } from 'src/app/models/form-validation';
 import { Actor } from 'src/app/models/actor.model';
+import { TimeTrackerService } from 'src/app/services/time-tracker.service';
 
 @Component({
   selector: 'app-register',
@@ -22,11 +23,20 @@ export class RegisterComponent implements FormValidation, OnInit {
   role: string = "explorer";
   isAdministrator: boolean = false;
   passwordIsValid: boolean = true;
+  firstTime = new Date().getTime();
+  currentUrl: string = window.location.href; 
+  protected currentActor: Actor | undefined;
+  idUser!:string;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService,
+  constructor(private timeTracker: TimeTrackerService, private route: ActivatedRoute, private authService: AuthService,
     private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+    this.currentActor = this.authService.getCurrentActor();
+  if(this.currentActor){
+    this.idUser = this.currentActor.id;
+  }
+
     this.roleList = this.authService.getRoles();
       
     if (this.authService.getUser()?._role === "administrator") {
@@ -105,5 +115,11 @@ export class RegisterComponent implements FormValidation, OnInit {
 
   goBack() {
     this.router.navigate(['/']);
+  }
+  ngOnDestroy(): void {
+    //Antes de salir creamos o actualizamos el tiempo para que se quede guardado el total 
+    let lastTime = new Date().getTime();
+    let totalTime = lastTime - this.firstTime;
+    this.timeTracker.createorUpdateUrlTime(this.currentUrl, this.idUser, totalTime);
   }
 }

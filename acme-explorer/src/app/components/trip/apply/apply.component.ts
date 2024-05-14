@@ -10,6 +10,7 @@ import { ApplyCommentComponent } from '../apply-comment/apply-comment.component'
 import { YesNoQuestionComponent } from '../../shared/yesNoQuestion/yesNoQuestion.component';
 import { TripService } from 'src/app/services/trip.service';
 import { Trip } from 'src/app/models/trip.model';
+import { TimeTrackerService } from 'src/app/services/time-tracker.service';
 
 @Component({
   selector: 'app-apply',
@@ -21,8 +22,12 @@ export class ApplyComponent implements OnInit {
   protected applications!: Application[];
   userId!: string;
   userRole!: string;
+  firstTime = new Date().getTime();
+  currentUrl: string = window.location.href; 
+  protected currentActor: Actor | undefined;
+  idUser!:string;
 
-  constructor(private authService: AuthService, private applyService: ApplyService, private router: Router,private modalService: NgbModal,private tripService: TripService) { 
+  constructor(private timeTracker: TimeTrackerService, private authService: AuthService, private applyService: ApplyService, private router: Router,private modalService: NgbModal,private tripService: TripService) { 
     const currentActor = this.authService.getCurrentActor();
     if(currentActor){
       this.userId = currentActor.id;
@@ -33,7 +38,10 @@ export class ApplyComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.getApplicationsByRole();
-    
+    this.currentActor = this.authService.getCurrentActor();
+  if(this.currentActor){
+    this.idUser = this.currentActor.id;
+  }
   }
 
 
@@ -221,6 +229,13 @@ export class ApplyComponent implements OnInit {
         // Manejar errores aquí, si es necesario
         console.log('Error:', error);
       });
+  }
+
+  ngOnDestroy(): void {
+    //Antes de salir creamos o actualizamos el tiempo para que se quede guardado el total 
+    let lastTime = new Date().getTime();
+    let totalTime = lastTime - this.firstTime;
+    this.timeTracker.createorUpdateUrlTime(this.currentUrl, this.idUser, totalTime);
   }
 
 

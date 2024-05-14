@@ -3,6 +3,9 @@ import { Sponsor } from 'src/app/models/sponsor';
 import { SponsorService } from 'src/app/services/sponsor.service';
 import { Router } from '@angular/router';
 import { Firestore, collection, query, where, getDocs, doc, getDoc } from '@angular/fire/firestore'; // Importa Firestore
+import { TimeTrackerService } from 'src/app/services/time-tracker.service';
+import { AuthService } from '../../../../services/auth.service';
+import { Actor } from 'src/app/models/actor.model';
 
 @Component({
   selector: 'app-sponsor-table',
@@ -13,16 +16,24 @@ export class SponsorTableComponent implements OnInit {
 
   public id!: string;
   sponsors: any[] = []; 
+  firstTime = new Date().getTime();
+  currentUrl: string = window.location.href; 
+  protected currentActor: Actor | undefined;
+  idUser!:string;
 
   displayedColumns: string[] = ['url', 'linkAddInfo', 'flatRate']; // Nombres de las columnas a mostrar
 
-  constructor(private sponsorService: SponsorService, private router: Router) {
+  constructor(private timeTracker: TimeTrackerService, private authService: AuthService, private sponsorService: SponsorService, private router: Router) {
     this.id = '0';
   }
 
 
   ngOnInit(): void {
     this.getAllSponsors();
+    this.currentActor = this.authService.getCurrentActor();
+  if(this.currentActor){
+    this.idUser = this.currentActor.id;
+  }
   }
 
 
@@ -37,6 +48,13 @@ export class SponsorTableComponent implements OnInit {
         // Manejar errores aquí
         console.error('Error fetching trips:', error);
       });
+  }
+
+  ngOnDestroy(): void {
+    //Antes de salir creamos o actualizamos el tiempo para que se quede guardado el total 
+    let lastTime = new Date().getTime();
+    let totalTime = lastTime - this.firstTime;
+    this.timeTracker.createorUpdateUrlTime(this.currentUrl, this.idUser, totalTime);
   }
 
 

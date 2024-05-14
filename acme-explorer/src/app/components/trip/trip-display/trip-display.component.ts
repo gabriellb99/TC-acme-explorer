@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from 'src/app/models/trip.model';
 import { TripService } from 'src/app/services/trip.service';
+import { TimeTrackerService } from 'src/app/services/time-tracker.service';
+import { AuthService } from '../../../services/auth.service';
+import { Actor } from 'src/app/models/actor.model';
+
+
 
 @Component({
   selector: 'app-trip-display',
@@ -14,13 +19,21 @@ export class TripDisplayComponent implements OnInit {
   public id!: string;
   countdownInterval: any;
   tripCountdown!: any;
+  firstTime = new Date().getTime();
+  currentUrl: string = window.location.href; 
+  protected currentActor: Actor | undefined;
+  idUser!:string;
 
-  constructor(private tripService: TripService, private router: Router, private route: ActivatedRoute) {
+  constructor(private timeTracker: TimeTrackerService, private authService: AuthService, private tripService: TripService, private router: Router, private route: ActivatedRoute) {
     this.id = '0';
     this.trip = new Trip();
   }
 
   ngOnInit(): void {
+  this.currentActor = this.authService.getCurrentActor();
+  if(this.currentActor){
+    this.idUser = this.currentActor.id;
+  }
    this.id = this.route.snapshot.params['id'];
    this.tripService.getTripById(this.id).subscribe(trip => {
     if(trip){
@@ -62,6 +75,10 @@ export class TripDisplayComponent implements OnInit {
 
   ngOnDestroy(): void {
     clearInterval(this.countdownInterval);
+    //Antes de salir creamos o actualizamos el tiempo para que se quede guardado el total 
+    let lastTime = new Date().getTime();
+    let totalTime = lastTime - this.firstTime;
+    this.timeTracker.createorUpdateUrlTime(this.currentUrl, this.idUser, totalTime);
   }
 
 

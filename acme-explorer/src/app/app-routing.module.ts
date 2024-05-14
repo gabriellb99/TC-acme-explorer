@@ -16,6 +16,7 @@ import { SponsorTableComponent } from './components/sponsor/sponsor/sponsor-tabl
 import { TripFormComponent } from './components/trip/trip-form/trip-form.component';
 import { LeaveFormGuard } from './guards/leave-form.guard';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { TimeTrackerComponent } from './components/checkPoint/time-tracker/time-tracker.component';
 
 
 const routes: Routes = [
@@ -56,6 +57,8 @@ const routes: Routes = [
 {path: 'payments', component: PaymentComponent},
 
 {path: 'sponsorships', component: SponsorTableComponent},
+{path: 'timetracker', component: TimeTrackerComponent, canActivate: [ActorRoleGuard], 
+data: {expectedRole: 'explorer'}, canDeactivate: [LeaveFormGuard]},
 
 {path: 'denied-access', component: DeniedAccessComponent},
 {path: '', redirectTo: '/trips', pathMatch: 'full'},

@@ -40,6 +40,7 @@ import { YesNoQuestionComponent } from './components/shared/yesNoQuestion/yesNoQ
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { TripCommentComponent } from './components/trip/trip-comment/trip-comment.component';
+import { TimeTrackerComponent } from './components/checkPoint/time-tracker/time-tracker.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { TripCommentComponent } from './components/trip/trip-comment/trip-commen
     ApplyCommentComponent,
     YesNoQuestionComponent,
     CheckoutComponent,
-    TripCommentComponent
+    TripCommentComponent,
+    TimeTrackerComponent
   ],
   imports: [
     NgbCarouselModule,

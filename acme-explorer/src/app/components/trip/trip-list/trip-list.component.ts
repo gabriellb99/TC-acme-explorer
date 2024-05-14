@@ -14,6 +14,7 @@ import { ApplyCommentComponent } from '../apply-comment/apply-comment.component'
 import { ApplyService } from 'src/app/services/apply.service';
 import { TripCommentComponent } from '../trip-comment/trip-comment.component';
 import { YesNoQuestionComponent } from '../../shared/yesNoQuestion/yesNoQuestion.component';
+import { TimeTrackerService } from 'src/app/services/time-tracker.service';
 
 @Component({
   selector: 'app-trip-list',
@@ -29,16 +30,24 @@ export class TripListComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription = new Subscription(); // Inicializar searchSubscription
   searchValue: string = ''; // Definir tipo para el parámetro searchValue
   protected advstatus: boolean = true; // Definición de advstatus
+  firstTime = new Date().getTime();
+  currentUrl: string = window.location.href; 
+  
 
-  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private searchService: SearchService,private messageService: MessageService,private modalService: NgbModal, private applyService:ApplyService) { }
+  constructor(private timeTracker: TimeTrackerService, private authService: AuthService, private tripService: TripService, private router: Router, private searchService: SearchService,private messageService: MessageService,private modalService: NgbModal, private applyService:ApplyService) { }
 
  
 ngOnInit(): void {
+  
+
   // Obtener el actor actual
   this.currentActor = this.authService.getCurrentActor();
-  if(this.currentActor && this.currentActor.role.toLowerCase() === "manager"){
+  if(this.currentActor){
     this.idUser = this.currentActor.id;
   }
+
+  //Obtener el time Tracker o sino tiene crear desde 0
+
 
   // Obtener todos los viajes disponibles al inicio
   this.searchSubscription = this.searchService.searchValue$.subscribe(searchValue => {
@@ -74,7 +83,11 @@ getAllTrips(idUser: String | null = null): void {
   ngOnDestroy(): void {
     // Desuscribirse del observable al destruir el componente para evitar memory leaks
     this.searchSubscription.unsubscribe();
-  }
+    //Antes de salir creamos o actualizamos el tiempo para que se quede guardado el total 
+    let lastTime = new Date().getTime();
+    let totalTime = lastTime - this.firstTime;
+    this.timeTracker.createorUpdateUrlTime(this.currentUrl, this.idUser, totalTime);
+  };
 
   checkRole(roles: string): boolean {
     return this.authService.checkRole(roles);

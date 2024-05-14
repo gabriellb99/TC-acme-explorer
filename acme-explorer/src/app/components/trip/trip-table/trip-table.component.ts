@@ -14,6 +14,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyCommentComponent } from '../apply-comment/apply-comment.component';
 import { YesNoQuestionComponent } from '../../shared/yesNoQuestion/yesNoQuestion.component';
 import { TripCommentComponent } from '../trip-comment/trip-comment.component';
+import { TimeTrackerService } from 'src/app/services/time-tracker.service';
 
 @Component({
   selector: 'app-trip-table',
@@ -40,14 +41,15 @@ export class TripTableComponent implements OnInit {
   private searchSubscription: Subscription = new Subscription(); // Inicializar searchSubscription
   searchValue: string = ''; // Definir tipo para el parámetro searchValue
   protected advstatus: boolean = true; // Definición de advstatus
+  firstTime = new Date().getTime();
+  currentUrl: string = window.location.href; 
 
-
-  constructor(private authService: AuthService, private tripService: TripService, private router: Router, private messageService: MessageService,private searchService: SearchService, private applyService: ApplyService,private modalService: NgbModal) { }
+  constructor(private timeTracker: TimeTrackerService, private authService: AuthService, private tripService: TripService, private router: Router, private messageService: MessageService,private searchService: SearchService, private applyService: ApplyService,private modalService: NgbModal) { }
 
   async ngOnInit(): Promise<void> {
      // Obtener el actor actual
   this.currentActor = this.authService.getCurrentActor();
-  if(this.currentActor && this.currentActor.role.toLowerCase() === "manager"){
+  if(this.currentActor){
     this.idUser = this.currentActor.id;
   }
 
@@ -216,6 +218,12 @@ export class TripTableComponent implements OnInit {
 
   displayTrip(tripId: string) {
     this.router.navigate(['/trips/', tripId]);
+  }
+  ngOnDestroy(): void {
+    //Antes de salir creamos o actualizamos el tiempo para que se quede guardado el total 
+    let lastTime = new Date().getTime();
+    let totalTime = lastTime - this.firstTime;
+    this.timeTracker.createorUpdateUrlTime(this.currentUrl, this.idUser, totalTime);
   }
 
 }

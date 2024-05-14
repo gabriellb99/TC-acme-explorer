@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
 import { ApplyService } from 'src/app/services/apply.service';
+import { TimeTrackerService } from 'src/app/services/time-tracker.service';
+import { AuthService } from '../../services/auth.service';
+import { Actor } from 'src/app/models/actor.model';
 
 @Component({
   selector: 'app-checkout',
@@ -12,10 +15,18 @@ export class CheckoutComponent implements OnInit {
 
   protected payPalConfig ?: IPayPalConfig
   applicationId!: string;
+  firstTime = new Date().getTime();
+  currentUrl: string = window.location.href; 
+  protected currentActor: Actor | undefined;
+  idUser!:string;
 
-  constructor(private route:ActivatedRoute, private router : Router, private applyService: ApplyService) { }
+  constructor(private timeTracker: TimeTrackerService, private authService: AuthService, private route:ActivatedRoute, private router : Router, private applyService: ApplyService) { }
 
   ngOnInit(): void {
+    this.currentActor = this.authService.getCurrentActor();
+  if(this.currentActor){
+    this.idUser = this.currentActor.id;
+  }
     this.route.queryParams.subscribe(params => {
       this.applicationId = params['applicationId'];
     });
@@ -77,6 +88,13 @@ export class CheckoutComponent implements OnInit {
     }).catch(error => {
       console.error('Error al actualizar el estado de la aplicación:', error);
     });
+  }
+
+  ngOnDestroy(): void {
+    //Antes de salir creamos o actualizamos el tiempo para que se quede guardado el total 
+    let lastTime = new Date().getTime();
+    let totalTime = lastTime - this.firstTime;
+    this.timeTracker.createorUpdateUrlTime(this.currentUrl, this.idUser, totalTime);
   }
 
 }
