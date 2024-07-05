@@ -123,6 +123,8 @@ export class AuthService {
       .catch(err => {
         console.error('Error al buscar el actor:', err);
         reject(err); 
+        let message = $localize `User or password incorrect`;
+        this.messageService.notifyMessage(message, 'alert alert-danger');
       });
     })
   }

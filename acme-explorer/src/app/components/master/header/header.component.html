@@ -7,14 +7,14 @@
             <span class="navbar-toggler-icon"></span>
         </button>    
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="activeRole !== 'anonymous' ">
                 <li class="nav-item dropdown">
                     <a i18n class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Trips
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a i18n class="dropdown-item" routerLink="/dashboard">Dashboard</a></li>
-                        <li><a i18n class="dropdown-item" routerLink="/applies">Applies</a></li>
+                        
+                        <li *ngIf="activeRole !== 'administrator'"><a i18n class="dropdown-item" routerLink="/applies">Applies</a></li>
                         <!--<li><a i18n class="dropdown-item" routerLink="/payments">Payments</a></li>-->
                         <li><a i18n class="dropdown-item" routerLink="/sponsorships">Sponsorships</a></li>
                         <li *ngIf="activeRole === 'manager'"><a i18n class="dropdown-item" routerLink="/trips/new" >New Trip</a></li>

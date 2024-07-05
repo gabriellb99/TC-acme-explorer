@@ -64,7 +64,7 @@
                       <a *ngIf="userRole === 'EXPLORER'">
                         <button i18n class="btn btn-primary me-2" (click)="cancel(application.id)">Cancel</button>
                       </a>
-                      <a *ngIf="userRole === 'EXPLORER'" [routerLink]="['/checkout']" [queryParams]="{ applicationId: application.id }">
+                      <a *ngIf="userRole === 'EXPLORER'" [routerLink]="['/checkout']" [queryParams]="{ applicationId: application.id, priceTrip: application.tripPrice}">
                         <button i18n class="btn btn-primary me-2">Pay</button>
                       </a>                      
                     </div>

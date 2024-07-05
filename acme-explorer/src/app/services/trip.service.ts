@@ -5,6 +5,7 @@ import { firstValueFrom, Observable, forkJoin } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from './message.service';
 
 
 const httpOptions ={
@@ -19,7 +20,7 @@ const httpOptions ={
 export class TripService {
  
 
-  constructor(private firestore: Firestore) {} 
+  constructor(private firestore: Firestore, private messageService : MessageService) {} 
 
   async getAllAvailableTrips(userId: String | null = null): Promise<Trip[]> {
     const tripRef = collection(this.firestore, 'trips'); 
@@ -218,19 +219,50 @@ async searchTrips(searchValue: string,userId: string | null = null): Promise<Tri
 
 async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<string> {
   try {
-    console.log(stages);
+   console.log(stages)
+    if(newTrip.title.length == 0 || newTrip.description.length == 0 || newTrip.requirements == undefined 
+      || newTrip.requirements.length == 0 || newTrip.startedAt.toMillis() == 0 || newTrip.endAt.toMillis() == 0 
+      || stages.length == 0 ){
+      let errorMessage = $localize`Title, description, stages, requirements, start date and end date must not be empty.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+      throw new Error('Title, description, stages, requirements, start date and end date must not be empty');
+    }
+    
     if (newTrip.startedAt.toMillis() <= new Date().getTime()) {
+      let errorMessage = $localize`Start date must be after current date.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
       throw new Error('Start date must be after current date');
     }
     if (newTrip.startedAt >= newTrip.endAt) {
+      let errorMessage = $localize`The end date must be after the start date.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
       throw new Error('Start date must be before end date');
     }
+    let showPriceError = false;
+    let showEmptyFieldsError = false;
+    
     stages.forEach(async (stage: any) => {
-      console.log(stage);
-      if(stage.price < 0){
-        throw new Error('price must be greater than 0');
+      if(stage.price.length == 0 || stage.price < 0){
+        showPriceError = true;
+       
+      }
+      if(stage.title.length == 0 || stage.description.length == 0){
+        showEmptyFieldsError = true;
+        
       }
     });
+    if(showEmptyFieldsError){
+      let errorMessage = $localize`Title and description of stage must not be empty.`;
+        this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+        throw new Error('Title and description of stage must not be empty');
+    }
+    if(showPriceError){
+      let errorMessage = $localize`Price of stage must be not empty and greater than 0.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+      throw new Error('price must be greater than 0');
+    }
+  
+
     if(!newTrip.photos || newTrip.photos.length == 0) {
       newTrip.photos = [];
     }

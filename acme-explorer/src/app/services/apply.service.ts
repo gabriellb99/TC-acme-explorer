@@ -5,6 +5,7 @@ import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { Application } from '../models/application.model';
 import { Firestore, collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore'; // Importa Firestore
 import { TripService } from './trip.service';
+import { MessageService } from './message.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json ' }),
@@ -22,7 +23,7 @@ export class ApplyService {
   private openPopupSubject = new Subject<string>();
   openPopup$ = this.openPopupSubject.asObservable();
 
-  constructor(private firestore: Firestore, private tripService: TripService) {} 
+  constructor(private firestore: Firestore, private tripService: TripService, private messageService: MessageService) {} 
 
   async getAllApplications(): Promise<Application[]> {
     const applicationRef = collection(this.firestore, 'applications'); 
@@ -159,6 +160,12 @@ export class ApplyService {
     //actualizamos application
     console.log(applicationId);
       try {
+        if(reasonText.length == 0){
+          let errorMessage = $localize`A reject reason is required.`;
+          this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+          throw new Error('A reject reason is required');
+
+        }
         await updateDoc(doc(this.firestore, 'applications', applicationId), {applicationStatus:"rejected", reason:reasonText});
         console.log("application actualizado exitosamente");
       } catch (error) {

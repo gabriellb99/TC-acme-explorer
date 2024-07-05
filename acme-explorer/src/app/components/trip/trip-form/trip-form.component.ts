@@ -95,7 +95,13 @@ export class TripFormComponent implements FormValidation, OnInit {
     }
     
   }
-  isFormValid = () => this.formSubmitted || this.newTripForm?.dirty;
+  isFormValid () : boolean {
+    if(this.formSubmitted || this.newTripForm?.dirty){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
 
 
@@ -123,7 +129,6 @@ export class TripFormComponent implements FormValidation, OnInit {
     this.formSubmitted = true;
     let loginUser: any = this.authService.getCurrentActor();
     let idUser = loginUser.id;
-
     let price = 0;
     let stages: [];
 
@@ -137,8 +142,9 @@ export class TripFormComponent implements FormValidation, OnInit {
     newTrip.startedAt =  Timestamp.fromMillis(startedAtDate.getTime());
     let endAtDate = new Date(this.newTripForm.value.endAt)
     newTrip.endAt = Timestamp.fromMillis(endAtDate.getTime());
-    
+    console.log('endDate '  + endAtDate);
     if(endAtDate < startedAtDate){
+      console.log('form fecha menor')
       let errorMessage = $localize`The end date must be after the start date.`;
       this.messageService.notifyMessage(errorMessage, "alert alert-danger");
       return;
@@ -301,6 +307,7 @@ export class TripFormComponent implements FormValidation, OnInit {
   
   dateGreaterThanToday(control: AbstractControl): { [key: string]: any } | null {
     const selectedDate = new Date(control.value);
+    console.log('entra aqui');
     const today = new Date();
     if (selectedDate < today) {
       return { 'dateInvalid': true };

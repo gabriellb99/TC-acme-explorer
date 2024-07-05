@@ -24,7 +24,18 @@ export class RegisterComponent implements FormValidation, OnInit {
   passwordIsValid: boolean = true;
 
   constructor(private route: ActivatedRoute, private authService: AuthService,
-    private fb: FormBuilder, private router: Router) { }
+    private fb: FormBuilder, private router: Router) { 
+      this.registrationForm = this.fb.group({
+        name: ['', Validators.required],
+        surname: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required]],
+        phone: [''],
+        address: [''],
+        role: this.role,
+        validate: true
+      });
+    }
 
   ngOnInit() {
     this.roleList = this.authService.getRoles();
@@ -45,6 +56,7 @@ export class RegisterComponent implements FormValidation, OnInit {
   }
 
   async loadActor() {
+    console.log('entra en loadActor');
     const actor = await this.authService.getActorById(this.actorId);
     if (actor) {
       this.editing = true;
@@ -52,14 +64,12 @@ export class RegisterComponent implements FormValidation, OnInit {
       this.registrationForm = this.fb.group({
         name: [actor.name, Validators.required],
         surname: [actor.surname, Validators.required],
-        email: [actor.email, [Validators.required, Validators.email]],
-        //password: [actor.password, [Validators.required]],
         phone: [actor.phone],
         address: [actor.address],
         role: [actor.role],
         validate: true
       });
-      console.log('Displaying actor:' + actor);
+      console.log('Displaying actor:' + actor.name + actor.surname);
     } else {
       console.error('No se encontró ningún actor con el ID proporcionado.');
     }

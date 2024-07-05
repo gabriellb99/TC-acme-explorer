@@ -12,11 +12,12 @@ export class CheckoutComponent implements OnInit {
 
   protected payPalConfig ?: IPayPalConfig
   applicationId!: string;
-
+  
   constructor(private route:ActivatedRoute, private router : Router, private applyService: ApplyService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+      console.log(params);
       this.applicationId = params['applicationId'];
     });
     console.log("applicationId: " + this.applicationId);
@@ -24,8 +25,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   private initConfig(): void {
-    //const total = this.route.snapshot.queryParams['total'];
-    const total = '100';
+    const total = this.route.snapshot.queryParams['priceTrip'];
+    console.log(this.route.snapshot.queryParams);
     this.payPalConfig = {
       currency: 'EUR',
       clientId: 'AV6py2GJBX6y2baeVVaOVO3Fy_3UATVp_JetzVdylMl2K3fsu4HtLzTLeTrAreQV2rxlQ9vo1__8BCbT',
