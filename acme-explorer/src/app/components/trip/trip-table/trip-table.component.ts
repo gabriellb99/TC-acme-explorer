@@ -126,7 +126,7 @@ export class TripTableComponent implements OnInit {
 
   async openPopupCancel(index: string, startedAt: Timestamp){
     let canBeCancelled = await this.hasAcceptedApplications(index);
-    if (this.isTripDateGreaterThan7Days(startedAt) && canBeCancelled){ 
+    if (this.isTripDateGreaterThan7Days(startedAt) && !canBeCancelled){ 
       const modalRef = this.modalService.open(TripCommentComponent);
       modalRef.componentInstance.tripId = index;
       modalRef.result.then(async (result) => {

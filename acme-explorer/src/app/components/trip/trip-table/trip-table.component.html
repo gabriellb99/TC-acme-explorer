@@ -92,13 +92,14 @@
             </button>
         </ng-template>
     </ngx-datatable-column>
-        <ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')"  i18n-name name="Delete">
+        <!--<ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')"  i18n-name name="Delete">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 <button [disabled] = "row.cancelReason" (click)="removeTrip(row.id, row.startedAt)">
                     <i class="fa-solid fa-trash"></i>
                 </button>
-            </ng-template>
+            </ng-template>        
         </ngx-datatable-column>
+        -->
         <ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')"  i18n-name name="Cancel">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 <button [disabled] = "row.cancelReason" (click)="openPopupCancel(row.id,row.startedAt)">

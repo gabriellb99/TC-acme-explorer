@@ -1,5 +1,6 @@
 <div class="card mx-auto mt-4" style="width: 18rem;">
     <div class="card-body mb-2">
+        <h5 *ngIf="trip.cancelReason !== ''" class="card-title text-center"><strong i18n>Cancel Reason: </strong> {{trip.cancelReason}}</h5>
         <h5 class="card-title text-center">{{ trip.title }}</h5>
         <h5 class="card-title text-center contador">{{ tripCountdown }}</h5>
         <h5 class="card-title text-center">{{ trip.ticker }}</h5>

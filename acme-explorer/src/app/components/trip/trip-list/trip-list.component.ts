@@ -137,9 +137,9 @@ getAllTrips(idUser: String | null = null): void {
   }
 
   async hasAcceptedApplications(tripId: string){
-    const applications = await this.applyService.getAllAcceptedApplicationsByTrip(tripId);
+    const applications = await this.applyService.getAllAcceptedApplicationsByTrip(tripId);    
     const res = applications.length > 0;
-    console.log("tiene",res);
+    console.log("tiene: ",res);
     return res;
   }
 
@@ -188,20 +188,29 @@ getAllTrips(idUser: String | null = null): void {
       });
     }
 
-    async openPopupCancel(index: string){
-      const modalRef = this.modalService.open(TripCommentComponent);
-      modalRef.componentInstance.tripId = index;
-      modalRef.result.then(async (result) => {
-        if (result === 'save') {
-          console.log('save list component');
-          await this.getAllTrips(this.idUser);
-          let message = "Trip successfully cancelled";
-          this.messageService.notifyMessage(message, "alert alert-success")
-        } 
-      }).catch((error) => {
-        console.log('Error:', error);
-      });
-    }
-  
+
+    async openPopupCancel(index: string, startedAt: Timestamp){
+      console.log("TripList - index: " + index);
+      console.log("TripList - startedAt: " + startedAt);
+      let canBeCancelled = await this.hasAcceptedApplications(index);
+      console.log("TripList - canBeCancelled:" + canBeCancelled);
+      console.log("TripList - this.isTripDateGreaterThan7Days(startedAt): " +this.isTripDateGreaterThan7Days(startedAt))
+      if (this.isTripDateGreaterThan7Days(startedAt) && !canBeCancelled){ 
+        const modalRef = this.modalService.open(TripCommentComponent);
+        modalRef.componentInstance.tripId = index;
+        modalRef.result.then(async (result) => {
+          if (result === 'save') {
+            await this.getAllTrips(this.idUser);
+            let message = "Trip successfully cancelled";
+            this.messageService.notifyMessage(message, "alert alert-success")
+          } 
+        }).catch((error) => {
+          console.log('Error:', error);
+        });
+      } else {
+        let message = "Trip can not be cancelled";
+        this.messageService.notifyMessage(message, "alert alert-danger")
+      }
+    } 
 
 }

@@ -14,7 +14,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="cancel()">Close</button>
     <ng-container>
-      <button type="button" class="btn btn-danger" (click)="cancelTrip()">Cancel</button>
+      <button type="button" class="btn btn-danger" [disabled]="!comment.trim()" (click)="cancelTrip()">Cancel Trip</button>
     </ng-container>
   
   </div>

@@ -50,14 +50,14 @@
             </div>
             <div class="col">
                 <a *ngIf="checkRole('ADMINISTRATOR,MANAGER') && isTripDateGreaterThan7Days(trip.startedAt) && !trip.hasAcceptedApplications && trip.cancelReason == ''">
-                    <i class="fa fa-xmark" aria-hidden="true" i18n (click)="openPopupCancel(trip.id)">Cancel</i>
+                    <i class="fa fa-xmark" aria-hidden="true" i18n (click)="openPopupCancel(trip.id, trip.startedAt)">Cancel</i>
                 </a>
             </div>
-            <div class="col">
+            <!--<div class="col">
                 <a *ngIf="checkRole('ADMINISTRATOR,MANAGER') && isTripDateGreaterEqThan10Days(trip.startedAt) && !trip.hasAcceptedApplications && trip.cancelReason == ''">
                     <i class="fa fa-trash" aria-hidden="true" i18n (click)="removeTrip(trip.id)">Delete</i>
                 </a>
-            </div>
+            </div>-->
             <div class="col">
                 <a *ngIf="checkRole('EXPLORER')">
                     <button i18n class="btn btn-primary me-2" (click)="openPopup(trip.id)">Apply</button>

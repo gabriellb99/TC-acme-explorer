@@ -16,8 +16,11 @@ export class TripCommentComponent{
 
   async cancelTrip() {
     console.log("cancelTrip");
-    await this.tripService.cancelTrip(this.tripId,this.comment);
-    this.activeModal.close('save');
+    if (this.comment != ""){
+      await this.tripService.cancelTrip(this.tripId,this.comment);
+      this.activeModal.close('save');
+    }    
+    
   }
 
 
