@@ -223,7 +223,7 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<strin
    let someEmptyRequirement = false;
    let requirements = newTrip.requirements;
    requirements.forEach(async (req: any) => {
-    if(!req) {
+    if(!req || req.length == 0) {
       someEmptyRequirement = true;
     }
   });
@@ -308,7 +308,7 @@ async updateTrip(tripId: string, updatedTrip: Trip, stages: string[]): Promise<v
     let someEmptyRequirement = false;
    let requirements = updatedTrip.requirements;
    requirements.forEach(async (req: any) => {
-    if(!req) {
+    if(!req || req.length == 0) {
       someEmptyRequirement = true;
     }
   });
