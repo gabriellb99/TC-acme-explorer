@@ -84,26 +84,28 @@ export class DashboardService {
   }
 
   private async getApplicationsRatio(trips: any[]): Promise<any[]> {
-    const statusRatio: any[] = [];
+    const statusCounts: { [key: string]: number } = {};
     const applicationsCollection = collection(this.firestore, 'applications');
     const querySnapshot = await getDocs(applicationsCollection);
-    const statusCounts: { [key: string]: number } = {};
-
+  
     querySnapshot.forEach(doc => {
       const data = doc.data();
       const status = data['applicationStatus'];
+      console.log("getApplicationsRatio - status: " + status);
       if (status) {
         statusCounts[status] = (statusCounts[status] || 0) + 1;
       }
-      const stats = {
-        status: status,
-        count: statusCounts[status]
-      }
-      statusRatio.push(stats);
     });
-
+  
+    const statusRatio = Object.keys(statusCounts).map(status => ({
+      status: status,
+      count: statusCounts[status]
+    }));
+  
     return statusRatio;
   }
+  
+
 /*
   private async getApplicationsPerTrip(trips: any[]): Promise<any> {
     const applicationsCollection = collection(this.firestore, 'applications');
