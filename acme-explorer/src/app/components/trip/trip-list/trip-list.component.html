@@ -44,12 +44,12 @@
         </details>
         <div class="card-footer text-center row">
             <div class="col">
-                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER') && isTripDateGreaterEqThan10Days(trip.startedAt) && trip.cancelReason == ''" routerLink="/trips/edit/{{trip.id}}">
+                <a *ngIf="checkRole('MANAGER') && isTripDateGreaterEqThan10Days(trip.startedAt) && trip.cancelReason == ''" routerLink="/trips/edit/{{trip.id}}">
                     <i class="fa fa-pencil" aria-hidden="true" i18n>Edit</i>
                 </a>
             </div>
             <div class="col">
-                <a *ngIf="checkRole('ADMINISTRATOR,MANAGER') && isTripDateGreaterThan7Days(trip.startedAt) && !trip.hasAcceptedApplications && trip.cancelReason == ''">
+                <a *ngIf="checkRole('MANAGER') && isTripDateGreaterThan7Days(trip.startedAt) && !trip.hasAcceptedApplications && trip.cancelReason == ''">
                     <i class="fa fa-xmark" aria-hidden="true" i18n (click)="openPopupCancel(trip.id, trip.startedAt)">Cancel</i>
                 </a>
             </div>

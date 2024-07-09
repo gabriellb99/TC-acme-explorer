@@ -219,13 +219,20 @@ async searchTrips(searchValue: string,userId: string | null = null): Promise<Tri
 
 async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<string> {
   try {
-   console.log(stages)
+   console.log(newTrip.requirements)
+   let someEmptyRequirement = false;
+   let requirements = newTrip.requirements;
+   requirements.forEach(async (req: any) => {
+    if(!req) {
+      someEmptyRequirement = true;
+    }
+  });
     if(newTrip.title.length == 0 || newTrip.description.length == 0 || newTrip.requirements == undefined 
-      || newTrip.requirements.length == 0 || newTrip.startedAt.toMillis() == 0 || newTrip.endAt.toMillis() == 0 
+      || newTrip.requirements.length == 0 || someEmptyRequirement|| newTrip.startedAt.toMillis() == 0 || newTrip.endAt.toMillis() == 0 
       || stages.length == 0 ){
-      let errorMessage = $localize`Title, description, stages, requirements, start date and end date must not be empty.`;
+      let errorMessage = $localize`Title, description, stages, all requirements, start date and end date must not be empty.`;
       this.messageService.notifyMessage(errorMessage, "alert alert-danger");
-      throw new Error('Title, description, stages, requirements, start date and end date must not be empty');
+      throw new Error('Title, description, stages, all requirements, start date and end date must not be empty');
     }
     
     if (newTrip.startedAt.toMillis() <= new Date().getTime()) {
@@ -298,19 +305,55 @@ async createTrip(newTrip: Trip, stages: string[], idUser: string): Promise<strin
 
 async updateTrip(tripId: string, updatedTrip: Trip, stages: string[]): Promise<void> {
   try {
-    if (updatedTrip.startedAt.toMillis() >= new Date().getTime()) {
+    let someEmptyRequirement = false;
+   let requirements = updatedTrip.requirements;
+   requirements.forEach(async (req: any) => {
+    if(!req) {
+      someEmptyRequirement = true;
+    }
+  });
+    if(updatedTrip.title.length == 0 || updatedTrip.description.length == 0 || updatedTrip.requirements == undefined 
+      || updatedTrip.requirements.length == 0 || someEmptyRequirement|| updatedTrip.startedAt.toMillis() == 0 || updatedTrip.endAt.toMillis() == 0 
+      || stages.length == 0 ){
+      let errorMessage = $localize`Title, description, stages, all requirements, start date and end date must not be empty.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+      throw new Error('Title, description, stages, all requirements, start date and end date must not be empty');
+    }
+    if (updatedTrip.startedAt.toMillis() <= new Date().getTime()) {
+      let errorMessage = $localize`Start date must be after current date.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
       throw new Error('Start date must be after current date');
     }
     if (updatedTrip.startedAt >= updatedTrip.endAt) {
+      let errorMessage = $localize`Start date must be before end date.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
       throw new Error('Start date must be before end date');
     }
+    let showPriceError = false;
+    let showEmptyFieldsError = false;
     stages.forEach(async (stage: any) => {
-      console.log(stage);
-      if(stage.price < 0){
-        throw new Error('price must be greater than 0');
+      
+      if(stage.price == null || stage.price.length == 0 || stage.price < 0){
+        showPriceError = true;
+       
+      }
+      if(stage.title == null || stage.description == null || stage.title.length == 0 || stage.description.length == 0){
+        
+        showEmptyFieldsError = true;
+        
       }
     });
-    console.log('entra en modificar trip', tripId);
+    if(showEmptyFieldsError){
+      let errorMessage = $localize`Title and description of stage must not be empty.`;
+        this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+        throw new Error('Title and description of stage must not be empty');
+    }
+    if(showPriceError){
+      let errorMessage = $localize`Price of stage must be not empty and greater than 0.`;
+      this.messageService.notifyMessage(errorMessage, "alert alert-danger");
+      throw new Error('price must be greater than 0');
+    }
+
     const tripRef = doc(this.firestore, 'trips', tripId);
     console.log(updatedTrip.photos);
     if(!updatedTrip.photos || updatedTrip.photos.length == 0) {

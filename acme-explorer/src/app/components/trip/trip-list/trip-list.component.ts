@@ -192,10 +192,10 @@ getAllTrips(idUser: String | null = null): void {
     async openPopupCancel(index: string, startedAt: Timestamp){
       console.log("TripList - index: " + index);
       console.log("TripList - startedAt: " + startedAt);
-      let canBeCancelled = await this.hasAcceptedApplications(index);
-      console.log("TripList - canBeCancelled:" + canBeCancelled);
+      let canNotBeCancelled = await this.hasAcceptedApplications(index);
+      console.log("TripList - canBeCancelled:" + canNotBeCancelled);
       console.log("TripList - this.isTripDateGreaterThan7Days(startedAt): " +this.isTripDateGreaterThan7Days(startedAt))
-      if (this.isTripDateGreaterThan7Days(startedAt) && !canBeCancelled){ 
+      if (this.isTripDateGreaterThan7Days(startedAt) && !canNotBeCancelled){ 
         const modalRef = this.modalService.open(TripCommentComponent);
         modalRef.componentInstance.tripId = index;
         modalRef.result.then(async (result) => {

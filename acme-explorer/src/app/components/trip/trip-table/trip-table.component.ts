@@ -120,13 +120,17 @@ export class TripTableComponent implements OnInit {
   }
 
   async hasAcceptedApplications(tripId: string){
-    const applications = await this.applyService.getAllAcceptedApplicationsByTrip(tripId);
-    return applications.length > 0;
+    const applications = await this.applyService.getAllAcceptedApplicationsByTrip(tripId);    
+    const res = applications.length > 0;
+    console.log("tiene: ",res);
+    return res;
   }
 
   async openPopupCancel(index: string, startedAt: Timestamp){
-    let canBeCancelled = await this.hasAcceptedApplications(index);
-    if (this.isTripDateGreaterThan7Days(startedAt) && !canBeCancelled){ 
+    let canNotBeCancelled = await this.hasAcceptedApplications(index);
+    console.log(canNotBeCancelled);
+    console.log(this.isTripDateGreaterThan7Days(startedAt));
+    if (this.isTripDateGreaterThan7Days(startedAt) && !canNotBeCancelled){ 
       const modalRef = this.modalService.open(TripCommentComponent);
       modalRef.componentInstance.tripId = index;
       modalRef.result.then(async (result) => {
@@ -139,6 +143,7 @@ export class TripTableComponent implements OnInit {
         console.log('Error:', error);
       });
     } else {
+      console.log('Error: no se puede cancelar');
       let message = "Trip can not be cancelled";
       this.messageService.notifyMessage(message, "alert alert-danger")
     }

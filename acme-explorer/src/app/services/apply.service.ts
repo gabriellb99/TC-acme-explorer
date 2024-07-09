@@ -206,7 +206,7 @@ export class ApplyService {
     let applications: Application[] = [];
     if(applicationDocs.size > 0){
       console.log('entra');
-      let applications = applicationDocs.docs.map(doc => this.getApplication(doc));
+      applications = applicationDocs.docs.map(doc => this.getApplication(doc));
     }
        
     return applications;

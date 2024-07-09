@@ -10,14 +10,14 @@
 <div class="modal-body">
   <form>
     <div class="mb-3">
-      <textarea class="form-control" id="comment" [(ngModel)]="comment" name="comment" [required]="mode === 'rejected'"></textarea>
+      <textarea class="form-control" id="comment" [(ngModel)]="comment" name="comment"></textarea>
     </div>
   </form>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="cancel()">Close</button>
   <ng-container *ngIf="mode === 'reject'; else saveButton">
-    <button type="button" class="btn btn-danger" (click)="rejectApplication()">Reject</button>
+    <button type="button" class="btn btn-danger" [disabled]="!comment.trim()" (click)="rejectApplication()">Reject</button>
   </ng-container>
   <ng-template #saveButton>
     <button type="button" class="btn btn-primary" (click)="saveApplication()">Save</button>

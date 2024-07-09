@@ -100,14 +100,14 @@
             </ng-template>        
         </ngx-datatable-column>
         -->
-        <ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')"  i18n-name name="Cancel">
+            <ngx-datatable-column *ngIf="checkRole('MANAGER')"  i18n-name name="Cancel">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                <button [disabled] = "row.cancelReason" (click)="openPopupCancel(row.id,row.startedAt)">
+                <button [disabled] = "row.cancelReason || !isTripDateGreaterThan7Days(row.startedAt)" (click)="openPopupCancel(row.id,row.startedAt)">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column *ngIf="checkRole('ADMINISTRATOR,MANAGER')" i18n-name name="Update">
+        <ngx-datatable-column *ngIf="checkRole('MANAGER')" i18n-name name="Update">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 <button [disabled] = "row.cancelReason || !isTripDateGreaterEqThan10Days(row.startedAt)" routerLink="/trips/edit/{{row.id}}">
                     <i class="fa fa-pencil-alt"></i>

@@ -47,8 +47,11 @@ export class AuthService {
     };
     await addDoc(collection(this.firestore, "actors"),actorData).then(async (docRef) => {
       console.log('Documento creado con ID:', docRef.id);
-      //iniciamos sesion
-      await this.login(actor.email, actor.password);
+      //iniciamos sesion unicamente si se ha creado un explorer
+      if(actor.role === "explorer") {
+        await this.login(actor.email, actor.password);
+      }
+      
     })
     .catch((error) => {
       console.error('Error al crear documento:', error);
