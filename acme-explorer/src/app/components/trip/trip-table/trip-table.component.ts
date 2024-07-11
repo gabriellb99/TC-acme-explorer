@@ -90,7 +90,7 @@ export class TripTableComponent implements OnInit {
         console.log(result);
         if (result === 'confirm') {
           await this.tripService.deleteTrip(index);
-          let message = "Trip successfully deleted";
+          let message = $localize`Trip successfully deleted`;
           this.messageService.notifyMessage(message, "alert alert-success")
           await this.getAllTrips(this.idUser);
         }
@@ -98,7 +98,7 @@ export class TripTableComponent implements OnInit {
       
       
     } else {
-      let message = "Trip can not be deleted";
+      let message = $localize`Trip can not be deleted`;
       this.messageService.notifyMessage(message, "alert alert-danger")
     }
   }
@@ -136,7 +136,7 @@ export class TripTableComponent implements OnInit {
       modalRef.result.then(async (result) => {
         if (result === 'save') {
           await this.getAllTrips(this.idUser);
-          let message = "Trip successfully cancelled";
+          let message = $localize`Trip successfully cancelled`;
           this.messageService.notifyMessage(message, "alert alert-success")
         } 
       }).catch((error) => {
@@ -144,7 +144,7 @@ export class TripTableComponent implements OnInit {
       });
     } else {
       console.log('Error: no se puede cancelar');
-      let message = "Trip can not be cancelled";
+      let message = $localize`Trip can not be cancelled`;
       this.messageService.notifyMessage(message, "alert alert-danger")
     }
   }
@@ -157,7 +157,7 @@ export class TripTableComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result === 'save') {
         console.log("aceptar");
-        let message = "Item successfully applied";
+        let message = "Trip successfully applied";
         this.messageService.notifyMessage(message, "alert alert-success")
       } 
     }).catch((error) => {

@@ -47,33 +47,33 @@ export class CheckoutComponent implements OnInit {
         layout: 'vertical'
       },
       onApprove: (data, actions) => {
-        console.log('onApprove - transaction approved, but not authorized', data, actions);
+        //console.log('onApprove - transaction approved, but not authorized', data, actions);
         actions.order.get().then((details: any) => {
           console.log('Order details:', details);
         });
       },
       onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - inform your server at this point', data);
+        //console.log('onClientAuthorization - inform your server at this point', data);
         let message = $localize `The application has been paid`;
         alert(message);
         this.onCompletePayment();
         
       },
       onCancel: (data, actions) => {
-        console.log('OnCancel', data, actions);
+        //console.log('OnCancel', data, actions);
       },
       onError: err => {
-        console.log('OnError', err);
+        //console.log('OnError', err);
       },
       onClick: (data, actions) => {
-        console.log('OnClick', data, actions);
+        //console.log('OnClick', data, actions);
       }
     };
   }
   onCompletePayment() : void{
-    console.log('Pago completado. Ejecutando función después del pago...');
+    //console.log('Pago completado. Ejecutando función después del pago...');
     this.applyService.afterPaidApplication(this.applicationId).then(() => {
-      console.log('Estado de la aplicación actualizado correctamente.');
+      //console.log('Estado de la aplicación actualizado correctamente.');
       this.router.navigateByUrl('/applies');
     }).catch(error => {
       console.error('Error al actualizar el estado de la aplicación:', error);

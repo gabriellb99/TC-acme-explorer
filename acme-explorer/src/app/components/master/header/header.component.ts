@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit {
       this.activeRole = 'anonymous';
       this.currentActor = undefined;
       this.logoutAnimationState = 'open';
-      console.log("Logging out");
+      //console.log("Logging out");
       this.router.navigateByUrl(this.returnUrl);
     } catch (error) {
       console.error(error);
@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
   }
 
   editUser() {
-    console.log(this.authService.getUser())
+    //console.log(this.authService.getUser())
     this.loginUser = this.authService.getUser();
     this.router.navigate([`register/${this.loginUser._id}`])
   }

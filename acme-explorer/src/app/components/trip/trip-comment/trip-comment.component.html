@@ -1,6 +1,6 @@
 <div class="modal-header">
     <ng-container>
-      <h4 class="modal-title">Add a cancel reason</h4>
+      <h4 class="modal-title" i18n>Add a cancel reason</h4>
     </ng-container>
     <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
   </div>
@@ -12,9 +12,9 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="cancel()">Close</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()" i18n>Back</button>
     <ng-container>
-      <button type="button" class="btn btn-danger" [disabled]="!comment.trim()" (click)="cancelTrip()">Cancel Trip</button>
+      <button type="button" class="btn btn-danger" [disabled]="!comment.trim()" (click)="cancelTrip()" i18n>Cancel Trip</button>
     </ng-container>
   
   </div>

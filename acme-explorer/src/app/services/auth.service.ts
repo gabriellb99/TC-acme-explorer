@@ -18,7 +18,7 @@ const httpOptions = {
 export class AuthService {
   private currentActor!: Actor;
   private loginStatus = new Subject<Boolean>();
-  constructor(private auth: Auth, private http: HttpClient, private firestore: Firestore, private messageService: MessageService) { }
+  constructor(private auth: Auth, private http: HttpClient, private firestore: Firestore, private messageService: MessageService,) { }
 
   async signUp(actor: Actor){
 

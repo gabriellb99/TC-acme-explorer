@@ -14,7 +14,7 @@
         </div>
         <div class="card-body" [ngClass]="{'green-background': isTripDateLessThan7Days(trip.startedAt)}" role="region" aria-label="Información del viaje">
             <span class="badge bg-primary">{{trip.price}}</span>
-            <span *ngIf="trip.cancelReason !== ''" class="badge badge-cancelled">Cancelled</span>
+            <span *ngIf="trip.cancelReason !== ''" class="badge badge-cancelled" i18n>Cancelled</span>
             <div class="container-fluid text-center" role="region" aria-label="Galería de fotos">
                 <div *ngIf="trip.photos.length > 0; else elseBlock">
                     <ngb-carousel>

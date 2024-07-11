@@ -35,34 +35,38 @@ export class TripFormComponent implements FormValidation, OnInit {
     if(this.tripId){
       this.tripService.getTripById(this.tripId).subscribe(trip => {
         if(trip){
-          this.tripService.getStagesByTripId(this.tripId).subscribe(stages => {
-            let start_date: Date = trip.startedAt.toDate();
-            let end_date: Date = trip.endAt.toDate();
-            this.newTripForm = this.fb.group({
-              title: new FormControl(trip.title, [Validators.required]),
-              description: new FormControl(trip.description, [Validators.required]),
-              startedAt: new FormControl(start_date.toISOString().slice(0, 10), [Validators.required, this.dateGreaterThanToday]),
-              endAt: new FormControl(end_date.toISOString().slice(0, 10), [Validators.required, this.dateGreaterThanToday]),
-              requirements: new FormArray(
-                trip.requirements.map(requirement => new FormControl(requirement)),
-                [Validators.required]
-              ),
-              cancelReason: new FormControl(trip.cancelReason),
-              photos: new FormArray(
-                trip.photos.map(photo => new FormControl(photo))
-              ),
-              stages: this.fb.array(
-                stages.map(stage => {
-                  return this.fb.group({
-                    title: new FormControl(stage.title, [Validators.required]),
-                    description: new FormControl(stage.description, [Validators.required]),
-                    price: new FormControl(stage.price, [Validators.required]),
-                  });
-                }),
-                [Validators.required]
-              ),
+          if(trip.actor !== this.authService.getCurrentActor().id){
+            this.router.navigate(['denied-access']);
+          }else{
+            this.tripService.getStagesByTripId(this.tripId).subscribe(stages => {
+              let start_date: Date = trip.startedAt.toDate();
+              let end_date: Date = trip.endAt.toDate();
+              this.newTripForm = this.fb.group({
+                title: new FormControl(trip.title, [Validators.required]),
+                description: new FormControl(trip.description, [Validators.required]),
+                startedAt: new FormControl(start_date.toISOString().slice(0, 10), [Validators.required, this.dateGreaterThanToday]),
+                endAt: new FormControl(end_date.toISOString().slice(0, 10), [Validators.required, this.dateGreaterThanToday]),
+                requirements: new FormArray(
+                  trip.requirements.map(requirement => new FormControl(requirement)),
+                  [Validators.required]
+                ),
+                cancelReason: new FormControl(trip.cancelReason),
+                photos: new FormArray(
+                  trip.photos.map(photo => new FormControl(photo))
+                ),
+                stages: this.fb.array(
+                  stages.map(stage => {
+                    return this.fb.group({
+                      title: new FormControl(stage.title, [Validators.required]),
+                      description: new FormControl(stage.description, [Validators.required]),
+                      price: new FormControl(stage.price, [Validators.required]),
+                    });
+                  }),
+                  [Validators.required]
+                ),
+              });
             });
-          });
+          }
         }else{
           console.error('No se encontró ningún viaje con el ID proporcionado.');
         }
@@ -195,7 +199,7 @@ export class TripFormComponent implements FormValidation, OnInit {
       });
       
     }else{
-      let errorMessage = $localize`stages can not have negative price.`;
+      let errorMessage = $localize`Stages can not have negative price.`;
       this.messageService.notifyMessage(errorMessage, "alert alert-danger");
     }
     
@@ -307,7 +311,6 @@ export class TripFormComponent implements FormValidation, OnInit {
   
   dateGreaterThanToday(control: AbstractControl): { [key: string]: any } | null {
     const selectedDate = new Date(control.value);
-    console.log('entra aqui');
     const today = new Date();
     if (selectedDate < today) {
       return { 'dateInvalid': true };

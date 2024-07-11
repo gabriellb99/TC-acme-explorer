@@ -41,7 +41,7 @@
                 
                     <div class="form-group text-center row mt-2" *ngIf="actorId; else newActorButton">
                         <div class="col">
-                            <button class="btn btn-primary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button class="btn btn-primary" (click)="goBack()" i18n><i class="fas fa-arrow-left"></i> Back</button>
                         </div>
                         <div class="col">
                             <button i18n type="submit" class="btn btn-warning btn-block" [disabled]="registrationForm.invalid">
@@ -53,7 +53,7 @@
                         <ng-template #newActorButton>
                             <div class="form-group text-center row mt-2">
                                 <div class="col">
-                                    <button class="btn btn-primary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                                    <button class="btn btn-primary" (click)="goBack()" i18n><i class="fas fa-arrow-left"></i> Back</button>
                                 </div>
                                 <div class="col">
                                     <button i18n type="submit" class="btn btn-warning btn-block" [disabled]="registrationForm.invalid">

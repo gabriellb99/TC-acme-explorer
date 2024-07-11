@@ -150,7 +150,7 @@ getAllTrips(idUser: String | null = null): void {
       modalRef.result.then((result) => {
         if (result === 'save') {
           console.log("aceptar");
-          let message = "Item successfully applied";
+          let message = $localize`Trip successfully applied`;
           this.messageService.notifyMessage(message, "alert alert-success")
         } 
       }).catch((error) => {
@@ -181,7 +181,7 @@ getAllTrips(idUser: String | null = null): void {
         console.log(result);
         if (result === 'confirm') {
           await this.tripService.deleteTrip(index);
-          let message = "Trip successfully deleted";
+          let message = $localize`Trip successfully deleted`;
           this.messageService.notifyMessage(message, "alert alert-success")
           await this.getAllTrips(this.idUser);
         }
@@ -201,14 +201,14 @@ getAllTrips(idUser: String | null = null): void {
         modalRef.result.then(async (result) => {
           if (result === 'save') {
             await this.getAllTrips(this.idUser);
-            let message = "Trip successfully cancelled";
+            let message =  $localize`Trip successfully cancelled`;
             this.messageService.notifyMessage(message, "alert alert-success")
           } 
         }).catch((error) => {
           console.log('Error:', error);
         });
       } else {
-        let message = "Trip can not be cancelled";
+        let message = $localize`Trip can not be cancelled`;
         this.messageService.notifyMessage(message, "alert alert-danger")
       }
     } 

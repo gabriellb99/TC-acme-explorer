@@ -89,6 +89,7 @@ export class TripService {
   public getTrip(doc: any): Trip {
     const data = doc.data();
     let trip = new Trip();
+    trip.actor = data['actor'];
     trip.ticker = data['ticker'];
     trip.title = data['title'];
     trip.description = data['description'];
